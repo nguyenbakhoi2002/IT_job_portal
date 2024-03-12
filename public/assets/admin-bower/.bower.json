@@ -1,0 +1,13 @@
+{
+  "name": "admin-bower",
+  "homepage": "https://github.com/ubwork/admin-bower",
+  "_release": "f677f0e865",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "f677f0e8650b293a9027f9db67c0f81b03a8d796"
+  },
+  "_source": "https://github.com/ubwork/admin-bower.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/ubwork/admin-bower.git"
+}

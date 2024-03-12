@@ -1,0 +1,29 @@
+<?php
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\DashBoardController;
+use App\Http\Controllers\Admin\SkillController;
+use App\Http\Controllers\Admin\MajorController;
+use App\Http\Controllers\Admin\CompanyController;
+
+Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+//company-công ty
+    Route::resource('company', CompanyController::class); 
+    //thùng rác
+    Route::get('/company-trash',[CompanyController::class, 'trash'] )->name('company.trash');
+    Route::get('/company-trash/{id}',[CompanyController::class, 'restore'] )->name('company.restore');
+    Route::get('/company-forceDelete/{id}',[CompanyController::class, 'force'] )->name('company.forceDelete');
+    //status
+    Route::post('company-status/{id}', [CompanyController::class, 'status'])->name('company.status');
+
+//kĩ năng - skill
+    Route::resource('skill', SkillController::class); 
+    Route::get('/skill-trash',[SkillController::class, 'trash'] )->name('skill.trash');
+    Route::get('/skill-trash/{id}',[SkillController::class, 'restore'] )->name('skill.restore');
+    Route::get('/skill-forceDelete/{id}',[SkillController::class, 'force'] )->name('skill.forceDelete');
+//major-Chuyên ngành
+    Route::resource('major', MajorController::class); 
+    Route::get('/major-trash',[MajorController::class, 'trash'] )->name('major.trash');
+    Route::get('/major-trash/{id}',[MajorController::class, 'restore'] )->name('major.restore');
+    Route::get('/major-forceDelete/{id}',[MajorController::class, 'force'] )->name('major.forceDelete');
+?>

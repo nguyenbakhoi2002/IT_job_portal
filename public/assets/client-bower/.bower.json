@@ -1,0 +1,13 @@
+{
+  "name": "client-bower",
+  "homepage": "https://github.com/ubwork/client-bower",
+  "_release": "2ae3d8e4e6",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "2ae3d8e4e65b0354b5b6222c719a9468f8b04b30"
+  },
+  "_source": "https://github.com/ubwork/client-bower.git",
+  "_target": "*",
+  "_originalSource": "https://github.com/ubwork/client-bower.git"
+}

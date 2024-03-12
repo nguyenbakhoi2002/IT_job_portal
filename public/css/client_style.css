@@ -1,0 +1,40 @@
+.nav-outer img,.main-footer .logo img {
+    max-height: 40px;
+}
+.btn-style-one {
+    background-color: #f7941d;
+}
+.btn-style-one:hover {
+    background-color: #995e18;
+}
+.main-footer .phone-num a {
+    color:#995e18;
+}
+
+/* rating */
+.rating-css div {
+    color: #995e18;
+    font-size: 30px;
+    font-family: sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    padding-bottom: 10px;
+  }
+  .rating-css input {
+    display: none;
+  }
+  .rating-css input + label {
+    font-size: 24px;
+    text-shadow: 1px 1px 0 #995e18;
+    cursor: pointer;
+  }
+  .rating-css input:checked + label ~ label {
+    color: #b4afaf;
+  }
+  .rating-css label:active {
+    transform: scale(0.8);
+    transition: 0.3s ease;
+  }
+  
+  /* End of Star Rating */
+  
