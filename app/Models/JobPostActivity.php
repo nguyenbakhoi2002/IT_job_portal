@@ -11,6 +11,6 @@ class JobPostActivity extends Model
     public $timestamps = false;
     protected $table = 'job_post_activity';
     protected $fillable = [
-        'id', 'seeker_id', 'job_post_id', 'apply_date'
+        'id', 'seeker_profile_id', 'job_post_id', 'apply_date'
     ]; 
 }

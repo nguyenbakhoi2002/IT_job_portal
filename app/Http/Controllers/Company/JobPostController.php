@@ -29,7 +29,12 @@ class JobPostController extends Controller
         $title = "Bài đăng";
         $company_id = auth('company')->user()->id;
         $list_jobs = JobPost::where('company_id', $company_id)->paginate(10);
-        // dd($list_jobs);
+
+        //loc.start
+        
+        // dd($list_jobs->find(3)->seekerProfileRequest(0, 0)->get());
+
+        //lọc end
         if($key = request()->key){
             $list_jobs = JobPost::where('title','like','%' . $key . '%')->paginate(10);
         }

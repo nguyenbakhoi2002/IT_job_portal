@@ -12,4 +12,10 @@ class SeekerProfile extends Model
     protected $fillable = [
         'id', 'candidate_id', 'name', 'gender', 'date_of_birth', 'email', 'phone', 'address', 'link', 'image', 'updated_at', 'created_at'
     ];
+    public function educations(){
+        return $this->hasMany(Education::class, 'seeker_profile_id');
+    }
+    public function experiences(){
+        return $this->hasMany(Experience::class, 'seeker_profile_id');
+    }
 }
