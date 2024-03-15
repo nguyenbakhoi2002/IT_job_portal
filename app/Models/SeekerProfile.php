@@ -18,4 +18,7 @@ class SeekerProfile extends Model
     public function experiences(){
         return $this->hasMany(Experience::class, 'seeker_profile_id');
     }
+    public function skills(){
+        return $this->belongsToMany(Skill::class, 'seeker_skill', 'seeker_profile_id', 'skill_id');
+    }
 }

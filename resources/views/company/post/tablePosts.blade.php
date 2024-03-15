@@ -18,7 +18,10 @@
                     <span><button class="btn bg-light btn-sm btn_profileApplied"
                             href="{{ url("company/post/profileApply/$item->id") }}"> Xem CV</button></span>
                 </td>
-                <td>Lượt ứng tuyển:{{$item->seekerProfileRequest(3, 1)->count()}} (đáp ứng)/{{$item->activities->count()}}(không đáp ứng)<br> Ngày hết hạn:
+                <td>Lượt ứng tuyển:
+                    {{$item->seekerProfileRequest($item->degree->level, $item->experience->level, $item->skills->pluck('id')->toArray())->count()}} 
+                    (đáp ứng)
+                    /{{$item->activities->count()}}(ALL)<br> Ngày hết hạn:
                     {{ date_format(new DateTime($item->end_date), 'd/m/Y') }}</td>
                 @if ($item->status == 1)
                     <td><p class="text-success">active</p></td>

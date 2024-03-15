@@ -36,7 +36,7 @@ class CompanyRequest extends FormRequest
                             'company_name' => 'required',
                             'email' => 'required|email|unique:companies',
                             'password' => 'required',
-                            'tax_code' => 'required|unique:companies',
+                            // 'tax_code' => 'required|unique:companies',
                             'phone' => 'required|min:10|unique:companies',
                             'hinhanh_upload_logo' => 'image|mimes:jpg,png,jpeg|max:5000',
                             'hinhanh_upload_image_paper' => 'image|mimes:jpg,png,jpeg|max:5000'
@@ -55,7 +55,7 @@ class CompanyRequest extends FormRequest
                             'name' => 'required',
                             'company_name' => 'required',
                             'email' => 'required|email|unique:companies,email,'.$this->id,
-                            'tax_code' => 'required|unique:companies,tax_code,' .$this->id,
+                            // 'tax_code' => 'required|unique:companies,tax_code,' .$this->id,
                             'phone' => 'required|max:10|unique:companies,phone,'.$this->id,
                             'hinhanh_upload_logo' => 'image|mimes:jpg,png,jpeg|max:5000',
                             'hinhanh_upload_image_paper' => 'image|mimes:jpg,png,jpeg|max:5000'
@@ -78,8 +78,8 @@ class CompanyRequest extends FormRequest
             'email.email' => 'Email sai định dạng',
             'company_name.required' => 'Vui lòng nhập tên công ty',
             'company_name.unique' => 'Tên công ty đã tồn tại',
-            'tax_code.required' => 'Vui lòng nhập mã số thuế',
-            'tax_code.unique' => 'Mã số thuế đã tồn tại trong hệ thống',
+            // 'tax_code.required' => 'Vui lòng nhập mã số thuế',
+            // 'tax_code.unique' => 'Mã số thuế đã tồn tại trong hệ thống',
             'phone.required' => 'Vui lòng nhập số điện thoại',
             'phone.min' => 'Số điện thoại phải có 10 số',
             'phone.max' => 'Số điện thoại nhỏ hơn 10 số',

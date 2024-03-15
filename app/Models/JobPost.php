@@ -28,9 +28,9 @@ class JobPost extends Model
         return $this->belongsToMany(SeekerProfile::class, 'job_post_activity', 'job_post_id', 'seeker_profile_id');
     }
     //lấy ra thông tin ứng viên đáp ứng được yêu cầu của bài đăng
-    public function seekerProfileRequest($degreeLevel, $experienceYears){
+    public function seekerProfileRequest($degreeLevel, $experienceYears, $jobPostSkills){
         return $this->seekerProfile()
-                    ->when($degreeLevel, function ($query)  use ($degreeLevel){
+                    ->when($degreeLevel, function ($query)  use ($degreeLevel){//when để nếu yêu cầu bằng cấp > 0 mới thực hiện where
                         return $query->whereHas('educations', function ( $query) use ($degreeLevel){
                                         $query->join('degree', 'educations.degree_id', '=', 'degree.id')
                                             ->groupBy('seeker_profile_id')
@@ -38,19 +38,27 @@ class JobPost extends Model
                                     
                                     });
                     })
-                    ->when($experienceYears, function ($query)  use ($experienceYears){
+                    ->when($experienceYears, function ($query)  use ($experienceYears){//when để nếu yêu cầu kinh nghiệm > 0 mới thực hiện where
                         return $query->whereHas('experiences', function ($query) use ($experienceYears){
                                         $query->groupBy('seeker_profile_id')
                                             ->havingRaw('SUM(DATEDIFF(IFNULL(end_date, CURDATE()), start_date) / 365) >= ?',[$experienceYears] );
                                     });
-                    });
-                    
-                    
+                    })
+                    ->whereHas('skills', function ($query) use ($jobPostSkills) {
+                        $query->whereIn('skill_id', $jobPostSkills);
+                    }, '=', count($jobPostSkills));
         
     }
 
     //thông tin kĩ năng có trong bài đăng
     public function skills(){
         return $this->belongsToMany(Skill::class, 'job_post_skill', 'job_post_id', 'skill_id');
+    }
+    //lấy ra bằng cấp và kinh nghiệm yêu cầu
+    public function degree(){
+        return $this->belongsTo(Degree::class, 'degree_id');
+    }
+    public function experience(){
+        return $this->belongsTo(TimeExperience::class, 'time_exp_id');
     }
 }

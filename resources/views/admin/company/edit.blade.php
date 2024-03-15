@@ -74,7 +74,7 @@
                             </div>
                         </div>
                         
-                        <div class="col-sm-6">
+                        {{-- <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="">Mã số thuế <span style="color: red">*</span></label>
                                 <input type="text" name="tax_code" class="form-control" placeholder=""  value="{{old('tax_code')?old('tax_code'):$company->tax_code}}">
@@ -82,7 +82,7 @@
                                     <small class="text-danger">{{$message}}</small>
                                 @enderror
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="row">
                         <div class="col-sm-6">
@@ -94,12 +94,12 @@
                                 @enderror
                             </div>
                         </div>
-                        <div class="col-sm-6">
+                        {{-- <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="">Thời gian làm việc</label>
                                 <input type="text" name="working_time" class="form-control" placeholder=""  value="{{old('working_time')?old('working_time'):$company->working_time}}">
                             </div>
-                        </div>
+                        </div> --}}
                     </div>
                     
                     <div class="row">

@@ -38,7 +38,9 @@
                     <li class="dropdown">
                         <a href="">Tìm Việc Nhanh</a>
                     </li>
-
+                    <li class="dropdown">
+                        <a href="{{route('logout')}}">Đăng xuất</a>
+                    </li>
                     <!-- Only for Mobile View -->
                     <li class="mm-add-listing">
                         <a href="add-listing.html" class="theme-btn btn-style-one">Job Post</a>

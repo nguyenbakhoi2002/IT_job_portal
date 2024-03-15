@@ -33,8 +33,15 @@ class JobPostController extends Controller
         //loc.start
         
         // dd($list_jobs->find(3)->seekerProfileRequest(0, 0)->get());
+        //dd($list_jobs->find(1)->degree);
+        //dd($list_jobs->find(3)->experience);
 
-        //lọc end
+        //lấy ra mảng skill_id để so sánh
+        //dd($list_jobs->find(1)->seekerProfile()->find(1)->skills);
+        // dd($list_jobs->find(1)->seekerProfile()->find(1)->skills->pluck('id')->toArray());
+
+        //loc end
+        
         if($key = request()->key){
             $list_jobs = JobPost::where('title','like','%' . $key . '%')->paginate(10);
         }

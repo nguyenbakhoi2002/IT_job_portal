@@ -35,7 +35,10 @@
                         <div class="title-box">
                             <h3>Có<span class="colored"> 
                                 {{-- <!-- {{ $countJob }} --> --}}
-                            </span> Bài đăng ở đây<br>dành cho bạn</h3>
+                            </span> Bài đăng ở đây<br>dành cho @if (auth('candidate')->user()->email)
+                                {{auth('candidate')->user()->email}}
+                                @else bạn
+                            @endif</h3>
                             <div class="text">Tìm việc làm, Cơ hội việc làm & Nghề nghiệp</div>
                         </div>
                         <!-- Job Search Form -->
