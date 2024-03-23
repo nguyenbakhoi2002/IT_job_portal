@@ -84,10 +84,13 @@
                                                     <div class="form-group col-lg-3 col-md-12">
                                                         <label>Loại công việc</label>
                                                         <select class="chosen-select" name="type_work">
-                                                                <option value="0" {{ old('type_work') == 0 ? 'selected' : '' }}>Thực tập</option>
+                                                            @foreach (config('custom.type_work') as $value)
+                                                                <option value="{{ $value['id']}}" {{ old('type_work') == $value['id'] ? 'selected' : '' }}>{{ $value['name']}}</option>
+                                                            @endforeach
+                                                                {{-- <option value="0" {{ old('type_work') == 0 ? 'selected' : '' }}>Thực tập</option>
                                                                 <option value="1" {{ old('type_work') == 1 ? 'selected' : '' }}>Bán thời gian</option>
                                                                 <option value="2" {{ old('type_work') == 2 ? 'selected' : '' }}>Toàn thời gian</option>
-                                                                <option value="3" {{ old('type_work') == 3 ? 'selected' : '' }}>Tại nhà</option>
+                                                                <option value="3" {{ old('type_work') == 3 ? 'selected' : '' }}>Tại nhà</option> --}}
                                                         </select>
                                                     </div>
                                                     {{-- <div class="form-group col-lg-3 col-md-12">
@@ -101,10 +104,13 @@
                                                     <div class="form-group col-lg-3 col-md-12">
                                                         <label>Cấp bậc</label>
                                                         <select class="chosen-select" name="level">
-                                                            <option value="0" {{ old('level') == 0 ? 'selected' : '' }}>Nhân viên</option>
+                                                            @foreach (config('custom.level') as $value)
+                                                                <option value="{{ $value['id']}}" {{ old('level') == $value['id'] ? 'selected' : '' }}>{{ $value['name']}}</option>
+                                                            @endforeach
+                                                            {{-- <option value="0" {{ old('level') == 0 ? 'selected' : '' }}>Nhân viên</option>
                                                             <option value="1" {{ old('level') == 1 ? 'selected' : '' }}>Trưởng nhóm</option>
                                                             <option value="2" {{ old('level') == 2 ? 'selected' : '' }}>Trưởng Phòng</option>
-                                                            <option value="3" {{ old('level') == 3 ? 'selected' : '' }}>Giám đốc</option>
+                                                            <option value="3" {{ old('level') == 3 ? 'selected' : '' }}>Giám đốc</option> --}}
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-lg-3 col-md-12">

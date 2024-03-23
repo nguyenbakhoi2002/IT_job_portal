@@ -61,4 +61,12 @@ class JobPost extends Model
     public function experience(){
         return $this->belongsTo(TimeExperience::class, 'time_exp_id');
     }
+    //lấy ra chuyên ngành
+    public function major(){
+        return $this->belongsTo(Major::class, 'major_id');
+    }
+    //lây ra công ty mà bài đăng thuộc về
+    public function company(){
+        return $this->belongsTo(Company::class, 'company_id');
+    }
 }

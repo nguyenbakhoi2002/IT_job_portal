@@ -13,11 +13,11 @@
                 <ul class="navigation" id="navbar">
                     <li class="current dropdown">
                         {{-- <span>Home</span> --}}
-                        <a href="/">Trang chủ</a>
+                        <a href="{{route('index')}}">Trang chủ</a>
                     </li>
 
                     <li class="dropdown">
-                        <a href="">Việc làm</a>
+                        <a href="{{route('job-list')}}">Việc làm</a>
                         {{-- <ul>
                             <li class="dropdown">
                                 <span>Chuyên ngành</span>
@@ -33,7 +33,7 @@
                     </li>
 
                     <li class="dropdown">
-                        <a href="">Công ty</a>
+                        <a href="{{route('company-list')}}">Công ty</a>
                     </li>
                     <li class="dropdown">
                         <a href="">Tìm Việc Nhanh</a>

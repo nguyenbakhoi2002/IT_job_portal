@@ -68,8 +68,8 @@ class JobPostController extends Controller
         $title = "Thêm bài tuyển";
         $majors = Major::all();
         $skills = Skill::all();
-        $time_exp = TimeExperience::all();
-        $degrees = Degree::all();
+        $time_exp = TimeExperience::where('status', 1)->orderBy('level')->get();
+        $degrees = Degree::where('status', 1)->orderBy('level')->get();
         return view('company.post.add', 
         ['title'=>$title, 'majors'=>$majors, 'skills'=>$skills, 'time_exp'=>$time_exp, 'degrees'=>$degrees, 'dataProvinces'=>$dataProvinces]);
     }
@@ -127,8 +127,8 @@ class JobPostController extends Controller
         $title = "Sửa bài tuyển dụng";
         $majors = Major::all();
         $skills = Skill::all();
-        $time_exp = TimeExperience::all();
-        $degrees = Degree::all();
+        $time_exp = TimeExperience::where('status', 1)->orderBy('level')->get();
+        $degrees = Degree::where('status', 1)->orderBy('level')->get();
         //lấy ra thông tin tất cả các skill có trong bài đăng 
         //pluck chỉ lấy ra id, kết quả trả về collection
         $skillActive = $post->skills->pluck('id')->toArray();

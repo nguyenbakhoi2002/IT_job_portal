@@ -14,5 +14,5 @@ class TimeExperience extends Model
     // protected $dates = ['deleted_at'];
     // public $timestamps = false;//để không bị thêm  hai trường updated_at và created_at
     protected $table = 'time_exp';
-    protected $fillable = ['id', 'name', 'level', 'created_at', 'updated_at'];
+    protected $fillable = ['id', 'name', 'level','status', 'created_at', 'updated_at'];
 }

@@ -139,7 +139,7 @@
                               </div>
                           </div>
                           <div class="">
-                            <label class="form-label w-100">{{__('Trạng thái')}}</label>
+                            <label class="form-label w-100">Trạng thái</label>
                             <div class="d-flex">
                                 <div class="form-check mr-3">
                                     <input type="radio" class="form-check-input" id="status" name="status" value="0" checked>{{__('Chưa kích hoạt')}}

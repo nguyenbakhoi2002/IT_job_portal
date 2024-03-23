@@ -3,6 +3,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\MajorController;
+use App\Http\Controllers\Admin\DegreeController;
 use App\Http\Controllers\Admin\CompanyController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -26,4 +27,11 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/major-trash',[MajorController::class, 'trash'] )->name('major.trash');
     Route::get('/major-trash/{id}',[MajorController::class, 'restore'] )->name('major.restore');
     Route::get('/major-forceDelete/{id}',[MajorController::class, 'force'] )->name('major.forceDelete');
+//degree- bằng cấp
+    Route::resource('degree', DegreeController::class); 
+    Route::post('degree-status/{id}', [DegreeController::class, 'status'])->name('degree.status');
+    Route::get('degree-trash',[DegreeController::class, 'trash'] )->name('degree.trash');
+    Route::get('degree-trash/{id}', [DegreeController::class, 'restore'])->name('degree.restore');
+    Route::get('/degree-forceDelete/{id}',[DegreeController::class, 'force'] )->name('degree.forceDelete');
+
 ?>

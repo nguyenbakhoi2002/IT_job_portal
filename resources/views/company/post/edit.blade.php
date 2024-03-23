@@ -57,16 +57,12 @@
                                                         @enderror
                                                     </div>
                                                     <div class="form-group col-lg-6 col-md-12">
-                                                        <label>Chuyên nghành</label>
+                                                        <label>Chuyên ngành</label>
                                                         <select data-placeholder="Chọn ... " class="chosen-select"
                                                             name="major_id">
                                                             @foreach ($majors as $value)
                                                                 <option
-                                                                    {{ 
-                                                                        
-                                                                        old('major_id') == $value['id'] || $post->major_id == $value['id'] ? 'selected' : '' 
-                                                                        
-                                                                    }}
+                                                                        {{ old('major_id') ? (old('major_id') == $value['id'] ? 'selected' : '') : ($post->major_id == $value['id'] ? 'selected' : '') }} 
                                                                     value="{{ $value->id }}">{{ $value->name }}</option>
                                                             @endforeach
                                                         </select>
@@ -75,7 +71,12 @@
                                                         <label>Bằng cấp</label>
                                                         <select data-placeholder="Chọn ... " class="chosen-select" name="degree_id">
                                                             @foreach ($degrees as $value )
-                                                                <option value="{{$value->id}}" {{ old('degree_id') == $value['id'] || $post->degree_id == $value->id ? 'selected' : '' }}>{{$value->name}}</option>
+                                                                <option 
+                                                                    value="{{$value->id}}" 
+                                                                    {{ old('degree_id') ? (old('degree_id') == $value['id'] ? 'selected' : '') : ($post->degree_id == $value['id'] ? 'selected' : '') }}
+                                                                >
+                                                                    {{$value->name}}
+                                                                </option>
                                                             @endforeach
                                                         </select>
                                                     </div>
@@ -84,7 +85,7 @@
                                                         <select class="chosen-select" name="time_exp_id">
                                                             @foreach ($time_exp as $value)
                                                                 <option
-                                                                    {{old('time_exp_id') == $value['id'] || $post->time_exp_id == $value['id'] ? 'selected' : '' }}
+                                                                    {{ old('time_exp_id') ? (old('time_exp_id') == $value['id'] ? 'selected' : '') : ($post->time_exp_id == $value['id'] ? 'selected' : '') }}
                                                                     value="{{ $value['id'] }}">{{ $value['name'] }}
                                                                 </option>
                                                             @endforeach
@@ -94,10 +95,17 @@
                                                     <div class="form-group col-lg-3 col-md-12">
                                                         <label>Loại công việc</label>
                                                         <select class="chosen-select" name="type_work">
-                                                                <option value="0" {{old('type_work') == 0|| $post->type_work == 0 ? 'selected' : '' }}>Thực tập</option>
+                                                            @foreach (config('custom.type_work') as $value)
+                                                                <option
+                                                                    {{ old('type_work') ? (old('type_work') == $value['id'] ? 'selected' : '') : ($post->type_work == $value['id'] ? 'selected' : '') }}
+                                                                    value="{{ $value['id'] }}">{{ $value['name'] }}
+                                                                   
+                                                                </option>
+                                                            @endforeach
+                                                                {{-- <option value="0" {{old('type_work') == 0|| $post->type_work == 0 ? 'selected' : '' }}>Thực tập</option>
                                                                 <option value="1" {{old('type_work') == 1|| $post->type_work == 1 ? 'selected' : '' }}>Bán thời gian</option>
                                                                 <option value="2" {{old('type_work') == 2|| $post->type_work == 2 ? 'selected' : '' }}>Toàn thời gian</option>
-                                                                <option value="3" {{old('type_work') == 3|| $post->type_work == 3 ? 'selected' : '' }}>Tại nhà</option>
+                                                                <option value="3" {{old('type_work') == 3|| $post->type_work == 3 ? 'selected' : '' }}>Tại nhà</option> --}}
                                                         </select>
                                                         
                                                     </div>
@@ -105,10 +113,16 @@
                                                     <div class="form-group col-lg-3 col-md-12">
                                                         <label>Cấp bậc</label>
                                                         <select class="chosen-select" name="level">
-                                                            <option value="0" {{old('level') == 0|| $post->level == 0 ? 'selected' : '' }}>Nhân viên</option>
+                                                            @foreach (config('custom.level') as $value)
+                                                                <option  
+                                                                    {{ old('level') != null ? (old('level') == $value['id'] ? 'selected' : '') : ($post->level == $value['id'] ? 'selected' : '') }}
+                                                                    value="{{ $value['id'] }}">{{ $value['name'] }}
+                                                                </option>
+                                                            @endforeach
+                                                            {{-- <option value="0" {{old('level') == 0|| $post->level == 0 ? 'selected' : '' }}>Nhân viên</option>
                                                             <option value="1" {{old('level') == 1|| $post->level== 1 ? 'selected' : '' }}>Trưởng nhóm</option>
                                                             <option value="2" {{old('level') == 2|| $post->level == 2 ? 'selected' : '' }}>Trưởng Phòng</option>
-                                                            <option value="3" {{old('level') == 3|| $post->level == 3 ? 'selected' : '' }}>Giám đốc</option>
+                                                            <option value="3" {{old('level') == 3|| $post->level == 3 ? 'selected' : '' }}>Giám đốc</option> --}}
                                                         </select>
                                                     </div>
                                                     <div class="form-group col-lg-3 col-md-12">
@@ -143,7 +157,9 @@
                                                         <label>Khu vực</label>
                                                         <select class="chosen-select" name="area">
                                                            @foreach ($dataProvinces as  $value)
-                                                                <option value="{{ $value['Id']}}" {{old('area') == $value['Id'] || $post->area ==  $value['Id'] ? 'selected' : '' }}>
+                                                                <option value="{{ $value['Id']}}" 
+                                                                {{ old('area') != null ? (old('area') == $value['Id'] ? 'selected' : '') : ($post->area == $value['Id'] ? 'selected' : '') }}
+                                                                >
                                                                     {{ $value['Ten']}}
                                                                 </option>
                                                            @endforeach

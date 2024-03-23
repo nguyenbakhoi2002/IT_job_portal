@@ -35,7 +35,7 @@
                         <div class="title-box">
                             <h3>Có<span class="colored"> 
                                 {{-- <!-- {{ $countJob }} --> --}}
-                            </span> Bài đăng ở đây<br>dành cho @if (auth('candidate')->user()->email)
+                            </span> Bài đăng ở đây<br>dành cho @if (auth('candidate')->user())
                                 {{auth('candidate')->user()->email}}
                                 @else bạn
                             @endif</h3>

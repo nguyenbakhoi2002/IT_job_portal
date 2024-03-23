@@ -54,7 +54,7 @@
                     <a href="" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            {{ __('Ứng viên') }}
+                            Ứng viên
                         </p>
                     </a>
                 </li>
@@ -62,7 +62,7 @@
                     <a href="{{route('admin.skill.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>
-                            {{ __('Kỹ năng') }}
+                            Kỹ năng
                         </p>
                     </a>
                 </li>
@@ -70,7 +70,7 @@
                     <a href="{{route('admin.major.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-edit"></i>
                         <p>
-                            {{ __('Chuyên ngành') }}
+                            Chuyên ngành
                         </p>
                     </a>
                 </li>
@@ -78,21 +78,44 @@
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
-                            {{ __('Gói nạp') }}
-                            <i class="fas fa-angle-left right"></i>
+                            yêu cầu
+                            <i class="fas fa-angle-right right"></i>
+                        </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                        <li class="nav-item">
+                            <a href="{{route('admin.degree.index')}}" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Bằng cấp</p>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="" class="nav-link">
+                                <i class="far fa-circle nav-icon"></i>
+                                <p>Số năm kinh nghiệm</p>
+                            </a>
+                        </li>
+                    </ul>
+                  </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p>
+                            Gói nạp
+                            <i class="fas fa-angle-right right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Ứng viên') }}</p>
+                                <p>Ứng viên</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Công ty') }}</p>
+                                <p>Công ty</p>
                             </a>
                         </li>
                     </ul>
@@ -100,28 +123,28 @@
                 <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="fas fa-users nav-icon"></i>
-                        <p>{{ __('Người dùng') }}</p>
+                        <p>Người dùng</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-shield"></i>
                         <p>
-                            {{ __('Quản lý ACL') }}
-                            <i class="fas fa-angle-left right"></i>
+                            Quản lý ACL
+                            <i class="fas fa-angle-right right"></i>
                         </p>
                     </a>
                     <ul class="nav nav-treeview">
                         <li class="nav-item">
                             <a href="" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Vai trò') }}</p>
+                                <p>Vai trò</p>
                             </a>
                         </li>
                         <li class="nav-item">
                             <a href="" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
-                                <p>{{ __('Quyền') }}</p>
+                                <p>Quyền</p>
                             </a>
                         </li>
                     </ul>
@@ -130,7 +153,7 @@
                     <a href="" class="nav-link">
                         <i class="fa fa-sign-out-alt"></i>
                         <p>
-                            {{ __('Đăng xuất') }}
+                            Đăng xuất
                         </p>
                     </a>
                 </li>
