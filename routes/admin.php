@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\MajorController;
 use App\Http\Controllers\Admin\DegreeController;
+use App\Http\Controllers\Admin\TimeController;
 use App\Http\Controllers\Admin\CompanyController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -33,5 +34,11 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('degree-trash',[DegreeController::class, 'trash'] )->name('degree.trash');
     Route::get('degree-trash/{id}', [DegreeController::class, 'restore'])->name('degree.restore');
     Route::get('/degree-forceDelete/{id}',[DegreeController::class, 'force'] )->name('degree.forceDelete');
+//degree- số năm kinh nghiệm
+Route::resource('time', TimeController::class); 
+    Route::post('time-status/{id}', [TimeController::class, 'status'])->name('time.status');
+    Route::get('time-trash',[TimeController::class, 'trash'] )->name('time.trash');
+    Route::get('time-trash/{id}', [TimeController::class, 'restore'])->name('time.restore');
+    Route::get('/time-forceDelete/{id}',[TimeController::class, 'force'] )->name('time.forceDelete');
 
 ?>

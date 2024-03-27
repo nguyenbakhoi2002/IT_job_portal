@@ -19,7 +19,7 @@
             {{-- <a href="" class="dark"><i class="fa-solid fa-arrow-left"> Quay lại</i></a> --}}
 
             <div class="card-header">
-              <h3 class="card-title"><a href="{{route('admin.degree.index')}}" class="" style="margin-right:10px"><i class="fa-solid fa-arrow-left"></i></i></a>   {{$title}}</h3>
+              <h3 class="card-title"><a href="{{route('admin.time.index')}}" class="" style="margin-right:10px"><i class="fa-solid fa-arrow-left"></i></i></a>   {{$title}}</h3>
               <form action="" class="form-inline float-right mr-3">
                 <div class="form-group">
                     <input class="form-control" name="key" id="key" placeholder="Nhập tên bằng cấp ....">
@@ -64,8 +64,8 @@
                             </form> --}}
                         </td>
                         <td class="project-actions xoa text-right d-flex align-items-center">
-                            <a href="{{route('admin.degree.restore', $item->id)}}" class="btn btn-success">Khôi phục</a>
-                            <a href="{{route('admin.degree.forceDelete', $item->id)}}" onclick="return confirm('Bạn có chắn chắn muốn xóa')" class="btn btn-danger mx-3">Xóa</a>
+                            <a href="{{route('admin.time.restore', $item->id)}}" class="btn btn-success">Khôi phục</a>
+                            <a href="{{route('admin.time.forceDelete', $item->id)}}" onclick="return confirm('Bạn có chắn chắn muốn xóa')" class="btn btn-danger mx-3">Xóa</a>
                             
                         </td>
                     </tr>

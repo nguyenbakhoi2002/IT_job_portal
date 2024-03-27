@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 @section('title')
-    {{$title}}
+{{$title}}
 @endsection
 
 @section('content')
@@ -16,10 +16,8 @@
       <div class="row">
         <div class="col-12">
           <div class="card">
-            {{-- <a href="" class="dark"><i class="fa-solid fa-arrow-left"> Quay lại</i></a> --}}
-
             <div class="card-header">
-              <h3 class="card-title"><a href="{{route('admin.degree.index')}}" class="" style="margin-right:10px"><i class="fa-solid fa-arrow-left"></i></i></a>   {{$title}}</h3>
+              <h3 class="card-title">{{$title}}</h3>
               <form action="" class="form-inline float-right mr-3">
                 <div class="form-group">
                     <input class="form-control" name="key" id="key" placeholder="Nhập tên bằng cấp ....">
@@ -28,18 +26,20 @@
                     </button>
                 </div>
             </form>
+
             </div>
+            <a href="{{route('admin.time.trash')}}" class="btn btn-primary mt-4 mx-4" style="width: 150px">thùng rác <i class="fa fa-trash"></i></a>
+
             <!-- /.card-header -->
             <div class="card-body">
               <table id="example2" class="table table-bordered table-striped dataTable dtr-inline">
                 <thead>
                 <tr>
                   <th>STT</th>
-                  <th>Tên kỹ năng</th>
-                  <th>Cấp độ</th>
+                  <th>Năm kinh nghiệm</th>
+                  <th>cấp độ</th>
                   <th>trạng thái</th>
-                  <th>Lựa chọn</th>
-                  {{-- <th><a href="{{route('admin.major.create')}}"><i class="fa fa-plus"></i></a></th> --}}
+                  <th><a href="{{route('admin.time.create')}}"><i class="fa fa-plus"></i></a></th>
                 </tr>
                 </thead>
                 <tbody>
@@ -49,30 +49,32 @@
                         <td>{{$item->name}}</td>
                         <td>{{$item->level}}</td>
                         <td>
-                            @if ($item->status == 0)
-                                Ẩn
-                            @else
-                                Hiện
-                            @endif
-                            {{-- <form action="{{route('admin.degree.status',  $item->id)}}" method="post">
-                              @csrf
-                              @method('post')
-                              <select class="stu" name="status" data-id="{{$item->id}}">
-                                <option @if($item->status == 0) selected @endif value="0">Ẩn</option>
-                                <option @if($item->status == 1) selected @endif value="1">Hoạt động</option>
-                              </select>
-                            </form> --}}
-                        </td>
+                          <form action="{{route('admin.time.status',  $item->id)}}" method="post">
+                            @csrf
+                            @method('post')
+                            <select class="stu" name="status" data-id="{{$item->id}}">
+                              <option @if($item->status == 0) selected @endif value="0" class="bg-danger">Ẩn</option>
+                              <option @if($item->status == 1) selected @endif value="1" class="bg-primary">Hoạt động</option>
+                            </select>
+                          </form>
+                      </td>
                         <td class="project-actions xoa text-right d-flex align-items-center">
-                            <a href="{{route('admin.degree.restore', $item->id)}}" class="btn btn-success">Khôi phục</a>
-                            <a href="{{route('admin.degree.forceDelete', $item->id)}}" onclick="return confirm('Bạn có chắn chắn muốn xóa')" class="btn btn-danger mx-3">Xóa</a>
-                            
+                            <a class="btn btn-info mr-3" href="{{route('admin.time.edit', $item)}}">
+                              <i class="fa fa-edit"></i>
+                            </a>
+
+                            <form action="{{route('admin.time.destroy', $item)}}" method="POST">
+                                @csrf
+                                @method("DELETE")
+                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                              </form>
+                            {{-- <button data-id="{{$item->id}}" class="btn btn-danger btn-delete"><i class="fa fa-trash"></i></button> --}}
                         </td>
                     </tr>
                     @empty
-                        <tr>
-                            <td colspan="4">Thùng rác trống</td>
-                        </tr>
+                      <tr>
+                        <td colspan="4">Chưa có item nào nào</td>
+                      </tr>
                     @endforelse
                 </tbody>
               </table>
@@ -93,5 +95,5 @@
 @endsection
 @section('script')
 @parent
-{{-- <script src="{{asset('js/admin/candidate.js')}}"></script> --}}
+<script src="{{asset('js/admin/candidate.js')}}"></script>
 @endsection

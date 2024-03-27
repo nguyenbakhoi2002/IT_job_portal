@@ -97,6 +97,17 @@ class DegreeController extends Controller
         }
         return view('admin.request.degree.trash', ['degrees' => $degree, 'title' => $title]);
     }
+    public function restore(string $id){
+        Degree::withTrashed()->where('id', $id)->restore();
+        return redirect()->route('admin.degree.index')->with('success', 'Khôi phục thành công');
+    }
+    public function force(string $id){
+        Degree::withTrashed()->where('id', $id)->forceDelete();
+        // return response()->json(['success'=>'Xóa thành công!']);
+        return redirect()->route('admin.degree.trash')->with('success', 'Xóa thành công');
+
+
+    }
     //trạng thái
     public function status(Request $request, string $id){
         $val = $request->status;

@@ -90,7 +90,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="" class="nav-link">
+                            <a href="{{route('admin.time.index')}}" class="nav-link">
                                 <i class="far fa-circle nav-icon"></i>
                                 <p>Số năm kinh nghiệm</p>
                             </a>

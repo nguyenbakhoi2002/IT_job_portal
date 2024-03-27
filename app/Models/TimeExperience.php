@@ -10,8 +10,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TimeExperience extends Model
 {
     use HasFactory;
-    //use SoftDeletes;
-    // protected $dates = ['deleted_at'];
+    use SoftDeletes;
+    protected $dates = ['deleted_at'];
     // public $timestamps = false;//để không bị thêm  hai trường updated_at và created_at
     protected $table = 'time_exp';
     protected $fillable = ['id', 'name', 'level','status', 'created_at', 'updated_at'];
