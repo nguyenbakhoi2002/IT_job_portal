@@ -6,6 +6,7 @@ use App\Http\Controllers\Client\HomeController;
 use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\CompanyController;
 use App\Http\Controllers\Client\JobPostController;
+use App\Http\Controllers\Client\ProfileController;
 use App\Http\Controllers\Company\LoginController;
 
 
@@ -33,5 +34,8 @@ Route::prefix('company')->group(function () {
 
 
 });
+//profile
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+
 
 

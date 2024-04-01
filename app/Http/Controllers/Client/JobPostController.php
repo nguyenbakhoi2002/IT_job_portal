@@ -9,6 +9,8 @@ use App\Models\Major;
 use App\Models\Skill;
 use App\Models\TimeExperience;
 use Carbon\Carbon;
+//
+// use App\Helpers\CommonHelper;
 
 
 class JobPostController extends Controller
@@ -35,7 +37,12 @@ class JobPostController extends Controller
     }
     public function detail(JobPost $job){
         $job = $job;
+        $dataProvinces = getProvinceByJSON();
+        $current_date = Carbon::now();
+
+        // dd($dataProvinces);
         $data_job_relate = JobPost::where('major_id', $job->major_id)->where('id', '!=', $job->id)->take(10)->get();
-        return view('client/post/job-detail', ['data_job' => $job, 'data_job_relate'=>$data_job_relate]);
+        return view('client/post/job-detail', 
+        ['data_job' => $job, 'data_job_relate'=>$data_job_relate, 'dataProvinces'=>$dataProvinces, 'current_date'=>$current_date]);
     }
 }

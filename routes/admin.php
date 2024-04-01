@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\MajorController;
 use App\Http\Controllers\Admin\DegreeController;
 use App\Http\Controllers\Admin\TimeController;
 use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\CandidateController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -17,6 +18,14 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/company-forceDelete/{id}',[CompanyController::class, 'force'] )->name('company.forceDelete');
     //status
     Route::post('company-status/{id}', [CompanyController::class, 'status'])->name('company.status');
+//candidate-ứng viên
+    Route::resource('candidate', CandidateController::class); 
+    //thùng rác
+    Route::get('/candidate-trash',[CandidateController::class, 'trash'] )->name('candidate.trash');
+    Route::get('/candidate-trash/{id}',[CandidateController::class, 'restore'] )->name('candidate.restore');
+    Route::get('/candidate-forceDelete/{id}',[CandidateController::class, 'force'] )->name('candidate.forceDelete');
+    //status
+    Route::post('candidate-status/{id}', [CandidateController::class, 'status'])->name('candidate.status');
 
 //kĩ năng - skill
     Route::resource('skill', SkillController::class); 

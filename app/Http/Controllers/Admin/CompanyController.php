@@ -94,7 +94,7 @@ class CompanyController extends Controller
             $file_name_logo="";
             $file_name_image_paper="";
             //lấy tên sản phẩm bỏ dấu và cách để cho vào tên ảnh;
-            $name_company=Str::slug($request->tendanhmuc);
+            $name_company=Str::slug($request->company_name);
             if($request->has('hinhanh_upload_logo')){
                 $file = $request->hinhanh_upload_logo;
                 //lấy đuôi ảnh

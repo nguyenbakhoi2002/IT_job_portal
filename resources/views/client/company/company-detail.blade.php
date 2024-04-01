@@ -1,6 +1,6 @@
 @extends('client.layout.app')
 @section('title')
-    'UB work| {{$company_detail->company_name}}'
+    UB work| {{$company_detail->company_name}}
 @endsection
 @section('content')
     <section class="job-detail-section">

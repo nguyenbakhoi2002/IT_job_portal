@@ -31,7 +31,9 @@
                             </li>
                         </ul> --}}
                     </li>
-
+                    <li class="dropdown">
+                        <a href="{{route('profile')}}">Tạo CV</a>
+                    </li>
                     <li class="dropdown">
                         <a href="{{route('company-list')}}">Công ty</a>
                     </li>

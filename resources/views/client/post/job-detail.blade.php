@@ -8,16 +8,21 @@
       <div class="upper-box" style="background-image: url({{asset('storage/images/bg-4.png')}}) ">
         <div class="auto-container">
           <!-- Job Block -->
-          <div class="job-block-seven">
+          <div class="job-block-seven row">
             <div class="inner-box">
-              <div class="content">
+              <div class="content  col-md-8 col-sm-12 ">
                 <span class="company-logo"><img src="{{asset('uploads/images/company/'.$data_job->company->logo)}}"></span>
                 <h4><a href="{{route('job-detail', $data_job)}}">{{$data_job->title}}</a></h4>
                 <ul class="job-info">
                   {{-- <li><span class="icon flaticon-briefcase"></span> {{$data_job->major->name}}</li> --}}
-                  <li><span class="icon flaticon-map-locator"></span>{{$data_job->company->address}}</li>
-                  <li><span class="icon flaticon-clock-3"></span>{{$data_job->company->working_time}}</li>
-                  <li><span class="icon flaticon-money"></span> {{number_format($data_job->min_salary)}} - {{number_format($data_job->max_salary)}}</li>
+                  <li><span class="icon flaticon-money"></span> {{number_format($data_job->min_salary/1000000)}} - {{number_format($data_job->max_salary/1000000)}} triệu</li>
+                  @foreach ($dataProvinces as $value)
+                    @if($value['Id'] == $data_job->area)
+                    <li><span class="icon flaticon-map-locator"></span>{{$value['Ten']}}</li>
+                  @endif
+                  @endforeach
+                  
+                  <li><span class="icon flaticon-clock-3"></span>{{$data_job->experience->name}} kinh nghiệm</li>
                 </ul>
                 <ul class="job-other-info">
                   @foreach (config('custom.type_work') as $value)
@@ -27,10 +32,11 @@
                           </li>
                       @endif
                   @endforeach
+                  <li class="time">
+                    còn {{$current_date->diff($data_job->end_date)->days}} ngày để nộp đơn
+                  </li>
                 </ul>
-              </div>
-
-              <div class="btn-box">
+                <div class="btn-box">
                 @if (auth('candidate')->check())
                     @if (!empty($idJobApplied[$data_job->id]) )
                       @if($idJobApplied[$data_job->id]->job_post_id == $data_job->id )
@@ -55,6 +61,11 @@
                     <a class="bookmark-btn" href="{{route('login')}}"><span class="flaticon-bookmark"></span></a>
                 @endif
               </div>
+              </div>
+              <div class="col-md-4 col-sm-12 p-5">
+                thong tin coong ty
+              </div>
+              
             </div>
           </div>
         </div>

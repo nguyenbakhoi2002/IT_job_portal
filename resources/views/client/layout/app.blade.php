@@ -21,7 +21,9 @@
         <div class="preloader"></div>
         @include('client.layout.header')
         @yield('content')
-        @include('client.layout.footer')
+        @if (!isset($excludeFooter))
+            @include('client.layout.footer')
+        @endif
         <!-- End Main Footer -->
     </div>
     @section('script')
