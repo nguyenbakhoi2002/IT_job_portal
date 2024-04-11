@@ -92,4 +92,10 @@ class MajorController extends Controller
         return redirect()->route('admin.major.trash')->with('success', 'Xóa thành công');
 
     }
+    //trạng thái
+    public function status(Request $request, string $id){
+        $val = $request->status;
+        Major::where('id', $id)->update(['status' => $val]);
+        return response()->json(['success'=>'cập nhật trạng thái thành công']);
+    }
 }

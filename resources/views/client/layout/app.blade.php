@@ -28,6 +28,7 @@
     </div>
     @section('script')
         @include('client.layout.script')
+        @include('admin.layout.toastr')
     @show
     {{-- @include('admin.layout.toastr') --}}
 </body>

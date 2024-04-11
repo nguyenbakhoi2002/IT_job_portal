@@ -4,8 +4,33 @@
     @csrf
     <div class="form-group">
         <div class="d-flex justify-content-between border-bot">
-            <div class="font-weight-bold h4" >Học vấn</div>
-            <div id="block-edu" style="cursor: pointer;"><i class="fa fa-plus" aria-hidden="true"></i></div>
+            <div class="font-weight-bold h4" ><i class="fa-solid fa-graduation-cap"></i> Học vấn</div>
+            <div class="d-flex justify-content-between align-items-center"  >
+                <div class="modal fade" id="modal-edu" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1" 
+                    style="left: 50%;
+                    transform: translateX(-50%);"
+                >
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalToggleLabel"><i class="fa-solid fa-lightbulb"></i> Để CV không chỉ Hay mà còn Đẹp trong mắt Nhà tuyển dụng</h5>
+
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            Học vấn: <br>
+    - Hãy nêu ra những bậc học đạt được như cao đẳng, đại học, thạc sĩ,... <br>
+    - Bạn cũng có thể kể thêm những khóa học ngắn hạn, khóa đào tạo chuyên nghiệp (có phí) mà bạn đã từng được học. <br>
+    - Lưu ý chọn lọc những khóa học liên quan đến công việc mà bạn ứng tuyển thôi nhé
+                        
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <a class="btn-question" id="btn-modal-edu" data-bs-toggle="modal-edu" href="#exampleModalToggle" role="button"><i class="fa-solid fa-question"></i></a>
+                <div id="block-edu" class="btn-themmoi" style=""><i class="fa fa-plus" aria-hidden="true"></i>Thêm mới</div>
+            </div>
         </div>
         <div id="educations" class="mt-3" style="display: none">
             <div class="form-group">
@@ -16,6 +41,14 @@
                         {{ $message }}
                     </small>
                 @enderror
+            </div>
+            <div class="form-group">
+                <label for="">Loại bằng</label>
+                <select class="form-select" name="type_degree">
+                    @foreach ($degrees as $degree)
+                        <option value="{{ $degree->id}}">{{ $degree->name}}</option>
+                    @endforeach
+                </select>
             </div>
             <div class="form-group mt-3">
                 <label for="">Chuyên ngành</label>
@@ -45,18 +78,8 @@
                 <input type="date" name="end_date" class="form-control">
                 <small class="text-red"><i>Ghi chú: Nếu không nhập kết thúc sẽ là hiện tại đang học ở đây</i></small>
             </div>
-            <div class="form-group">
-                <label for="">Điểm trung bình</label>
-                <input type="number" max="10" name="gpa" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="">Loại bằng</label>
-                <select class="form-select" name="type_degree">
-                    @foreach ($degrees as $degree)
-                        <option value="{{ $degree->id}}">{{ $degree->name}}</option>
-                    @endforeach
-                </select>
-            </div>
+           
+            
            <div class="form-group mt-3">
                 <label for="">Mô tả học vấn *</label>
                 <textarea name="description" class="form-control" rows="3"></textarea>
@@ -102,11 +125,7 @@
                         Loại bằng: {{$edu->type_degree}}
                         @endif
                     </div>
-                    <div>
-                        @if(!empty($edu->gpa))
-                        Điểm trung bình: {{$edu->gpa}}
-                        @endif
-                    </div>
+                    
                     <div>
                         Mô tả: {{$edu->description}}
                     </div>
@@ -192,7 +211,7 @@
                         <small class="text-red"><i>Gợi ý: Mô tả ngành học và kiến thức</i></small>
                    </div>
                     <div class="d-flex mt-3 flex-row-reverse">
-                        <div class="hide-button-exp{{$edu->id}} btn btn-warning">Hủy</div>
+                        <div class="hide-button-edu{{$edu->id}} btn btn-warning">Hủy</div>
                         <button type="submit" class="btn btn-primary" style="margin-right: 5px;">Lưu</button>
                     </div>
                 </div>

@@ -10,6 +10,8 @@
             "hideDuration": "1000",
             "timeOut": "4000",
             "extendedTimeOut": "1000",
+            // "timeOut": 0,
+            // "extendedTimeOut": 0,
             "showEasing": "swing",
             "hideEasing": "linear",
             "showMethod": "fadeIn",

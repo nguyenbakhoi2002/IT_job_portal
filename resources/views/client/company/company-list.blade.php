@@ -23,7 +23,7 @@
         border-bottom-left-radius: 50%;
     }
 </style>
-    <section class="page-title">
+    <section class="page-title " style="margin-top: 90px">
         <div class="auto-container">
             <div class="title-outer">
                 <h1>Danh sách công ty</h1>

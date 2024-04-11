@@ -10,7 +10,7 @@ class SeekerProfile extends Model
     use HasFactory;
     protected $table = 'seeker_profile';
     protected $fillable = [
-        'id', 'candidate_id', 'name', 'gender', 'date_of_birth', 'email', 'phone', 'address', 'link', 'image', 'updated_at', 'created_at'
+        'id', 'candidate_id', 'name', 'gender', 'date_of_birth', 'email', 'phone','title','objective', 'address', 'link', 'image','total_experience', 'updated_at', 'created_at'
     ];
     public function educations(){
         return $this->hasMany(Education::class, 'seeker_profile_id');
@@ -20,5 +20,8 @@ class SeekerProfile extends Model
     }
     public function skills(){
         return $this->belongsToMany(Skill::class, 'seeker_skill', 'seeker_profile_id', 'skill_id');
+    }
+    public function candidate(){
+        return $this->belongsTo(Candidate::class, 'candidate_id');
     }
 }

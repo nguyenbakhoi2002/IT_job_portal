@@ -36,6 +36,11 @@ Route::prefix('company')->group(function () {
 });
 //profile
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
+Route::prefix('update-cv')->group(function () {
+    Route::post('/update-info', [ProfileController::class, 'updateInfo'])->name('updateCv.updateInfo');
+    Route::post('/create-experience', [ProfileController::class, 'createExperience'])->name('updateCv.createExperience');
+    Route::post('/update-experience/{id}', [ProfileController::class, 'updateExperience'])->name('updateCv.updateExperience');
+});
 
 
 

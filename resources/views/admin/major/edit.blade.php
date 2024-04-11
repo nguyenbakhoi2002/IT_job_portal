@@ -36,6 +36,19 @@
                         @enderror
                     </div>
                   </div>
+                  <div class="">
+                    <label class="form-label w-100">Trạng thái</label>
+                    <div class="d-flex">
+                        <div class="form-check mr-3">
+                            <input type="radio" class="form-check-input" id="status" name="status" value="0" @if($major->status == 0) checked @endif>Ẩn
+                            <label class="form-check-label" for="status"></label>
+                        </div>
+                      <div class="form-check mr-3">
+                        <input type="radio" class="form-check-input" id="status" name="status" value="1" @if($major->status == 1) checked @endif >Hoạt động
+                        <label class="form-check-label" for="status"></label>
+                      </div>
+                    </div>
+                  </div>
                     </div>
                     <div class="mt-3">
                         <input type="submit" value="Lưu" class="btn btn-primary float-left mr-3">

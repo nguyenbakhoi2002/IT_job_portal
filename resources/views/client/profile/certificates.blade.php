@@ -4,7 +4,33 @@
     <div class="form-group">
         <div class="d-flex justify-content-between border-bot">
             <div class="font-weight-bold h4" >Chứng chỉ</div>
-            <div id="block-cer" style="cursor: pointer;"><i class="fa fa-plus" aria-hidden="true"></i></div>
+            <div class="d-flex justify-content-between align-items-center"  >
+                <div class="modal fade" id="modal-cer" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1" 
+                    style="left: 50%;
+                    transform: translateX(-50%);"
+                >
+                    <div class="modal-dialog modal-dialog-centered">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalToggleLabel"><i class="fa-solid fa-lightbulb"></i> Để CV không chỉ Hay mà còn Đẹp trong mắt Nhà tuyển dụng</h5>
+
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                                Chứng chỉ khác: <br>
+        Bạn có thể chọn hiển thị hoặc không hiển thị mục này trên CV<br>
+        - Chỉ nên đề cập đến những chứng chỉ liên quan đến công việc bạn đang ứng tuyển hoặc những chứng chỉ có kĩ năng nổi bật.<br>
+        - Hãy điền đầy đủ các thông tin như ngày hoàn thành, tổ chức cấp.<br>
+        - Bạn cũng có thể kể tên các hội thảo, hội nghị có uy tín mà bạn đã từng được tham dự
+                        
+                        </div>
+                        
+                      </div>
+                    </div>
+                  </div>
+                  <a class="btn-question" id="btn-modal-cer" data-bs-toggle="modal-cer" href="#exampleModalToggle" role="button"><i class="fa-solid fa-question"></i></a>
+                <div id="block-cer" class="btn-themmoi" style=""><i class="fa fa-plus" aria-hidden="true"></i>Thêm mới</div>
+            </div>
         </div>
         <div id="certificates" class="mt-3" style="display: none">
             <div class="form-group">
