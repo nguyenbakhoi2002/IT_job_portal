@@ -1,5 +1,5 @@
 
-<form id="create_pj" action="" method="post">
+<form id="create_pj" action="{{route('updateCv.createProject')}}" method="post">
     @csrf
     <div class="form-group">
         <div class="d-flex justify-content-between border-bot">
@@ -33,27 +33,27 @@
             </div>
         </div>
         <div id="projects" class="mt-3 border-bot form" style="display: none">
-            @if(!empty($seeker)) <input type="hidden" name="seeker_id" value="{{$seeker->id}}"> @endif
+            @if(!empty($seeker)) <input type="hidden" name="seeker_profile_id" value="{{$seeker->id}}"> @endif
             <div class="form-group">
                 <label for="">Tên dự án *</label>
                 <input type="text" name="name" class="form-control">
-                    <small class="val_name text-danger pl-4"></small>
+                    <small class="val_name_pj text-danger pl-4"></small>
             </div>
             
             <div class="form-group mt-3">
                 <label for="">Bắt đầu *</label>
                 <input type="date" name="start_date" class="form-control" >
-                <small class="val_start_date text-danger pl-4"></small>
+                <small class="val_start_date_pj text-danger pl-4"></small>
             </div>
             <div class="form-group mt-3">
                 <label for="">Kết thúc</label>
                 <input type="date" name="end_date" class="form-control">
-                <small class="text-red"><i>Ghi chú: Nếu không nhập kết thúc sẽ là hiện tại đang làm việc ở đây</i></small>
+                <small class="val_end_date_pj text-danger pl-4"></small>
             </div>
            <div class="form-group mt-3">
                 <label for="">Mô tả *</label>
                 <textarea name="description" class="form-control" rows="3"></textarea>
-                <small class="val_description_exp text-danger pl-4"></small>
+                <small class="val_description_pj text-danger pl-4"></small><br>
                 <small class="text-red"><i>Gợi ý: Mô tả công việc cụ thể, những kết quả và thành tựu đạt được có số liệu dẫn chứng</i></small>
            </div>
             <div class="d-flex mt-3 flex-row-reverse">
@@ -69,54 +69,54 @@
     <div id="exp-full">
         <div id="list-experiences" class="list-experiences mt-3">
             @foreach($projects as $pj)
-            <div class="item_exp exp_div{{$pj->id}}">
-                <form id="form-border-pj{{$pj->id}}" class="delExp d-flex mt-3 border-dotted-bot" action="" method="get">
+            <div class="item_exp pj_div{{$pj->id}}">
+                <form id="form-border-pj{{$pj->id}}" class="delPj d-flex mt-3 border-dotted-bot" action="{{route('updateCv.deleteProject',$pj->id)}}" method="get">
                     @csrf
                     <div style="width: 90%;" class="exp_pro mb-3" id="EditHidePj{{$pj->id}}">
                         <div class="h5">
                             Tên dự án : <span>{{$pj->name}}</span>
                         </div>
                         <div class="d-flex">
-                            Bắt đầu: {{date("m-Y", strtotime($pj->start_date))}}  
+                            Bắt đầu: {{date("d-m-Y", strtotime($pj->start_date))}}  
                         </div>
                         <div class="d-flex">
-                            Kết thúc:@if($pj->end_date == null) Hiện tại @else {{date("m-Y", strtotime($pj->end_date))}} @endif
+                            Kết thúc:@if($pj->end_date == null) Hiện tại @else {{date("d-m-Y", strtotime($pj->end_date))}} @endif
                         </div>
                         <div>
                             Mô tả: {{$pj->description}}    
                         </div>
                     </div>
                     <div id="btnFormPj{{$pj->id}}" style="width: 10%;">
-                        <button data-id-exp="{{$pj->id}}" class="removeExp" type="submit" style="float: right;"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                        <button data-id-pj="{{$pj->id}}" class="removePj" type="submit" style="float: right;"><i class="fa fa-trash" aria-hidden="true"></i></button>
                         <div onclick="EditFormProjectId({{$pj->id}})" style="float: right;margin-right: 5px; cursor: pointer;"><i class="fas fa-edit"></i></div>
                         <div style="clear: both;"></div>
                     </div>
                 </form>
     
-                <form class="update_exp" action="" method="post">
+                <form class="update_pj" action="{{route('updateCv.updateProject', $pj->id)}}" method="post">
                     @csrf
                     <div id="EditFormPj{{$pj->id}}" class="mt-3 mb-3 border-dotted-bot form" style="display: none;">
                         @if(!empty($seeker)) <input type="hidden" name="seeker_id" value="{{$seeker->id}}"> @endif
                         <div class="form-group">
                             <label for="">Tên dự án *</label>
-                            <input type="text" value="{{$pj->name}}" name="company_name" class="form-control">
-                            <small class="val_company_name text-danger pl-4"></small>
+                            <input type="text" value="{{$pj->name}}" name="name" class="form-control">
+                            <small class="val_name_pj text-danger pl-4"></small>
                         </div>
                         
                         <div class="form-group mt-3">
                             <label for="">Bắt đầu *</label>
                             <input type="date" name="start_date" value="{{date("Y-m-d", strtotime($pj->start_date))}}" class="form-control" >
-                            <small class="val_start_date text-danger pl-4"></small>
+                            <small class="val_start_date_pj text-danger pl-4"></small>
                         </div>
                         <div class="form-group mt-3">
                             <label for="">Kết thúc</label>
                             <input type="date" @if(!empty($pj->end_date)) value="{{date("Y-m-d", strtotime($pj->end_date))}}" @endif name="end_date" class="form-control">
-                            <small class="text-red"><i>Ghi chú: Nếu không nhập kết thúc sẽ là hiện tại đang làm việc ở đây</i></small>
+                            <small class="val_end_date_pj text-danger pl-4"></small>
                         </div>
                        <div class="form-group mt-3">
                             <label for="">Mô tả *</label>
                             <textarea name="description" class="form-control" rows="3">{{$pj->description}}</textarea>
-                            <small class="val_description text-danger pl-4"></small>
+                            <small class="val_description_pj text-danger pl-4"></small><br>
                             <small class="text-red"><i>Gợi ý: Mô tả công việc cụ thể, những kết quả và thành tựu đạt được có số liệu dẫn chứng</i></small>
                        </div>
                         <div class="d-flex mt-3 flex-row-reverse">

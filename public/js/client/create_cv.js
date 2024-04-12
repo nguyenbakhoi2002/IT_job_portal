@@ -149,10 +149,12 @@ $(document).ready(function () {
     $('.val_end_date').text(msg.end_date != undefined ? msg.end_date : '');
     $('.val_description_exp').text(msg.description != undefined ? msg.description : '');
   }
-  $('.removeExp').click(function (e) {
+  $('.delExp').submit(function (e) {
     e.preventDefault();
-    var url = $('.delExp').attr('action');
-    var id = $(this).data('id-exp');
+    var url = $(this).attr('action');
+    console.log(url);
+    var id = $(this).find('.removeExp').data('id-exp');
+    // console.log(id);
     var data = {
       id: id,
       "_token": $('meta[name="csrf-token"]').attr('content')
@@ -167,6 +169,7 @@ $(document).ready(function () {
       confirmButtonColor: '#C46F01',
       cancelButtonText: 'Không'
     }).then(function (result) {
+      //nếu đồng ý mới chạy vào đây
       if (result.isConfirmed) {
         $.ajax({
           url: url,
@@ -180,9 +183,130 @@ $(document).ready(function () {
                 type: 'success',
                 showConfirmButton: false,
                 timer: 1500
-              }, setTimeout(function () {}, 500)).then(function () {
-                $('.exp_div' + id).remove();
+              }).then(function () {
+                setTimeout(function () {
+                  // console.log('.exp_div' + id);
+                    $('.exp_div' + id).remove();
+                }, 500);
+            });
+            } else {
+              Swal.fire({
+                title: results.error,
+                type: 'error',
+                icon: 'error',
+                timer: 1500
               });
+            }
+          }
+        });
+      }
+    });
+  });
+
+
+  //tạo Dự án cá nhân
+  $('#create_pj').submit(function (e) {
+    e.preventDefault();
+    var url = $('#create_pj').attr('action');
+    console.log(url);
+    var form = this;
+    var dataForm = new FormData(form);
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: dataForm,
+      processData: false,
+      contentType: false,
+      success: function success(response) {
+        if (response.is_check === true) {
+          location.reload();
+          toastr.success(response.success);
+        } else if (response.is_max === true) {
+          toastr.error(response.error);
+        } else {
+          // console.log(response.error);
+          printErrorMsgPj(response.error);
+        }
+      },
+      error: function error(response) {
+        toastr.error("Thêm thất bại");
+      }
+    });
+  });
+  //cập nhật dự án cá nhân
+  $('.update_pj').submit(function (e) {
+    e.preventDefault();
+    var url =  $(this).attr('action');
+    console.log(url);
+    var form = this;
+    var dataForm = new FormData(form);
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: dataForm,
+      processData: false,
+      contentType: false,
+      success: function success(response) {
+
+        if (response.is_check === true) {
+          // console.log(response);                                  
+          location.reload();
+          toastr.success(response.success);
+        } else {  
+          console.log(response.error);
+          printErrorMsgPj(response.error);
+        }
+      },
+      error: function error(response) {
+        toastr.error("Cập nhật thất bại");
+      }
+    });
+  });
+  function printErrorMsgPj(msg) {
+    $('.val_name_pj').text(msg.name != undefined ? msg.name : '');
+    $('.val_start_date_pj').text(msg.start_date != undefined ? msg.start_date : '');
+    $('.val_end_date_pj').text(msg.end_date != undefined ? msg.end_date : '');
+    $('.val_description_pj').text(msg.description != undefined ? msg.description : '');
+  }
+  //xóa dự án cá nhân
+  $('.delPj').submit(function (e) {
+    e.preventDefault();
+    var url = $(this).attr('action');
+    console.log(url);
+    var id = $(this).find('.removePj').data('id-pj');
+    // console.log(id);
+    var data = {
+      id: id,
+      "_token": $('meta[name="csrf-token"]').attr('content')
+    };
+    Swal.fire({
+      icon: 'warning',
+      title: 'Bạn có chắc chắn muốn xóa ?',
+      text: 'Bấm không nếu bạn đổi ý!',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'Xóa',
+      confirmButtonColor: '#C46F01',
+      cancelButtonText: 'Không'
+    }).then(function (result) {
+      //nếu đồng ý mới chạy vào đây
+      if (result.isConfirmed) {
+        $.ajax({
+          url: url,
+          type: "get",
+          data: data,
+          success: function success(results) {
+            if (results.is_check === true) {
+              Swal.fire({
+                title: results.success,
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(function () {
+                setTimeout(function () {
+                    $('.pj_div' + id).remove();
+                }, 500);
+            });
             } else {
               Swal.fire({
                 title: results.error,

@@ -75,7 +75,7 @@
         <div id="list-experiences" class="list-experiences mt-3">
             @foreach($experiences as $exp)
             <div class="item_exp exp_div{{$exp->id}}">
-                <form id="form-border{{$exp->id}}" class="delExp d-flex mt-3 border-dotted-bot" action="" method="get">
+                <form id="form-border{{$exp->id}}" class="delExp d-flex mt-3 border-dotted-bot" action="{{route('updateCv.deleteExperience',$exp->id)}}" method="get">
                     @csrf
                     <div style="width: 90%;" class="exp_pro mb-3" id="EditHide{{$exp->id}}">
                         <div class="h5">

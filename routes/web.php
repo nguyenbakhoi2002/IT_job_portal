@@ -37,9 +37,16 @@ Route::prefix('company')->group(function () {
 //profile
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
 Route::prefix('update-cv')->group(function () {
+    //thông tin cơ bản
     Route::post('/update-info', [ProfileController::class, 'updateInfo'])->name('updateCv.updateInfo');
+    //kinh nghiệm làm việc
     Route::post('/create-experience', [ProfileController::class, 'createExperience'])->name('updateCv.createExperience');
     Route::post('/update-experience/{id}', [ProfileController::class, 'updateExperience'])->name('updateCv.updateExperience');
+    Route::get('/delete-experience/{id}', [ProfileController::class, 'deleteExperience'])->name('updateCv.deleteExperience');
+    //các dự án đã làm
+    Route::post('/create-project', [ProfileController::class, 'createProject'])->name('updateCv.createProject');
+    Route::post('/update-project/{id}', [ProfileController::class, 'updateProject'])->name('updateCv.updateProject');
+    Route::get('/delete-project/{id}', [ProfileController::class, 'deleteProject'])->name('updateCv.deleteProject');
 });
 
 

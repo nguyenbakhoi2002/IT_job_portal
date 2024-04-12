@@ -308,4 +308,156 @@ class ProfileController extends Controller
                 
             }
     }
+    public function deleteExperience(Request $request, string $id)
+    {
+        // $id = $request->id;
+        // dd($id);
+
+        try{
+            $exp = Experience::find($id);
+
+            // if(!isset($exp)){
+            //     return redirect()->route('CreateCV');
+            // }
+            $bat_dau = strtotime($exp->start_date);
+            $ket_thuc = strtotime($exp->end_date);
+
+            $tong = $ket_thuc - $bat_dau;
+
+            $day = floor($tong / 60 / 60 / 24);
+
+            $day = round($day /30/12, 1);
+
+            $seeker = SeekerProfile::where('id', $exp->seeker_profile_id)->first();
+            $total_exp = $seeker->total_experience - ($day?$day:0);
+            $seeker->update([
+                'total_experience' => $total_exp,
+            ]);
+
+            $exp->delete();
+            return response()->json([
+                'is_check' => true,
+                'success' => 'Xóa thành công!',
+            ]);
+        }
+        catch(\Exception $e){
+            return response()->json([
+                'is_check' => false,
+                'error' => 'Xóa thất bại!'
+            ]);
+        }
+        
+    }
+    //Các dự án cá nhân
+    public function createProject(Request $request){
+        $seeker_id = $request->seeker_profile_id;
+        try{
+            $check_max = Project::where('seeker_profile_id', $seeker_id)->count();
+        if($check_max >= 5) {
+            return response()->json([
+                'is_max' => true,
+                'error' => 'Bạn chỉ được phép thêm 5 sản phẩm nổi bật!'
+            ]);
+        }else {
+            $rules = [
+                'name' => 'required',
+                'start_date' => 'required',
+                'end_date' => 'required|after:start_date',
+                'description' => 'required',
+            ];
+            $messages =  $this->message_val;
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return response()->json(['error'=>$validator->errors()]);
+            }else 
+            {
+                $project=Project::create($request->all());
+                if ($project == null || $project == false) {
+                    return response()->json([
+                        'is_check' => false,
+                        'error' => 'Lỗi'
+                    ]);
+                }
+                elseif ($project == true) {
+                    return response()->json([
+                        'is_check' => true,
+                        'success' => 'Tạo mới thành công!',
+                    ]);
+                } 
+            }
+        }
+        }catch(\Exception $e){
+            return response()->json([
+                'is_check' => false,
+                'error' => 'Lỗi' . $e->getMessage(),
+            ]);
+    
+        }
+    }
+    //cập nhật dự án cá nhân
+    public function updateProject(Request $request,string $id){
+
+        try{
+            $seeker_id = $request->seeker_profile_id;
+
+            $rules = [
+                'name' => 'required',
+                'start_date' => 'required',
+                'end_date' => 'required|after:start_date',
+                'description' => 'required',
+            ];
+            $messages =  $this->message_val;
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return response()->json(['error'=>$validator->errors()]);
+            }else 
+            {
+                $project = Project::findOrFail($id); 
+                //update dự án  
+                $pj = $project->update($request->all());
+                if ($pj == null) {
+                    return response()->json([
+                        'is_check' => false,
+                        'error' => 'Cập nhật thất bại!'
+                    ]);
+                }
+                if ($pj == 1) {
+                    return response()->json([
+                        'is_check' => true,
+                        'success' => 'Cập nhật thành công!',
+                    ]);
+                } else {
+                    return response()->json([
+                        'is_check' => false,
+                        'error' => 'Lỗi tạo mới!'
+                    ]);
+                }
+            }
+            }catch(\Exception $e){
+                return response()->json([
+                    'is_check' => false,
+                    'error' => 'Lỗi' . $e->getMessage(),
+                ]);
+                
+            }
+    }
+    //xóa dự án cá nhân
+    public function deleteProject(Request $request, string $id)
+    {
+        try{
+            $exp = Project::find($id);
+            $exp->delete();
+            return response()->json([
+                'is_check' => true,
+                'success' => 'Xóa thành công!',
+            ]);
+        }
+        catch(\Exception $e){
+            return response()->json([
+                'is_check' => false,
+                'error' => 'Xóa thất bại!'
+            ]);
+        }
+        
+    }
 }

@@ -118,6 +118,7 @@ class CompanyController extends Controller
             $request->merge(['image_paper'=>$file_name_image_paper ]);
             // $request->merge(['password'=>Hash::make($request->password)]);
             $company->update($request->all());
+            Session::flash('success', 'Thêm thành công!');
             return redirect()->route('admin.company.index')->with('success', 'sửa thành công');
         } catch (\Exception  $e) {
             return redirect()->back()->with('error', 'sửa thất bại'.$e->getMessage());
