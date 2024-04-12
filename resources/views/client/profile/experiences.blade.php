@@ -82,7 +82,7 @@
                             Tên công ty: <span>{{$exp->company_name}}</span>
                         </div>
                         <div class="d-flex">
-                            Bắt đầu / Kết thúc: {{date("m-Y", strtotime($exp->start_date))}} / @if($exp->end_date == null) Hiện tại @else {{date("m-Y", strtotime($exp->end_date))}} @endif
+                            Từ {{date("d-m-Y", strtotime($exp->start_date))}} đến @if($exp->end_date == null) Hiện tại @else {{date("d-m-Y", strtotime($exp->end_date))}} @endif
                         </div>
                         <div>
                             Vị trí: {{$exp->work_position}}

@@ -1,6 +1,6 @@
 
-<form action="" method="post">
-    @if(!empty($seeker)) <input type="hidden" name="seeker_id" value="{{$seeker->id}}"> @endif
+<form id="create_edu" action="{{route('updateCv.createEducation')}}" method="post">
+    @if(!empty($seeker)) <input type="hidden" name="seeker_profile_id" value="{{$seeker->id}}"> @endif
     @csrf
     <div class="form-group">
         <div class="d-flex justify-content-between border-bot">
@@ -35,20 +35,18 @@
         <div id="educations" class="mt-3" style="display: none">
             <div class="form-group">
                 <label for="">Tên trường *</label>
-                <input type="text" name="name_education" class="form-control">
-                @error('name_education')
-                    <small class="text-danger pl-4">
-                        {{ $message }}
-                    </small>
-                @enderror
+                <input type="text" name="school_name" class="form-control">
+                <small class="val_school_name text-danger pl-4"></small>
             </div>
             <div class="form-group">
                 <label for="">Loại bằng</label>
-                <select class="form-select" name="type_degree">
+                <select class="form-select" name="degree_id">
+                    <option value="">-- Chọn</option>
                     @foreach ($degrees as $degree)
                         <option value="{{ $degree->id}}">{{ $degree->name}}</option>
                     @endforeach
                 </select>
+                <small class="val_degree_id text-danger pl-4"></small>
             </div>
             <div class="form-group mt-3">
                 <label for="">Chuyên ngành</label>
@@ -58,24 +56,17 @@
                         <option value="{{$mj->id}}">{{$mj->name}}</option>
                     @endforeach
                 </select>
-                @error('major_id')
-                    <small class="text-danger pl-4">
-                        {{ $message }}
-                    </small>
-                @enderror
+                <small class="val_major_id text-danger pl-4"></small>
             </div>
             <div class="form-group mt-3">
                 <label for="">Bắt đầu *</label>
                 <input type="date" name="start_date" class="form-control">
-                @error('start_date')
-                    <small class="text-danger pl-4">
-                        {{ $message }}
-                    </small>
-                @enderror
+                <small class="val_start_date_edu text-danger pl-4"></small>
             </div>
             <div class="form-group mt-3">
                 <label for="">Kết thúc</label>
                 <input type="date" name="end_date" class="form-control">
+                <small class="val_end_date_edu text-danger pl-4"></small><br>
                 <small class="text-red"><i>Ghi chú: Nếu không nhập kết thúc sẽ là hiện tại đang học ở đây</i></small>
             </div>
            
@@ -83,12 +74,7 @@
            <div class="form-group mt-3">
                 <label for="">Mô tả học vấn *</label>
                 <textarea name="description" class="form-control" rows="3"></textarea>
-                @error('description')
-                    <small class="text-danger pl-4">
-                        {{ $message }}
-                    </small>
-                    <br>
-                @enderror
+                <small class="val_description_edu text-danger pl-4"></small><br>
                 <small class="text-red"><i>Gợi ý: Mô tả ngành học và kiến thức</i></small>
            </div>
             <div class="d-flex mt-3 flex-row-reverse">
@@ -103,29 +89,20 @@
     <div class="list-educations mt-3">
         @foreach($educations as $edu)
         <div class="edu_div{{$edu->id}}">
-            <form id="form-border-edu{{$edu->id}}" class="delEdu d-flex mt-3 border-dotted-bot" action="" method="get">
+            <form id="form-border-edu{{$edu->id}}" class="delEdu d-flex mt-3 border-dotted-bot" action="{{route('updateCv.deleteEducation',$edu->id)}}" method="get">
                 <div style="width: 90%;" class="mb-3" id="EditHideEdu{{$edu->id}}">
                     <div class="h5">
                         Tên trường: <span>{{$edu->school_name}}</span>
                     </div>
+                    <div class="h6">
+                        Chuyên ngành: <span>{{$edu->major->name}}</span>
+                    </div>
+                    <div class="h6">
+                        Bằng: <span>{{$edu->degree->name}}</span>
+                    </div>
                     <div class="d-flex">
-                        Bắt đầu / Kết thúc: {{date("m-Y", strtotime($edu->start_date))}} / @if($edu->end_date == null) Hiện tại @else {{date("m-Y", strtotime($edu->end_date))}} @endif
+                        Từ {{date("m-Y", strtotime($edu->start_date))}} đến @if($edu->end_date == null) Hiện tại @else {{date("m-Y", strtotime($edu->end_date))}} @endif
                     </div>
-                    <div>
-                        @if(!empty($edu->major_id))
-                            @foreach($maJor as $mjE)
-                                @if($edu->major_id == $mjE->id)
-                                Chuyên ngành: {{$mjE->name}}
-                                @endif
-                            @endforeach
-                        @endif
-                    </div>
-                    <div>
-                        @if(!empty($edu->type_degree))
-                        Loại bằng: {{$edu->type_degree}}
-                        @endif
-                    </div>
-                    
                     <div>
                         Mô tả: {{$edu->description}}
                     </div>
@@ -137,18 +114,14 @@
                 </div>
             </form>
 
-            <form action="" method="post">
+            <form class="update_edu" action="{{route('updateCv.updateEducation', $edu->id)}}" method="post">
                 @csrf
                 <div id="EditFormEdu{{$edu->id}}" class="mt-3 mb-3 border-dotted-bot form" style="display: none;">
                     @if(!empty($seeker)) <input type="hidden" name="seeker_id" value="{{$seeker->id}}"> @endif
                     <div class="form-group">
                         <label for="">Tên trường *</label>
                         <input type="text" name="school_name" value="{{$edu->school_name}}" class="form-control">
-                        @error('school_name')
-                            <small class="text-danger pl-4">
-                                {{ $message }}
-                            </small>
-                        @enderror
+                        <small class="val_school_name text-danger pl-4"></small>
                     </div>
                     <div class="form-group mt-3">
                         <label for="">Chuyên ngành</label>
@@ -158,56 +131,42 @@
                             <option @if(!empty($seeker)) @if($edu->major_id == $mj->id) selected @endif @endif value="{{$mj->id}}">{{$mj->name}}</option>
                             @endforeach
                         </select>
-                        @error('major_id')
-                            <small class="text-danger pl-4">
-                                {{ $message }}
-                            </small>
-                        @enderror
+                        <small class="val_major_id text-danger pl-4"></small>
                     </div>
                     <div class="form-group mt-3">
                         <label for="">Bắt đầu *</label>
                         <input type="date" value="{{date("Y-m-d", strtotime($edu->start_date))}}" name="start_date" class="form-control">
-                        @error('start_date')
-                            <small class="text-danger pl-4">
-                                {{ $message }}
-                            </small>
-                        @enderror
+                        <small class="val_start_date_edu text-danger pl-4"></small>
                     </div>
                     <div class="form-group mt-3">
                         <label for="">Kết thúc</label>
                         <input type="date" @if(!empty($edu->end_date)) value="{{date("Y-m-d", strtotime($edu->end_date))}}" @endif name="end_date" class="form-control">
+                        <small class="val_end_date_edu text-danger pl-4"></small><br>
                         <small class="text-red"><i>Ghi chú: Nếu không nhập kết thúc sẽ là hiện tại đang học ở đây</i></small>
                     </div>
-                    <div class="form-group">
-                        <label for="">Điểm trung bình</label>
-                        <input type="number" max="10" value="{{$edu->gpa}}" name="gpa" class="form-control">
-                    </div>
+                    
+                    
                     <div class="form-group">
                         <label for="">Loại bằng</label>
-                        <select class="form-select" name="type_degree">
+                        <select class="form-select" name="degree_id">
                             @foreach ($degrees as $degree)
                                 <option 
                                 @if(!empty($edu->degree_id))
-                                @if($edu->degree_id == $degree->id)
-                                selected
-                                @endif
+                                    @if($edu->degree_id == $degree->id)
+                                    selected
+                                    @endif
                                 @endif
                                 value="{{ $degree->id}}">
                                     {{ $degree->name}}
                                 </option>
                             @endforeach
                         </select>
-                        
+                        <small class="val_degree_id text-danger pl-4"></small>
                     </div>
                    <div class="form-group mt-3">
                         <label for="">Mô tả học vấn *</label>
                         <textarea name="description" class="form-control" rows="3">{{$edu->description}}</textarea>
-                        @error('description')
-                            <small class="text-danger pl-4">
-                                {{ $message }}
-                            </small>
-                            <br>
-                        @enderror
+                        <small class="val_description_edu text-danger pl-4"></small>  
                         <small class="text-red"><i>Gợi ý: Mô tả ngành học và kiến thức</i></small>
                    </div>
                     <div class="d-flex mt-3 flex-row-reverse">

@@ -48,8 +48,16 @@ class ProfileController extends Controller
             'start_date.required' => 'Vui lòng nhập ngày bắt đầu!',
             'end_date.required' => 'Vui lòng nhập ngày kết thúc!',
             'end_date.after' => 'Vui lòng nhập ngày kết thúc > ngày bắt đầu',
+            'end_date.before' => 'Vui lòng nhập kết thúc bé hơn ngày hiện tại',
+
+            'start_date.before' => 'Vui lòng nhập bắt đầu bé hơn ngày hiện tại',
             'description.required' => 'Vui lòng nhập mô tả!',
 
+            'school_name.required' => 'Vui lòng nhập tên trường',
+            'major_id.required'=>'Vui lòng chọn chuyên ngành',
+            'degree_id.required' => 'vui lòng chọn bằng cấp',
+
+            'skill.required' => 'Bạn không thể để trống trường dữ liệu này',
 
 
             'image.required' => 'Vui lòng up ảnh!',
@@ -68,7 +76,7 @@ class ProfileController extends Controller
         $maJor = Major::where('status', '1')->get();
         $skills = Skill::all();
         //lấy ra những các status bằng 1 thôi
-        $degrees = Degree::where('status', '1')->get();
+        $degrees = Degree::where('status', '1')->where('id','<>','1')->orderBy('level', 'asc')->get();
         $languages = Language::all();
         
         $seeker = SeekerProfile::where('id', 1)->first();
@@ -76,6 +84,8 @@ class ProfileController extends Controller
             $experiences = Experience::where('seeker_profile_id', $seeker->id)->get();
             $educations = Education::where('seeker_profile_id', $seeker->id)->get();
             $list_skill = SeekerSkill::where('seeker_profile_id', $seeker->id)->get();
+            $count_skill = $list_skill->count();
+            // dd($count_skill);
             $list_language = SeekerLanguage::where('seeker_profile_id', $seeker->id)->get();
             // $certificates= Certificate::where('seeker_id', $seeker->id)->get();
             $projects =  Project::where('seeker_profile_id', $seeker->id)->get();
@@ -86,7 +96,7 @@ class ProfileController extends Controller
         return view('client.profile.add', 
         ['maJor'=>$maJor, 'seeker'=>$seeker, 'skills'=>$skills,'languages'=>$languages,'degrees'=>$degrees ,
          'experiences'=>$experiences,'projects' =>$projects , 'educations'=>$educations, 'skillActive'=>$skillActive,
-          'list_language'=>$list_language ]);
+          'list_language'=>$list_language, 'count_skill'=>$count_skill ]);
     }
 
     //lưu thay đổi thông tin các nhân
@@ -169,8 +179,10 @@ class ProfileController extends Controller
             $rules = [
                 'company_name' => 'required',
                 'work_position' => 'required',
-                'start_date' => 'required',
-                'end_date' => 'required|after:start_date',
+                'start_date' => 'required|before:now',
+                'end_date' => 'required|after:start_date|before:now',
+                // 'start_date' => 'required',
+                // 'end_date' => 'required|after:start_date',
                 'description' => 'required',
             ];
             $messages =  $this->message_val;
@@ -238,8 +250,11 @@ class ProfileController extends Controller
             $rules = [
                 'company_name' => 'required',
                 'work_position' => 'required',
-                'start_date' => 'required',
-                'end_date' => 'required|after:start_date',
+                'start_date' => 'required|before:now',
+                'end_date' => 'required|after:start_date|before:now',
+
+                // 'start_date' => 'required',
+                // 'end_date' => 'required|after:start_date',
                 'description' => 'required',
             ];
             $messages =  $this->message_val;
@@ -361,8 +376,11 @@ class ProfileController extends Controller
         }else {
             $rules = [
                 'name' => 'required',
-                'start_date' => 'required',
-                'end_date' => 'required|after:start_date',
+                'start_date' => 'required|before:now',
+                'end_date' => 'required|after:start_date|before:now',
+
+                // 'start_date' => 'required',
+                // 'end_date' => 'required|after:start_date',
                 'description' => 'required',
             ];
             $messages =  $this->message_val;
@@ -402,8 +420,12 @@ class ProfileController extends Controller
 
             $rules = [
                 'name' => 'required',
-                'start_date' => 'required',
-                'end_date' => 'required|after:start_date',
+                'start_date' => 'required|before:now',
+                'end_date' => 'required|after:start_date|before:now',
+
+
+                // 'start_date' => 'required',
+                // 'end_date' => 'required|after:start_date',
                 'description' => 'required',
             ];
             $messages =  $this->message_val;
@@ -457,6 +479,173 @@ class ProfileController extends Controller
                 'is_check' => false,
                 'error' => 'Xóa thất bại!'
             ]);
+        }
+        
+    }
+    //thêm học vấn (education)
+    public function createEducation(Request $request){
+        $seeker_id = $request->seeker_profile_id;
+        try{
+            $check_max = Education::where('seeker_profile_id', $seeker_id)->count();
+        if($check_max >= 3) {
+            return response()->json([
+                'is_max' => true,
+                'error' => 'Bạn chỉ được phép thêm 3 trường học nổi bật nhất có liên quan đến ngành công nghệ thông tin!'
+            ]);
+        }else {
+            $rules = [
+                'school_name' => 'required',
+                'start_date' => 'required|before:now',
+                'end_date' => 'nullable|after:start_date|before:now',
+                'major_id'=>'required',
+                'degree_id' => 'required',
+                'description' => 'required',
+            ];
+            $messages =  $this->message_val;
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return response()->json(['error'=>$validator->errors()]);
+            }else 
+            {
+                $education=Education::create($request->all());
+                if ($education == null || $education == false) {
+                    return response()->json([
+                        'is_check' => false,
+                        'error' => 'Lỗi'
+                    ]);
+                }
+                elseif ($education == true) {
+                    return response()->json([
+                        'is_check' => true,
+                        'success' => 'Tạo mới thành công!',
+                    ]);
+                } 
+            }
+        }
+        }catch(\Exception $e){
+            return response()->json([
+                'is_check' => false,
+                'error' => 'Lỗi' . $e->getMessage(),
+            ]);
+    
+        }
+    }
+    //cập nhật học vấn
+    public function updateEducation(Request $request,string $id){
+
+        try{
+            $seeker_id = $request->seeker_profile_id;
+
+            $rules = [
+                'school_name' => 'required',
+                'start_date' => 'required|before:now',
+                'end_date' => 'nullable|after:start_date|before:now',
+                
+                'major_id'=>'required',
+                'degree_id' => 'required',
+                //nullable là vẫn cho phép null
+                'description' => 'required',
+            ];
+            $messages =  $this->message_val;
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return response()->json(['error'=>$validator->errors()]);
+            }else 
+            {
+                $ducation = Education::findOrFail($id); 
+                //update dự án  
+                $edu = $ducation->update($request->all());
+                if ($edu == null) {
+                    return response()->json([
+                        'is_check' => false,
+                        'error' => 'Cập nhật thất bại!'
+                    ]);
+                }
+                if ($edu == 1) {
+                    return response()->json([
+                        'is_check' => true,
+                        'success' => 'Cập nhật thành công!',
+                    ]);
+                } else {
+                    return response()->json([
+                        'is_check' => false,
+                        'error' => 'Lỗi tạo mới!'
+                    ]);
+                }
+            }
+            }catch(\Exception $e){
+                return response()->json([
+                    'is_check' => false,
+                    'error' => 'Lỗi' . $e->getMessage(),
+                ]);
+                
+            }
+    }
+    //xóa dự học vấn
+    public function deleteEducation(Request $request, string $id)
+    {
+        try{
+            $edu = Education::find($id);
+            $edu->delete();
+            return response()->json([
+                'is_check' => true,
+                'success' => 'Xóa thành công!',
+            ]);
+        }
+        catch(\Exception $e){
+            return response()->json([
+                'is_check' => false,
+                'error' => 'Xóa thất bại!'
+            ]);
+        }
+        
+    }
+    public function saveSkills(Request $request)
+    {
+        $seeker_profile_id = $request->seeker_profile_id;
+        //lấy ra seeker_profile_hiện tại;
+        $rules = [
+            'skill' => 'required',
+        ];
+        $messages =  $this->message_val;
+        $validator = Validator::make($request->all(), $rules, $messages);
+        if ($validator->fails()) {
+            return response()->json(['error'=>$validator->errors()]);
+        }else{
+            $seeker_profile = SeekerProfile::findOrFail($seeker_profile_id);
+            $skills=$request->skill;
+
+            if($request->count_skill>0){
+                //thực hiện cập nhật
+                $result=$seeker_profile->skills()->sync($skills);
+                if ($result) {
+                    return response()->json([
+                        'is_check' => true,
+                        'success' => 'Cập nhật thành công!'
+                    ]);
+                } else {
+                    return response()->json([
+                        'is_check' => false,
+                        'error' => 'Cập nhật thất bại!'
+                    ]);
+                }
+                
+            }else{
+                //thực hiện tạo mới
+                $result=$seeker_profile->skills()->attach($skills);
+                if ($result) {
+                    return response()->json([
+                        'is_check' => true,
+                        'error' => 'Cập nhật thành công!'
+                    ]);
+                } else {
+                    return response()->json([
+                        'is_check' => false,
+                        'error' => 'Cập nhật thất bại!'
+                    ]);
+                }
+
+            }
         }
         
     }

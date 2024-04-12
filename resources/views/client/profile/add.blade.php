@@ -240,7 +240,7 @@
                                     @include('client.profile.educations')
                                 </div>
 
-                                <div class="educations mb-3 cv-item">
+                                <div class="languages mb-3 cv-item">
                                     @include('client.profile.languages')
                                 </div>
                                 <div class="certificates mb-3 cv-item">
@@ -268,56 +268,7 @@
     @parent
     <script src="{{asset('js/client/create_cv.js')}}"></script>
     <script>
-        $('.removeEdu').click(function (e) {
-            e.preventDefault();
-            var url = $('.delEdu').attr('action');
-            var id = $(this).data('id-edu');
-            var data = {
-                id: id,
-                "_token": $('meta[name="csrf-token"]').attr('content'),
-            }
-            //thư viện sweetalert hiển thị thông báo
-            Swal.fire({
-                icon: 'warning',
-                title: 'Bạn có chắc chắn muốn xóa ?',
-                text: 'Bấm không nếu bạn đổi ý!',
-                showCancelButton: true,
-                showConfirmButton: true,
-                confirmButtonText: 'Xóa',
-                confirmButtonColor: '#C46F01',
-                cancelButtonText: 'Không'
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        url: url,
-                        type: "get",
-                        data: data,
-                        success: function(results) {
-                            if (results.is_check === true) {
-                                Swal.fire({
-                                    title: results.success,
-                                    icon: 'success',
-                                    type: 'success',
-                                    showConfirmButton: false,
-                                    timer: 1500
-                                }, setTimeout(function() {
-                                
-                                }, 500)).then(function() {
-                                    $('.edu_div'+id).remove();
-                                });
-                            } else {
-                                Swal.fire({
-                                    title: results.error,
-                                    type: 'error',
-                                    icon: 'error',
-                                    timer: 1500
-                                });
-                            }
-                        }
-                    });
-                }
-            });
-        });
+        
 
         $('.removeCer').click(function (e) {
             e.preventDefault();

@@ -47,6 +47,14 @@ Route::prefix('update-cv')->group(function () {
     Route::post('/create-project', [ProfileController::class, 'createProject'])->name('updateCv.createProject');
     Route::post('/update-project/{id}', [ProfileController::class, 'updateProject'])->name('updateCv.updateProject');
     Route::get('/delete-project/{id}', [ProfileController::class, 'deleteProject'])->name('updateCv.deleteProject');
+    //học vấn
+    Route::post('/create-education', [ProfileController::class, 'createEducation'])->name('updateCv.createEducation');
+    Route::post('/update-education/{id}', [ProfileController::class, 'updateEducation'])->name('updateCv.updateEducation');
+    Route::get('/delete-education/{id}', [ProfileController::class, 'deleteEducation'])->name('updateCv.deleteEducation');
+    //skill
+    Route::post('/save-skills', [ProfileController::class, 'saveSkills'])->name('updateCv.saveSkills');
+    Route::get('/delete-all-skill/{idsee}', [ProfileController::class, 'DeleteAllSkill'])->name('updateCv.DeleteAllSkill');
+
 });
 
 

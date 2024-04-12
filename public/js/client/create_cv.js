@@ -320,34 +320,165 @@ $(document).ready(function () {
       }
     });
   });
-  $('#formSkill').submit(function (e) {
+
+
+
+  
+  //thêm học vấn
+  $('#create_edu').submit(function (e) {
     e.preventDefault();
-    var url = $('#formSkill').attr('action');
-    var seeker_id = $('input[name=seeker_id]').val();
-    var skill_id = [];
-    $("#skills option:selected").each(function () {
-      skill_id.push($(this).val());
-    });
-    var data = {
-      "_token": $('meta[name="csrf-token"]').attr('content'),
-      "skill_id": skill_id,
-      "seeker_id": seeker_id
-    };
+    var url = $('#create_edu').attr('action');
+    console.log(url);
+    var form = this;
+    var dataForm = new FormData(form);
     $.ajax({
       type: "POST",
       url: url,
-      data: data,
+      data: dataForm,
+      processData: false,
+      contentType: false,
       success: function success(response) {
-        toastr.success(response.success);
+        if (response.is_check === true) {
+          location.reload();
+          toastr.success(response.success);
+        } else if (response.is_max === true) {
+          toastr.error(response.error);
+        } else {
+          // console.log(response.error);
+          printErrorMsgEdu(response.error);
+        }
+      },
+      error: function error(response) {
+        toastr.error("Thêm thất bại");
+      }
+    });
+  });
+  //cập nhật học vấn
+
+  $('.update_edu').submit(function (e) {
+    e.preventDefault();
+    var url =  $(this).attr('action');
+    console.log(url);
+    var form = this;
+    var dataForm = new FormData(form);
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: dataForm,
+      processData: false,
+      contentType: false,
+      success: function success(response) {
+
+        if (response.is_check === true) {
+          // console.log(response);                                  
+          location.reload();
+          toastr.success(response.success);
+        } else {  
+          console.log(response.error);
+          printErrorMsgEdu(response.error);
+        }
       },
       error: function error(response) {
         toastr.error("Cập nhật thất bại");
       }
     });
   });
-
-  
-
+  function printErrorMsgEdu(msg) {
+    $('.val_school_name').text(msg.school_name != undefined ? msg.school_name : '');
+    $('.val_start_date_edu').text(msg.start_date != undefined ? msg.start_date : '');
+    $('.val_end_date_edu').text(msg.end_date != undefined ? msg.end_date : '');
+    $('.val_major_id').text(msg.major_id != undefined ? msg.major_id : '');
+    $('.val_degree_id').text(msg.degree_id != undefined ? msg.degree_id : '');
+    $('.val_description_edu').text(msg.description != undefined ? msg.description : '');
+  }
+  //xóa học vấn
+  $('.delEdu').submit(function (e) {
+    e.preventDefault();
+    var url = $(this).attr('action');
+    console.log(url);
+    var id = $(this).find('.removeEdu').data('id-edu');
+    // console.log(id);
+    var data = {
+      // id: id,
+      // "_token": $('meta[name="csrf-token"]').attr('content')
+    };
+    Swal.fire({
+      icon: 'warning',
+      title: 'Bạn có chắc chắn muốn xóa ?',
+      text: 'Bấm không nếu bạn đổi ý!',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'Xóa',
+      confirmButtonColor: '#C46F01',
+      cancelButtonText: 'Không'
+    }).then(function (result) {
+      //nếu đồng ý mới chạy vào đây
+      if (result.isConfirmed) {
+        $.ajax({
+          url: url,
+          type: "get",
+          data: data,
+          success: function success(results) {
+            if (results.is_check === true) {
+              Swal.fire({
+                title: results.success,
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(function () {
+                setTimeout(function () {
+                    $('.edu_div' + id).remove();
+                }, 500);
+            });
+            } else {
+              Swal.fire({
+                title: results.error,
+                icon: 'error',
+                timer: 1500
+              });
+            }
+          }
+        });
+      }
+    });
+  });
+  //cập nhật kĩ năng (skill)
+  $('#formSkill').submit(function (e) {
+    e.preventDefault();
+    var url = $('#formSkill').attr('action');
+    var seeker_id = $('input[name=seeker_id]').val();
+    var skill_id = [];
+    var form = this;
+    var dataForm = new FormData(form);
+    // $("#skills option:selected").each(function () {
+    //   skill_id.push($(this).val());
+    // });
+    var data = {
+      // "_token": $('meta[name="csrf-token"]').attr('content'),
+      // "skill_id": skill_id,
+      // "seeker_id": seeker_id
+    };
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: dataForm,
+      processData: false,
+      contentType: false,
+      success: function success(response) {
+        if (response.is_check === true) {
+          // console.log(response);                                  
+          // location.reload();
+          toastr.success(response.success);
+        } else {  
+          console.log(response.error);
+          $('.val_skill').text(msg.skill != undefined ? msg.skill : '');
+        }
+      },
+      error: function error(response) {
+        toastr.error("Cập nhật thất bại");
+      }
+    });
+  });
 
   // đóng mở form thêm mới 
   $("#block-p").click(function () {

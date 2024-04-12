@@ -1,7 +1,8 @@
 {{-- @dd($skillActive) --}}
-<form id="formSkill" action="" method="post" enctype="multipart/form-data">
-    @if(!empty($seeker)) <input type="hidden" name="seeker_id" value="{{$seeker->id}}"> @endif
-    @if(!empty($list_skill)) <input type="hidden" name="id" value="{{$seeker->id}}"> @endif
+<form id="formSkill" action="{{route('updateCv.saveSkills')}}" method="post" enctype="multipart/form-data">
+    @if(!empty($seeker)) <input type="hidden" name="seeker_profile_id" value="{{$seeker->id}}"> @endif
+    {{-- kiểm tra xem có skill nào chưa để xác định sử dụng lệnh tạo mới attach hay cập nhật sync --}}
+    <input type="hidden" name="count_skill" value="{{$count_skill}}">
     @csrf
     <div class="form-group">
         <div class="d-flex justify-content-between border-bot">
@@ -32,16 +33,18 @@
         </div>
         <div id="skills" class="mt-3" >
             <div class="form-group col-lg-12 col-md-12">
-                <select data-placeholder="Chọn ... " class="chosen-select" name="skill_id[]" multiple>
+                <select data-placeholder="Chọn ... " class="chosen-select" name="skill[]" multiple>
                     @foreach($skills as $sk)
                         <option 
-                        @if(in_array($sk->id, $skillActive))
-                        selected
-                        @endif
-                        value="{{$sk->id}}">
-                        {{$sk->name}}</option>
+                            @if(in_array($sk->id, $skillActive))
+                            selected
+                            @endif
+                            value="{{$sk->id}}">
+                                {{$sk->name}}
+                        </option>
                     @endforeach
                 </select>
+                <small class="val_skill text-danger pl-4"></small>
             </div>
             <div class="d-flex mt-3 flex-row-reverse">
                 <div class="hide-button-sk btn btn-warning">Hủy</div>
