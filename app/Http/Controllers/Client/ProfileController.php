@@ -56,9 +56,12 @@ class ProfileController extends Controller
             'school_name.required' => 'Vui lòng nhập tên trường',
             'major_id.required'=>'Vui lòng chọn chuyên ngành',
             'degree_id.required' => 'vui lòng chọn bằng cấp',
-
+            //skill
             'skill.required' => 'Bạn không thể để trống trường dữ liệu này',
-
+            //ngoại ngữ
+            'language_id.required' => 'Vui lòng chọn ngôn ngữ',
+            'level.required' => 'Vui lòng chọn cấp độ',
+            'certificate.required' => 'Vui lòng điền chứng chỉ',
 
             'image.required' => 'Vui lòng up ảnh!',
             'image.image' => 'Chọn file ảnh!',
@@ -569,7 +572,7 @@ class ProfileController extends Controller
                 } else {
                     return response()->json([
                         'is_check' => false,
-                        'error' => 'Lỗi tạo mới!'
+                        'error' => 'Lỗi cập nhật!'
                     ]);
                 }
             }
@@ -581,7 +584,7 @@ class ProfileController extends Controller
                 
             }
     }
-    //xóa dự học vấn
+    //xóa học vấn
     public function deleteEducation(Request $request, string $id)
     {
         try{
@@ -618,35 +621,131 @@ class ProfileController extends Controller
             if($request->count_skill>0){
                 //thực hiện cập nhật
                 $result=$seeker_profile->skills()->sync($skills);
-                if ($result) {
+                //hình như $result không trả về giá trị true false, nó sẽ luôn trả về một mảng có 3 phần tử
+                // if ($result) {
                     return response()->json([
                         'is_check' => true,
                         'success' => 'Cập nhật thành công!'
                     ]);
-                } else {
-                    return response()->json([
-                        'is_check' => false,
-                        'error' => 'Cập nhật thất bại!'
-                    ]);
-                }
+                // } else {
+                //     return response()->json([
+                //         'is_check' => false,
+                //         'error' => 'Cập nhật thất bại!'
+                //     ]);
+                // }
                 
             }else{
                 //thực hiện tạo mới
                 $result=$seeker_profile->skills()->attach($skills);
-                if ($result) {
+                //hình như $result không trả về giá trị, nên không thể if được
+                return response()->json([
+                    'is_check' => true,
+                    'success' => 'Cập nhật thành công!'
+                ]);
+                
+
+            }
+        }
+        
+    }
+    public function DeleteAllSkill(string $seeker_profile_id)
+    {   
+        try{
+            $seeker_profile = SeekerProfile::findOrFail($seeker_profile_id);
+            $seeker_profile->skills()->sync([]);
+            Session::flash('success', 'Xóa thành công!');
+            return redirect()->back();
+        }catch(\Exception  $e){
+            Session::flash('erorr', 'Xóa thất bại!');
+            redirect()->back();
+        }
+        
+    }
+    //ngôn ngữ (language)
+    public function createLanguage(Request $request){
+        $seeker_profile_id = $request->seeker_profile_id;
+        try{
+            $rules = [
+                'language_id' => 'required',
+                'level' => 'required',
+                'certificate' => 'required',
+                
+            ];
+            $messages =  $this->message_val;
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return response()->json(['error'=>$validator->errors()]);
+            }else 
+            {
+                $seeker_profile = SeekerProfile::findOrFail($seeker_profile_id);
+                $seeker_language=SeekerLanguage::create($request->all());
+                if ($seeker_language == null || $seeker_language == false) {
+                    return response()->json([
+                        'is_check' => false,
+                        'error' => 'Lỗi'
+                    ]);
+                }
+                elseif ($seeker_language == true) {
                     return response()->json([
                         'is_check' => true,
-                        'error' => 'Cập nhật thành công!'
+                        'success' => 'Tạo mới thành công!',
                     ]);
-                } else {
+                } 
+                
+            }
+        }catch(\Exception $e){
+            return response()->json([
+                'is_check' => false,
+                'error' => 'Lỗi' . $e->getMessage(),
+            ]);
+        }
+    }
+    //sửa ngôn ngữ
+    public function updateLanguage(Request $request,string $id){
+        // dd($id);
+        // dd($request->all());
+        try{
+            $seeker_id = $request->seeker_profile_id;
+
+            $rules = [
+                'language_id' => 'required',
+                'level' => 'required',
+                'certificate' => 'required',
+            ];
+            $messages =  $this->message_val;
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return response()->json(['error'=>$validator->errors()]);
+            }else 
+            {
+                //lấy ra bản ghi cần sửa
+                $seeker_language = Seekerlanguage::findOrFail($id); 
+                //update language
+                $seeker_language = $seeker_language->update($request->all());
+                if ($seeker_language == null) {
                     return response()->json([
                         'is_check' => false,
                         'error' => 'Cập nhật thất bại!'
                     ]);
                 }
-
+                if ($seeker_language == 1) {
+                    return response()->json([
+                        'is_check' => true,
+                        'success' => 'Cập nhật thành công!',
+                    ]);
+                } else {
+                    return response()->json([
+                        'is_check' => false,
+                        'error' => 'Lỗi cập nhật!'
+                    ]);
+                }
             }
-        }
-        
+            }catch(\Exception $e){
+                return response()->json([
+                    'is_check' => false,
+                    'error' => 'Lỗi' . $e->getMessage(),
+                ]);
+                
+            }
     }
 }

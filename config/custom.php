@@ -25,7 +25,7 @@ return [
         'active' => '1',
     ],
     'language_level'=> [
-        ['id'=>'0','name'=>'N/A'],
+        // ['id'=>'0','name'=>'N/A'],
         ['id'=>'1','name'=>'Sơ cấp'],
         ['id'=>'2','name'=>'Trung cấp'],
         ['id'=>'3','name'=>'Cao cấp'],

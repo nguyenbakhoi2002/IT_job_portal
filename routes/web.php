@@ -53,8 +53,11 @@ Route::prefix('update-cv')->group(function () {
     Route::get('/delete-education/{id}', [ProfileController::class, 'deleteEducation'])->name('updateCv.deleteEducation');
     //skill
     Route::post('/save-skills', [ProfileController::class, 'saveSkills'])->name('updateCv.saveSkills');
-    Route::get('/delete-all-skill/{idsee}', [ProfileController::class, 'DeleteAllSkill'])->name('updateCv.DeleteAllSkill');
-
+    Route::get('/delete-all-skill/{seeker_profile_id}', [ProfileController::class, 'DeleteAllSkill'])->name('updateCv.DeleteAllSkill');
+    //ngoại ngữ (language)
+    Route::post('/create-language', [ProfileController::class, 'createLanguage'])->name('updateCv.createLanguage');
+    Route::post('/update-language/{id}', [ProfileController::class, 'updateLanguage'])->name('updateCv.updateLanguage');
+    Route::get('/delete-language/{id}', [ProfileController::class, 'deleteLanguage'])->name('updateCv.deleteLanguage');
 });
 
 

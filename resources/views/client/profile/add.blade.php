@@ -252,7 +252,7 @@
                             </div>
                             @if(!empty($seeker))
                             <div class="mt-5 text-center">
-                                <a href="" class="btn btn-primary">Tạo file CV</a>
+                                <a href="" class="btn btn-primary">Xem CV</a>
                                 
                             </div>
                             @endif

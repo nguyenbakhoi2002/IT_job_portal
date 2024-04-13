@@ -466,12 +466,12 @@ $(document).ready(function () {
       contentType: false,
       success: function success(response) {
         if (response.is_check === true) {
-          // console.log(response);                                  
           // location.reload();
           toastr.success(response.success);
+          $('.val_skill').hide();
         } else {  
-          console.log(response.error);
-          $('.val_skill').text(msg.skill != undefined ? msg.skill : '');
+          // console.log(response.error);
+          $('.val_skill').text(response.error.skill != undefined ? response.error.skill : '');
         }
       },
       error: function error(response) {
@@ -479,6 +479,71 @@ $(document).ready(function () {
       }
     });
   });
+  //cập nhật ngôn ngữ
+  //thêm ngôn ngữ
+  $('#create_lg').submit(function (e) {
+    e.preventDefault();
+    var url = $('#create_lg').attr('action');
+    console.log(url);
+    var form = this;
+    var dataForm = new FormData(form);
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: dataForm,
+      processData: false,
+      contentType: false,
+      success: function success(response) {
+        if (response.is_check === true) {
+          location.reload();
+          toastr.success(response.success);
+        } else if (response.is_max === true) {
+          toastr.error(response.error);
+        } else {
+          console.log(response.error);
+          printErrorMsgLg(response.error);
+        }
+      },
+      error: function error(response) {
+        toastr.error("Thêm thất bại");
+      }
+    });
+  });
+  //sửa ngôn ngữ
+  $('.update_lg').submit(function (e) {
+    e.preventDefault();
+    var url =  $(this).attr('action');
+    console.log(url);
+    var form = this;
+    var dataForm = new FormData(form);
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: dataForm,
+      processData: false,
+      contentType: false,
+      success: function success(response) {
+
+        if (response.is_check === true) {
+          // console.log(response);                                  
+          location.reload();
+          toastr.success(response.success);
+        } else {  
+          console.log(response.error);
+          printErrorMsgLg(response.error);
+        }
+      },
+      error: function error(response) {
+        toastr.error("Cập nhật thất bại");
+      }
+    });
+  });
+  function printErrorMsgLg(msg) {
+    $('.val_language_id').text(msg.language_id != undefined ? msg.language_id : '');
+    $('.val_language_level').text(msg.level != undefined ? msg.level : '');
+    $('.val_language_cer').text(msg.certificate != undefined ? msg.certificate : '');
+    
+  }
 
   // đóng mở form thêm mới 
   $("#block-p").click(function () {

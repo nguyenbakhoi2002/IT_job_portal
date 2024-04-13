@@ -1,7 +1,7 @@
 {{-- @dd($skillActive) --}}
-<form id="formLanguage" action="" method="post" enctype="multipart/form-data">
-    @if(!empty($seeker)) <input type="hidden" name="seeker_id" value="{{$seeker->id}}"> @endif
-    @if(!empty($list_language)) <input type="hidden" name="id" value="{{$seeker->id}}"> @endif
+<form id="create_lg" action="{{route('updateCv.createLanguage')}}" method="post" enctype="multipart/form-data">
+    @if(!empty($seeker)) <input type="hidden" name="seeker_profile_id" value="{{$seeker->id}}"> @endif
+    {{-- @if(!empty($list_language)) <input type="hidden" name="id" value="{{$seeker->id}}"> @endif --}}
     @csrf
     <div class="form-group">
         <div class="d-flex justify-content-between border-bot">
@@ -40,24 +40,17 @@
                         <option value="{{$language->id}}">{{$language->name}}</option>
                     @endforeach
                 </select>
-                @error('language_id')
-                    <small class="text-danger pl-4">
-                        {{ $message }}
-                    </small>
-                @enderror
+                <small class="val_language_id text-danger pl-4"></small>
             </div>
             <div class="form-group mt-3">
                 <label>Trình độ ngoại ngữ </label>
-                <select class="chosen-select" name="language_level">
+                <select class="form-select" name="level">
+                    <option value="">-- Chọn</option>
                     @foreach (config('custom.language_level') as $value)
                         <option value="{{ $value['id']}}" {{ old('language_level') == $value['id'] ? 'selected' : '' }}>{{ $value['name']}}</option>
                     @endforeach
                 </select>
-                @error('language_level')
-                    <small class="text-danger pl-4">
-                        {{ $message }}
-                    </small>
-                @enderror
+                <small class="val_language_level text-danger pl-4"></small>
             </div>
             
             
@@ -65,12 +58,7 @@
            <div class="form-group mt-3">
                 <label for="certificate">Chứng chỉ (nếu không có ghi "không có") *</label>
                 <input name="certificate" class="form-control" rows="3"></input>
-                @error('certificate')
-                    <small class="text-danger pl-4">
-                        {{ $message }}
-                    </small>
-                    <br>
-                @enderror
+                <small class="val_language_cer text-danger pl-4"></small><br>
                 <small class="text-red"><i>Gợi ý: chứng chỉ ngoại ngữ của bạn VD:tiếng anh của bạn(ielts, toeic hay A0, A1, ...)</i></small>
            </div>
             <div class="d-flex mt-3 flex-row-reverse">
@@ -109,45 +97,42 @@
                 </div>
             </form>
 
-            <form action="" method="post">
+            <form class="update_lg" action="{{route('updateCv.updateLanguage', $language->id)}}" method="post">
                 @csrf
                 <div id="EditFormLg{{$language->id}}" class="mt-3 mb-3 border-dotted-bot form" style="display: none;">
-                    @if(!empty($seeker)) <input type="hidden" name="seeker_id" value="{{$seeker->id}}"> @endif
+                    @if(!empty($seeker)) <input type="hidden" name="seeker_profile_id" value="{{$seeker->id}}"> @endif
                     <div class="form-group">
                         <label for="">Ngôn ngữ: *</label>
-                        <input type="text" name="name" value="{{$language->language->name}}" class="form-control">
-                        @error('school_name')
-                            <small class="text-danger pl-4">
-                                {{ $message }}
-                            </small>
-                        @enderror
-                    </div>
-                    <div class="form-group mt-3">
-                        <label>Trình độ ngoại ngữ </label>
-                        <select class="chosen-select" name="language_level">
-                            @foreach (config('custom.language_level') as $value)
+                        <select class="chosen-select" name="language_id">
+                            @foreach ($languages as $value)
                                 <option value="{{ $value['id']}}" 
-                                {{ old('language_level') ? (old('language_level') == $value['id'] ? 'selected' : '') : ($language->level == $value['id'] ? 'selected' : '') }}
+                                {{ old('language_id') ? (old('language_id') == $value['id'] ? 'selected' : '') : ($language->language->id == $value['id'] ? 'selected' : '') }}
                                 {{-- {{ old('language_level') == $value['id'] ? 'selected' : '' }} --}}
                                 >{{ $value['name']}}</option>
                             @endforeach
                         </select>
-                        @error('language_level')
-                            <small class="text-danger pl-4">
-                                {{ $message }}
-                            </small>
-                        @enderror
+                        <small class="val_language_id text-danger pl-4"></small>
+
+                    </div>
+                    <div class="form-group mt-3">
+                        <label>Trình độ ngoại ngữ </label>
+                        <select class="chosen-select" name="level">
+                            @foreach (config('custom.language_level') as $value)
+                                <option value="{{ $value['id']}}" 
+                                {{ old('level') ? (old('level') == $value['id'] ? 'selected' : '') : ($language->level == $value['id'] ? 'selected' : '') }}
+                                {{-- {{ old('language_level') == $value['id'] ? 'selected' : '' }} --}}
+                                >{{ $value['name']}}</option>
+                            @endforeach
+                        </select>
+                        <small class="val_language_level text-danger pl-4"></small>
+
                     </div>
                     
                    <div class="form-group mt-3">
                         <label for="">Chứng chỉ *</label>
-                        <input type="text" name="description" class="form-control" rows="3">{{$language->certificate}}</input>
-                        @error('description')
-                            <small class="text-danger pl-4">
-                                {{ $message }}
-                            </small>
-                            <br>
-                        @enderror
+                        <input type="text" name="certificate" class="form-control" rows="3" value="{{$language->certificate}}">
+                        <small class="val_language_cer text-danger pl-4"></small><br>
+
                         <small class="text-red"><i>Gợi ý: chứng chỉ ngoại ngữ</i></small>
                    </div>
                     <div class="d-flex mt-3 flex-row-reverse">
