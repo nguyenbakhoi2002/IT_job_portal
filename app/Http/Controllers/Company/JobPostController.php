@@ -164,4 +164,11 @@ class JobPostController extends Controller
     {
         //
     }
+    public function profileApply(string $id){
+        $jobPost = JobPost::find($id);
+        $list_seekerProfile = $jobPost->seekerProfile()->paginate(10);
+        $name= $jobPost->title;
+        $title = "Danh sách ứng tuyển - $name";
+        return view('company.post.profileApply', ['title' => $title, 'list_seekerProfile'=>$list_seekerProfile]);
+    }
 }

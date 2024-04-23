@@ -38,12 +38,17 @@
                 </ul>
                 <div class="btn-box">
                 @if (auth('candidate')->check())
-                    @if (!empty($idJobApplied[$data_job->id]) )
-                      @if($idJobApplied[$data_job->id]->job_post_id == $data_job->id )
+                    @if ($check_applied>0)
+                      
                       <button class="theme-btn btn-style-one" >Đã ứng tuyển</button>
-                      @endif
+                      
                     @else
-                      <a  @if(!empty($seeker->id)) href="{{route('applied', ['id' => $data_job->id])}}" @else href="{{route('CreateCV')}}" @endif class="theme-btn btn-style-one">Ứng tuyển ngay</a>
+                      @if ($check_profile==0)
+                        {{-- nếu không có profile thì cho đi tạo profile --}}
+                        <a  href="{{route('profile')}}"  class="theme-btn btn-style-one">Ứng tuyển ngay</a>
+                      @else
+                        <a  href="{{route('applied',$data_job->id)}}"  class="theme-btn btn-style-one">Ứng tuyển ngay</a>
+                      @endif
                     @endif
                 @else
                   <a class="theme-btn btn-style-one" href="{{route('login')}}">Ứng tuyển ngay</a>
@@ -55,7 +60,7 @@
                       <a href="{{route('delete_shortlisted', ['id' => $idJobShort[$data_job->id]->id])}}" class="bookmark-btn" style="background-color: #f7941d;"><span class="flaticon-bookmark" style="color: white"></span></a>
                     @endif
                   @else
-                    <a href="{{route('shortlisted', ['id' => $data_job->id])}}"><button class="bookmark-btn"  ><span class="flaticon-bookmark" ></span></button></a>
+                    <a href=""><button class="bookmark-btn"  ><span class="flaticon-bookmark" ></span></button></a>
                   @endif
                 @else
                     <a class="bookmark-btn" href="{{route('login')}}"><span class="flaticon-bookmark"></span></a>
@@ -139,7 +144,7 @@
                                   <a href="{{route('delete_shortlisted', ['id' => $idJobShort[$item->id]->id])}}" class="bookmark-btn" style="background-color: #f7941d;"><span class="flaticon-bookmark" style="color: white"></span></a>
                                 @endif
                               @else
-                                <a href="{{route('shortlisted', ['id' => $item->id])}}"><button class="bookmark-btn"  ><span class="flaticon-bookmark" ></span></button></a>
+                                <a href=""><button class="bookmark-btn"  ><span class="flaticon-bookmark" ></span></button></a>
                               @endif
                             @else
                               <a href="{{route('login')}}" class="bookmark-btn"><span class="flaticon-bookmark"></span></a>

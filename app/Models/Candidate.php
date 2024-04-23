@@ -18,4 +18,7 @@ class Candidate extends Authenticatable
     protected $table = 'candidate';
     protected $fillable = ['id', 'name', 'email', 'password','phone','user_image',
       'created_at', 'updated_at'];
+      public function seekerProfile(){
+        return $this->hasMany(SeekerProfile::class, 'candidate_id');
+     }
 }

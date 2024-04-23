@@ -544,7 +544,57 @@ $(document).ready(function () {
     $('.val_language_cer').text(msg.certificate != undefined ? msg.certificate : '');
     
   }
-
+  //xóa ngôn ngữ
+  $('.delLg').submit(function (e) {
+    e.preventDefault();
+    var url = $(this).attr('action');
+    console.log(url);
+    var id = $(this).find('.removeLg').data('id-lg');
+    // console.log(id);
+    var data = {
+      // id: id,
+      // "_token": $('meta[name="csrf-token"]').attr('content')
+    };
+    Swal.fire({
+      icon: 'warning',
+      title: 'Bạn có chắc chắn muốn xóa ?',
+      text: 'Bấm không nếu bạn đổi ý!',
+      showCancelButton: true,
+      showConfirmButton: true,
+      confirmButtonText: 'Xóa',
+      confirmButtonColor: '#C46F01',
+      cancelButtonText: 'Không'
+    }).then(function (result) {
+      //nếu đồng ý mới chạy vào đây
+      if (result.isConfirmed) {
+        $.ajax({
+          url: url,
+          type: "get",
+          data: data,
+          success: function success(results) {
+            if (results.is_check === true) {
+              Swal.fire({
+                title: results.success,
+                icon: 'success',
+                showConfirmButton: false,
+                timer: 1500
+              }).then(function () {
+                setTimeout(function () {
+                    $('.lg_div' + id).remove();
+                }, 500);
+            });
+            } else {
+              Swal.fire({
+                title: results.error,
+                icon: 'error',
+                timer: 1500
+              });
+            }
+          }
+        });
+      }
+    });
+  });
   // đóng mở form thêm mới 
   $("#block-p").click(function () {
     $("#desc").toggle(300);

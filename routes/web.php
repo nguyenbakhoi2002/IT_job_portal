@@ -7,6 +7,7 @@ use App\Http\Controllers\Client\ClientController;
 use App\Http\Controllers\Client\CompanyController;
 use App\Http\Controllers\Client\JobPostController;
 use App\Http\Controllers\Client\ProfileController;
+use App\Http\Controllers\Client\JobPostActivitiesController;
 use App\Http\Controllers\Company\LoginController;
 
 
@@ -59,6 +60,9 @@ Route::prefix('update-cv')->group(function () {
     Route::post('/update-language/{id}', [ProfileController::class, 'updateLanguage'])->name('updateCv.updateLanguage');
     Route::get('/delete-language/{id}', [ProfileController::class, 'deleteLanguage'])->name('updateCv.deleteLanguage');
 });
+
+//ứng tuyển
+Route::get('/applied/{id}', [JobPostActivitiesController::class, 'applied'])->name('applied');
 
 
 

@@ -9,6 +9,7 @@ use App\Models\Major;
 use App\Models\Skill;
 use App\Models\TimeExperience;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 //
 // use App\Helpers\CommonHelper;
 
@@ -36,13 +37,36 @@ class JobPostController extends Controller
         ]);
     }
     public function detail(JobPost $job){
+        //check xem đã ứng tuyển chưa;
+        $check_applied = 0;
+        //check xem đã tạo profile không;
+        $check_profile = 0; 
         $job = $job;
         $dataProvinces = getProvinceByJSON();
         $current_date = Carbon::now();
+        if(auth('candidate')->user()){
+            //lấy ra id của tài khoản đang đăng nhập
+            $client = auth('candidate')->user();
+            //lấy ra mảng các prolife của tài khoản hiện tại
+            $client_profile = $client->seekerProfile()->pluck('id')->toArray();
+            //lấy ra mảng các profile ứng tuyển
+            $job_profile=$job->seekerProfile()->pluck('seeker_profile_id')->toArray();
+            //kiểm tra xem có profile nào của ứng viên hiện tại ứng tuyển ko
+            //nếu trả về 1 mảng lớn hơn 1 phần tử chứng tỏ đang apply
+            $check_applied = count(array_intersect($client_profile, $job_profile));
+            //lấy ra profile chính
+            $check_profile = count($client->seekerProfile()->where('is_clone', 0)->get());
+            
+        // dd(count($check_applied));
 
+        }
+        
+        // dd(count($check_applied));
         // dd($dataProvinces);
         $data_job_relate = JobPost::where('major_id', $job->major_id)->where('id', '!=', $job->id)->take(10)->get();
         return view('client/post/job-detail', 
-        ['data_job' => $job, 'data_job_relate'=>$data_job_relate, 'dataProvinces'=>$dataProvinces, 'current_date'=>$current_date]);
+        ['data_job' => $job, 'data_job_relate'=>$data_job_relate, 'dataProvinces'=>$dataProvinces, 'current_date'=>$current_date,
+            'check_applied' => $check_applied, 'check_profile' => $check_profile
+        ]);
     }
 }

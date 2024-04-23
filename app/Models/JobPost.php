@@ -25,7 +25,7 @@ class JobPost extends Model
 
     //thông tin ứng viên
     public function seekerProfile(){
-        return $this->belongsToMany(SeekerProfile::class, 'job_post_activity', 'job_post_id', 'seeker_profile_id');
+        return $this->belongsToMany(SeekerProfile::class, 'job_post_activity', 'job_post_id', 'seeker_profile_id')->withPivot('seen');
     }
     //lấy ra thông tin ứng viên đáp ứng được yêu cầu của bài đăng
     public function seekerProfileRequest($degreeLevel, $experienceYears, $jobPostSkills){
@@ -53,6 +53,10 @@ class JobPost extends Model
     //thông tin kĩ năng có trong bài đăng
     public function skills(){
         return $this->belongsToMany(Skill::class, 'job_post_skill', 'job_post_id', 'skill_id');
+    }
+    //thong tin ngoại ngữ
+    public function languages(){
+        return $this->belongsToMany(Language::class, 'job_post_language', 'job_post_id', 'language_id');
     }
     //lấy ra bằng cấp và kinh nghiệm yêu cầu
     public function degree(){

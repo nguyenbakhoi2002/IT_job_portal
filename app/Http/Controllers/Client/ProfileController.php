@@ -748,4 +748,23 @@ class ProfileController extends Controller
                 
             }
     }
+    //xóa ngôn ngữ
+    public function deleteLanguage(Request $request, string $id)
+    {
+        try{
+            $seeker_language = Seekerlanguage::find($id);
+            $seeker_language->delete();
+            return response()->json([
+                'is_check' => true,
+                'success' => 'Xóa thành công!',
+            ]);
+        }
+        catch(\Exception $e){
+            return response()->json([
+                'is_check' => false,
+                'error' => 'Xóa thất bại!'
+            ]);
+        }
+        
+    }
 }

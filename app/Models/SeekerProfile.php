@@ -18,8 +18,14 @@ class SeekerProfile extends Model
     public function experiences(){
         return $this->hasMany(Experience::class, 'seeker_profile_id');
     }
+    public function projects(){
+        return $this->hasMany(Project::class, 'seeker_profile_id');
+    }
     public function skills(){
         return $this->belongsToMany(Skill::class, 'seeker_skill', 'seeker_profile_id', 'skill_id');
+    }
+    public function languages(){
+        return $this->belongsToMany(Language::class, 'seeker_language', 'seeker_profile_id', 'language_id');
     }
     public function candidate(){
         return $this->belongsTo(Candidate::class, 'candidate_id');

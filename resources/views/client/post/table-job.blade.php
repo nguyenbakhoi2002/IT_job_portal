@@ -17,7 +17,7 @@
                                     <li>{{number_format($item->min_salary, 0, ',', '.')}} - {{number_format($item->max_salary, 0, ',', '.')}} VNĐ</li>
                                     <li>còn {{$current_date->diff($item->end_date)->days}} ngày</li>
                                     @if (auth('candidate')->check())
-                                        <a style="top: 0px" href="{{ route('shortlisted', ['id' => $item->id]) }}"><button
+                                        <a style="top: 0px" href=""><button
                                                 class="bookmark-btn"><span
                                                     class="flaticon-bookmark"></span></button></a>
                                     @else

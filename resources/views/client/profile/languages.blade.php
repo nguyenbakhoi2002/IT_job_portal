@@ -73,7 +73,7 @@
     <div class="list-educations mt-3">
         @foreach($list_language as $language)
         <div class="lg_div{{$language->id}}">
-            <form id="form-border-lg{{$language->id}}" class="delLg d-flex mt-3 border-dotted-bot" action="" method="get">
+            <form id="form-border-lg{{$language->id}}" class="delLg d-flex mt-3 border-dotted-bot" action="{{route('updateCv.deleteLanguage',$language->id)}}" method="get">
                 <div style="width: 90%;" class="mb-3" id="EditHideLg{{$language->id}}">
                     <div class="h5">
                         Ngôn ngữ: <span>{{$language->language->name}}</span>
@@ -91,7 +91,7 @@
                     </div>
                 </div>
                 <div id="btnFormLg{{$language->id}}" style="width: 10%;">
-                    <button data-id-edu="{{$language->id}}" class="removeEdu" type="submit" style="float: right;"><i class="fa fa-trash" aria-hidden="true"></i></button>
+                    <button data-id-lg="{{$language->id}}" class="removeLg" type="submit" style="float: right;"><i class="fa fa-trash" aria-hidden="true"></i></button>
                     <div onclick="EditFormLanguageId({{$language->id}})" style="float: right;margin-right: 5px; cursor: pointer;"><i class="fas fa-edit"></i></div>
                     <div style="clear: both;"></div>
                 </div>

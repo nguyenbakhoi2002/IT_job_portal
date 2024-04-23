@@ -15,8 +15,8 @@
             <tr>
                 <td>
                     <h6>{{ $item->title }}</h6>
-                    <span><button class="btn bg-light btn-sm btn_profileApplied"
-                            href="{{ url("company/post/profileApply/$item->id") }}"> Xem CV</button></span>
+                    <span><a class="btn bg-light btn-sm "
+                            href="{{ route('company.profileApply', $item->id) }}"> Xem CV</a></span>
                 </td>
                 <td>Lượt ứng tuyển:
                     {{$item->seekerProfileRequest($item->degree->level, $item->experience->level, $item->skills->pluck('id')->toArray())->count()}} 
@@ -47,4 +47,4 @@
 </table>
 <div>
     {{ $list_jobs->appends(request()->all())->links() }}
-  </div>
+</div>
