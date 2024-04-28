@@ -36,8 +36,9 @@ Route::prefix('company')->group(function () {
 
 });
 //profile
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
-Route::prefix('update-cv')->group(function () {
+Route::post('/create-cv', [ProfileController::class, 'createProfile'])->name('createProfile')->middleware('auth.candidate');
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('auth.candidate');
+Route::prefix('update-cv')->middleware('auth.candidate')->group(function () {
     //thông tin cơ bản
     Route::post('/update-info', [ProfileController::class, 'updateInfo'])->name('updateCv.updateInfo');
     //kinh nghiệm làm việc
@@ -62,7 +63,10 @@ Route::prefix('update-cv')->group(function () {
 });
 
 //ứng tuyển
-Route::get('/applied/{id}', [JobPostActivitiesController::class, 'applied'])->name('applied');
+Route::get('/applied/{id}', [JobPostActivitiesController::class, 'applied'])->name('applied')->middleware('auth.candidate');
+//hủy ứng tuyển
+Route::get('/cancel-applied/{id}', [JobPostActivitiesController::class, 'cancelApplication'])->name('cancelApplied')->middleware('auth.candidate');
+
 
 
 

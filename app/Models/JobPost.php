@@ -22,10 +22,17 @@ class JobPost extends Model
         //             ->groupBy('job_post_id');
         return $this->hasMany(JobPostActivity::class, 'job_post_id');
     }    
-
+    //hạn chế sử dụng DB:raw(các loại truy vấn thô, vì dễ bị tấn công sql)
+    public function applied()
+    {
+        return $this->belongsToMany(SeekerProfile::class, 'job_post_activity', 'job_post_id', 'seeker_profile_id')->withPivot('seen', 'satisfy')
+                    ->select('seeker_profile.*', DB::raw('IF(job_post_activity.satisfy IS NULL OR job_post_activity.satisfy = "", 0, 
+                    LENGTH(job_post_activity.satisfy) - LENGTH(REPLACE(job_post_activity.satisfy, "|", ""))+ 1)  AS satisfy_count'))
+                    ->orderByDesc('satisfy_count');
+    }
     //thông tin ứng viên
     public function seekerProfile(){
-        return $this->belongsToMany(SeekerProfile::class, 'job_post_activity', 'job_post_id', 'seeker_profile_id')->withPivot('seen');
+        return $this->belongsToMany(SeekerProfile::class, 'job_post_activity', 'job_post_id', 'seeker_profile_id')->withPivot('seen', 'satisfy');
     }
     //lấy ra thông tin ứng viên đáp ứng được yêu cầu của bài đăng
     public function seekerProfileRequest($degreeLevel, $experienceYears, $jobPostSkills){

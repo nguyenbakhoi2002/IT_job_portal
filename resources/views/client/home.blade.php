@@ -142,7 +142,7 @@
                         phép người lao động tạo CV, phát triển được các kỹ năng cá nhân, xây dựng hình ảnh chuyên nghiệp
                         trong mắt nhà tuyển dụng và tiếp cận với các cơ hội việc làm phù hợp.</div>
                 </div>
-                <div class="job-carousel owl-carousel owl-theme default-dots category-block col-lg-4 col-md-6 col-sm-12">
+                <div class="job-carousel owl-carousel owl-theme default-dots category-block col-lg-12 col-md-12 col-sm-12">
                     <div class="inner-box">
                         <div class="content">
                             <span class="icon fas fa-user"></span>
@@ -342,6 +342,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/typeahead.js/0.11.1/typeahead.bundle.min.js"></script>
+
 <!-- <script>
 $(document).ready(function($) {
     var engine1 = new Bloodhound({

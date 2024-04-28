@@ -11,6 +11,8 @@ use App\Models\Major;
 use App\Models\Skill;
 use App\Models\TimeExperience;
 use App\Models\Degree;
+use App\Models\JobPostActivity;
+use DB;
 
 //request
 use App\Http\Requests\Company\JobPostRequest;
@@ -166,7 +168,9 @@ class JobPostController extends Controller
     }
     public function profileApply(string $id){
         $jobPost = JobPost::find($id);
-        $list_seekerProfile = $jobPost->seekerProfile()->paginate(10);
+        // $list_seekerProfile = $jobPost->seekerProfile()->paginate(10);
+        $list_seekerProfile = $jobPost->applied()->paginate(10);
+        // dd($list_seekerProfile);
         $name= $jobPost->title;
         $title = "Danh sách ứng tuyển - $name";
         return view('company.post.profileApply', ['title' => $title, 'list_seekerProfile'=>$list_seekerProfile]);

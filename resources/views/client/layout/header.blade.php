@@ -32,7 +32,16 @@
                         </ul> --}}
                     </li>
                     <li class="dropdown">
-                        <a href="{{route('profile')}}">Tạo CV</a>
+                        @if (auth('candidate')->check())
+                            @if (count(auth('candidate')->user()->seekerProfile()->where('is_clone', 0)->get())>0)
+                                <a href="{{route('profile')}}" >Quản lý CV</a>
+                            @else
+                                <a href="#" id="quanlycv">Quản lý CV</a>
+                            @endif
+                        @else
+                            <a href="{{route('login')}}">Quản lý CV</a>
+                        @endif
+                        
                     </li>
                     <li class="dropdown">
                         <a href="{{route('company-list')}}">Công ty</a>

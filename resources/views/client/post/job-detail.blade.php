@@ -40,7 +40,7 @@
                 @if (auth('candidate')->check())
                     @if ($check_applied>0)
                       
-                      <button class="theme-btn btn-style-one" >Đã ứng tuyển</button>
+                      <a  href="{{route('cancelApplied', $data_job->id)}}" class="theme-btn btn-style-one" >Đã ứng tuyển</a>
                       
                     @else
                       @if ($check_profile==0)

@@ -1,4 +1,33 @@
 @extends('company.layout.app')
+@section('style')
+    @parent
+    <style>
+        /* để hiện thị tooltip khi hover vào các tiêu chí thỏa mãn trong applied */
+        [data-tooltip] {
+            position: relative;
+            cursor: pointer;
+        }
+
+        [data-tooltip]::before {
+            content: attr(title);
+            position: absolute;
+            top:-100px;
+            left: -100px;
+            background-color: #333;
+            color: #fff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            white-space: pre-line; /* Hiển thị nội dung trên nhiều dòng */
+            display: none;
+            transition: opacity 0.3s ease;
+            z-index: 999;
+        }
+
+        [data-tooltip]:hover::before {
+            display: block;
+        }
+    </style>
+@endsection
 @section('content')
     <div class="row">
         <div class="col-lg-12">
@@ -55,4 +84,19 @@
             return false;
         })})
   </script>
+  {{-- hiển thị tooltip --}}
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.9.3/umd/popper.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tooltip.js/1.3.0/umd/tooltip.min.js"></script>
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-tooltip-title]'));
+          var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+              return new Tooltip(tooltipTriggerEl, {
+                  title: tooltipTriggerEl.getAttribute('data-tooltip-title'),
+                  html: true
+              });
+          });
+      });
+  </script>
+  {{-- end tooltip --}}
 @endsection

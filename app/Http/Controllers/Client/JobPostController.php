@@ -53,6 +53,7 @@ class JobPostController extends Controller
             $job_profile=$job->seekerProfile()->pluck('seeker_profile_id')->toArray();
             //kiểm tra xem có profile nào của ứng viên hiện tại ứng tuyển ko
             //nếu trả về 1 mảng lớn hơn 1 phần tử chứng tỏ đang apply
+            //array_intersect trả về mảng chứa các phần tử chung
             $check_applied = count(array_intersect($client_profile, $job_profile));
             //lấy ra profile chính
             $check_profile = count($client->seekerProfile()->where('is_clone', 0)->get());

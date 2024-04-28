@@ -21,6 +21,7 @@ use App\Http\Requests\Client\Profile\InfoRequest;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 
 
@@ -81,12 +82,23 @@ class ProfileController extends Controller
         //lấy ra những các status bằng 1 thôi
         $degrees = Degree::where('status', '1')->where('id','<>','1')->orderBy('level', 'asc')->get();
         $languages = Language::all();
-        
-        $seeker = SeekerProfile::where('id', 1)->first();
-        if (!empty($seeker)) {
+        //lấy ra id của người đang đăng nhập
+        $candidate_id  = auth('candidate')->user()->id;
+        $seeker = SeekerProfile::where('candidate_id', $candidate_id)->where('is_clone', 0)->first();
+        // if(empty($seeker)){
+        //     return response()->json(['hasSeekerProfile' => false]);
+        // }
+        $experiences=[];
+        $projects=[];
+        $educations=[];
+        $skillActive=[];
+        $list_language=[];
+        $count_skill=0;
+        if(!empty($seeker)){
             $experiences = Experience::where('seeker_profile_id', $seeker->id)->get();
             $educations = Education::where('seeker_profile_id', $seeker->id)->get();
             $list_skill = SeekerSkill::where('seeker_profile_id', $seeker->id)->get();
+            //nếu đã có skill thì thực hiện cập nhật, còn chưa thì thực hiện tạo mới, logic được viết trong hàm saveSkills
             $count_skill = $list_skill->count();
             // dd($count_skill);
             $list_language = SeekerLanguage::where('seeker_profile_id', $seeker->id)->get();
@@ -101,6 +113,30 @@ class ProfileController extends Controller
          'experiences'=>$experiences,'projects' =>$projects , 'educations'=>$educations, 'skillActive'=>$skillActive,
           'list_language'=>$list_language, 'count_skill'=>$count_skill ]);
     }
+    //tạo cv bắt đầu bằng tên tiều đè
+    public function createProfile(Request $request){
+        try{
+            $rules = [
+                'title' => 'required',
+            ];
+            $messages =  $this->message_val;
+            $validator = Validator::make($request->all(), $rules, $messages);
+            if ($validator->fails()) {
+                return response()->json(['error'=>$validator->errors()]);
+            }
+            $seekerProfile=SeekerProfile::create($request->all());
+            return response()->json([
+                'is_check'=>true,
+                'success' => 'Tạo mới thành công!',
+                'redirect_url' => route('profile'),
+            ]);
+            
+            
+        } catch(\Exception  $e){
+            return redirect()->back()->with('error', 'thêm mới thất bại'.$e->getMessage());
+        }
+    } 
+
 
     //lưu thay đổi thông tin các nhân
     public function updateInfo(Request $request)

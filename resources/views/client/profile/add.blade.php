@@ -147,7 +147,7 @@
                                             </div>
                                             <div id="desc" class="mt-3 form" style="display: none">
                                                 @if(!empty($seeker)) <input type="hidden" name="id" value="{{$seeker->id}}"> @endif
-                                                <input type="hidden" name="candidate_id" value="" >
+                                                <input type="hidden" name="candidate_id" value="{{$seeker->candidate_id}}" >
                                                 <div class="form-group">
                                                     <label for="">Họ và tên *</label>
                                                     <input type="text" name="name" class="form-control" @if(!empty($seeker)) value="{{$seeker->name}}" @endif>
@@ -160,7 +160,7 @@
                                                     <input name="hinhanh_upload_logo" type="file" id="img">
                                                     <small class="form-text text-muted">Chọn ảnh kích thước nhỏ hơn 5mb</small>
                                                     <small class="val_info_image text-danger pl-4"></small>
-                                                    <input type="text" value="{{$seeker->image}}" hidden name="hinhanh_upload_logo_hd">
+                                                    <input type="text" @if(!empty($seeker)) ? value="{{ $seeker->image }}" : value="" @endif hidden name="hinhanh_upload_logo_hd">
 
                                                   </div>
                                                   <div class="form-group mt-3">
@@ -214,13 +214,13 @@
                                         @php 
                                         // echo !empty($seeker->logo) ? '<div class="mt-3"> <img width="100px" src="{{asset('uploads/images/company/'. $item->logo)}}" alt=""> </div>' : '';
 
-                                        echo !empty($seeker->name) ? '<div class="mt-3"> <b>Họ tên:</b> '.$seeker->name.' </div>' : '';
-                                        echo !empty($seeker->address) ? '<div style="margin-top: 5px;"> <b>Địa chỉ:</b> '.$seeker->address.' </div>' : '';
-                                        echo !empty($seeker->phone) ? '<div style="margin-top: 5px;"> <b>Số điện thoại:</b> +'.$seeker->phone.' </div>' : '';
-                                        echo !empty($seeker->email) ? '<div style="margin-top: 5px;"> <b>Email:</b> '.$seeker->email.' </div>' : '';
-                                        echo !empty($seeker->title) ? '<div style="margin-top: 5px;"> <b>Tiêu đề hồ sơ:</b> '.$seeker->title.' </div>' : '';
-                                        echo !empty($seeker->major_id) ? '<div style="margin-top: 5px;"> <b>Chuyên ngành:</b> '.$seeker->major->name.' </div>' : '';
-                                        echo !empty($seeker->objective) ? '<div style="margin-top: 5px;"> <b>Mục tiêu nghề nghiệp:</b> '.$seeker->objective.' </div>' : '';
+                                        echo !empty($seeker->name) ? '<div class="mt-3"> <b>Họ tên:</b> '.$seeker->name.' </div>' : '<div class="mt-3"> <b>Họ tên:</b>  </div>';
+                                        echo !empty($seeker->address) ? '<div style="margin-top: 5px;"> <b>Địa chỉ:</b> '.$seeker->address.' </div>' : '<div style="margin-top: 5px;"> <b>Địa chỉ:</b>  </div>';
+                                        echo !empty($seeker->phone) ? '<div style="margin-top: 5px;"> <b>Số điện thoại:</b> +'.$seeker->phone.' </div>' : '<div style="margin-top: 5px;"> <b>Số điện thoại:</b>  </div>';
+                                        echo !empty($seeker->email) ? '<div style="margin-top: 5px;"> <b>Email:</b> '.$seeker->email.' </div>' : '<div style="margin-top: 5px;"> <b>Email:</b>  </div>';
+                                        echo !empty($seeker->title) ? '<div style="margin-top: 5px;"> <b>Tiêu đề hồ sơ:</b> '.$seeker->title.' </div>' : '<div style="margin-top: 5px;"> <b>Tiêu đề hồ sơ:</b> </div>';
+                                        echo !empty($seeker->major_id) ? '<div style="margin-top: 5px;"> <b>Chuyên ngành:</b> '.$seeker->major->name.' </div>' : '<div style="margin-top: 5px;"> <b>Chuyên ngành:</b> </div>';
+                                        echo !empty($seeker->objective) ? '<div style="margin-top: 5px;"> <b>Mục tiêu nghề nghiệp:</b> '.$seeker->objective.' </div>' : '<div style="margin-top: 5px;"> <b>Mục tiêu nghề nghiệp:</b></div>';
                                         @endphp
                                     </div>
                                 </div>
@@ -266,7 +266,7 @@
 @endsection
 @section('script')
     @parent
-    <script src="{{asset('js/client/create_cv.js')}}"></script>
+    {{-- <script src="{{asset('js/client/create_cv.js')}}"></script> --}}
     <script>
         
 

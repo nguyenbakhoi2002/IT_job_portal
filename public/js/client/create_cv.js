@@ -4,6 +4,7 @@ var __webpack_exports__ = {};
   !*** ./resources/js/client/create_cv.js ***!
   \******************************************/
 $(document).ready(function () {
+  // hiển thị hình ảnh khi người dùng chọn file hình ảnh
   $(function () {
     function readURL(input, selector) {
       if (input.files && input.files[0]) {
@@ -18,6 +19,43 @@ $(document).ready(function () {
       readURL(this, '#image');
     });
   });
+  //tạo mới cv bắt đầu bằng tiêu đề
+  $('#createCVForm').submit(function (e) {
+    //ngăn chặn hành vi load lại trang
+    e.preventDefault();
+    var url = $('#createCVForm').attr('action');
+    console.log('url: '+ url);
+    var form = this;
+    console.log('form: '+form);
+    var dataForm = new FormData(form);
+    console.log('dataForm: '+dataForm);
+
+    $.ajax({
+      type: "POST",
+      url: url,
+      data: dataForm,
+      //để gửi dữ liệu dạng dataForm
+      processData: false,
+      contentType: false,
+      success: function success(response) {
+        console.log('response: '+ response.is_check);
+        if (response.is_check === true) {
+          toastr.success(response.success);
+          // Chuyển hướng đến URL được chỉ định
+          if (response.redirect_url) {
+              window.location.href = response.redirect_url;
+          }
+        } else {
+          console.log(response.error);
+          $('.val_info_title').text(response.error.title != undefined ? response.error.title : '');
+        }
+      },
+      error: function error(response) {
+        toastr.error("Thêm thất bại");
+      }
+    });
+  });
+
   $('#create_info').submit(function (e) {
     //ngăn chặn hành vi load lại trang
     e.preventDefault();

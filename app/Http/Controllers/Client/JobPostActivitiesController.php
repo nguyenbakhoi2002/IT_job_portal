@@ -13,6 +13,7 @@ use App\Models\Language;
 use App\Models\SeekerLanguage;
 use App\Models\JobPostLanguage;
 use App\Models\JobPostActivity;
+use App\Models\Candidate;
 
 use DB;
 use Illuminate\Http\Request;
@@ -166,4 +167,29 @@ class JobPostActivitiesController extends Controller
             // ]);
         }
     }
+    //hủy ứng tuyển (ud truyền vào là id của bài đăng)
+    public function cancelApplication(string $id)
+    {
+        DB::beginTransaction();
+
+        try {      
+            //lấy ra người dùng hiện tại
+            $candidate = auth('candidate')->user();
+            // Lấy danh sách seeker profiles (không cần thiết p xem có là clone hay không, 
+            // vì trong bảng trung gian sẽ không cố bản chính, mà nếu có bản chính thì cũng xóa bỏ)
+            $seekerProfileIds =$candidate->seekerProfile()->pluck('id')->toArray();  
+            //lấy ra bài đăng đang ứng tuyển
+            $jobPost = JobPost::find($id);
+            $jobPost->seekerProfile()->detach($seekerProfileIds);
+            DB::commit();
+            return redirect()->back()->with('success', 'Hủy ứng tuyển thành công');
+            // return response()->json(['success' => 'Hủy ứng tuyển thành công']);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->with('error', 'Hủy ứng tuyển thất bại'.$e->getMessage());
+
+            // return response()->json(['error' => 'Hủy ứng tuyển thất bại' . $e->getMessage()]);
+        }
+    }   
+
 }
