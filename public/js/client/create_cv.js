@@ -79,16 +79,22 @@ $(document).ready(function () {
         console.log('response: '+ typeof(response));
         console.log('response: '+ response.is_check);
         if (response.is_check === true) {
+          var dateOfBirth = response.data.date_of_birth ? new Date(response.data.date_of_birth) : null;
+          var formattedDateOfBirth = dateOfBirth ? ("0" + dateOfBirth.getDate()).slice(-2) + "/" + ("0" + (dateOfBirth.getMonth() + 1)).slice(-2) + "/" + dateOfBirth.getFullYear() : '';
           // nếu có ảnh mới thì lấy ảnh mới, nếu có ảnh cũ thì lấy ảnh cũ,ko có thì lấy ảnh mặc định
           var dataInfo = response.data.image? '<div class="mt-3"> <img width="100px" height="100px"  src="http://localhost/itjob_portal/public/uploads/images/candidate/'+response.data.image+ '" alt=""> </div>' : 
           (response.data.hinhanh_upload_logo_hd?'<div class="mt-3"> <img width="100px" height="100px"  src="http://localhost/itjob_portal/public/uploads/images/candidate/'+response.data.hinhanh_upload_logo_hd+ '" alt=""> </div>':
           '<div class="mt-3"> <img width="100px" height="100px"  src="http://localhost/itjob_portal/public/uploads/images/candidate/logo_default_candidate.jpg" alt=""> </div>');
           dataInfo += "\n <div class=\"mt-3\"> <b>H\u1ECD t\xEAn:</b> " + response.data.name + 
+          " </div>\n <div style=\"margin-top: 5px;\"> <b>Ngày sinh:</b> " +formattedDateOfBirth+
+          " </div>\n <div style=\"margin-top: 5px;\"> <b>Giới tính:</b> " +response.data.gender+
           " </div>\n <div style=\"margin-top: 5px;\"> <b>\u0110\u1ECBa ch\u1EC9:</b> " + 
           response.data.address + " </div>\n <div style=\"margin-top: 5px;\"> <b>S\u1ED1 \u0111i\u1EC7n tho\u1EA1i:</b> +"
-           + response.data.phone + " </div>\n <div style=\"margin-top: 5px;\"> <b>Email:</b> " + 
-           response.data.email + " </div>\n <div style=\"margin-top: 5px;\"> <b>Tiêu đề hồ sơ:</b> " + 
-            response.data.title + " </div>\n <div style=\"margin-top: 5px;\"> <b>Mục tiêu nghề nghiệppppppp:</b> " + 
+           + response.data.phone + " </div>\n <div style=\"margin-top: 5px;\"> <b>Email:</b> " + response.data.email + 
+          " </div>\n <div style=\"margin-top: 5px;\"> <b>Link:</b> " +response.data.link +
+
+           " </div>\n <div style=\"margin-top: 5px;\"> <b>Tiêu đề hồ sơ:</b> " + 
+            response.data.title + " </div>\n <div style=\"margin-top: 5px;\"> <b>Mục tiêu nghề nghiệp:</b> " + 
             response.data.objective + " </div>\n                     ";
           $('.info_pro').html(dataInfo);
           toastr.success(response.success);

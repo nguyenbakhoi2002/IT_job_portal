@@ -22,7 +22,8 @@ use App\Http\Requests\Client\Profile\InfoRequest;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+//sử dụng xuẩ pdf
+use Barryvdh\DomPDF\Facade\Pdf;
 
 
 class ProfileController extends Controller
@@ -802,5 +803,22 @@ class ProfileController extends Controller
             ]);
         }
         
+    }
+
+    //xem trước hồ sơ (preview)
+    public function profilePreview(SeekerProfile $seeker_profile){
+        return view('client.profile.template_new', ['seeker_profile' => $seeker_profile]);
+    }
+    //export hồ sơ PDF
+    public function exportProfile(SeekerProfile $seeker_profile){
+        // return view('client.profile.export_pdf', ['seeker' => $seeker_profile, 'image'=>'khôi']);
+        // dd(public_path('uploads\images\candidate\\'. $seeker_profile->image));
+        $path = public_path('uploads\images\candidate\\'. $seeker_profile->image);
+        $type = pathinfo($path, PATHINFO_EXTENSION);
+        $data = file_get_contents($path);
+        $image = 'data:image/' . $type . ';base64,' . base64_encode($data);
+        $pdf = Pdf::loadView('client.profile.export_pdf', ['seeker_profile' => $seeker_profile, 'image'=>$image])->setOptions(['defaultFont' => 'DejaVu Sans']);
+        $name_file = $seeker_profile->name.'_profile.pdf';
+        return $pdf->download($name_file);
     }
 }

@@ -153,6 +153,21 @@
                                                     <input type="text" name="name" class="form-control" @if(!empty($seeker)) value="{{$seeker->name}}" @endif>
                                                     <small class="val_info_name text-danger pl-4"></small>
                                                 </div>
+                                                <div class="form-group">
+                                                    <label for="">Ngày sinh</label>
+                                                    <input type="date" name="date_of_birth" class="form-control" @if(!empty($seeker)) value="{{$seeker->date_of_birth}}" @endif>
+                                                    {{-- <small class="val_info_name text-danger pl-4"></small> --}}
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="">Giới tính</label>
+                                                    <input type="text" name="gender" class="form-control" @if(!empty($seeker)) value="{{$seeker->gender}}" @endif>
+                                                    {{-- <small class="val_info_name text-danger pl-4"></small> --}}
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="">Link liên kết</label>
+                                                    <input type="text" name="link" class="form-control" @if(!empty($seeker)) value="{{$seeker->link}}" @endif>
+                                                    {{-- <small class="val_info_name text-danger pl-4"></small> --}}
+                                                </div>
                                                 <div class="form-group mt-3">
                                                     <label class="form-label w-100">Ảnh</label>
                                                     <img id="image" @if(!empty($seeker)) src="{{ $seeker->image?asset('uploads/images/candidate/'. $seeker->image):asset('uploads/images/candidate/logo_default_candidate.jpg') }}" @else src="https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg" @endif alt="your image"
@@ -214,12 +229,24 @@
                                         @php 
                                         // echo !empty($seeker->logo) ? '<div class="mt-3"> <img width="100px" src="{{asset('uploads/images/company/'. $item->logo)}}" alt=""> </div>' : '';
 
+                                        
                                         echo !empty($seeker->name) ? '<div class="mt-3"> <b>Họ tên:</b> '.$seeker->name.' </div>' : '<div class="mt-3"> <b>Họ tên:</b>  </div>';
+                                        @endphp
+                                        <div class="mt-3">
+                                            @if(!empty($seeker->date_of_birth))
+                                                <b>Ngày sinh:</b> {{ \Carbon\Carbon::parse($seeker->date_of_birth)->format('d/m/Y') }}
+                                            @else
+                                                <b>Ngày sinh:</b> 
+                                            @endif
+                                        </div>
+                                        @php
+                                        echo !empty($seeker->gender) ? '<div class="mt-3"> <b>Giới tính:</b> '.$seeker->gender.' </div>' : '<div class="mt-3"> <b>Giới tính</b>:</b>  </div>';
                                         echo !empty($seeker->address) ? '<div style="margin-top: 5px;"> <b>Địa chỉ:</b> '.$seeker->address.' </div>' : '<div style="margin-top: 5px;"> <b>Địa chỉ:</b>  </div>';
                                         echo !empty($seeker->phone) ? '<div style="margin-top: 5px;"> <b>Số điện thoại:</b> +'.$seeker->phone.' </div>' : '<div style="margin-top: 5px;"> <b>Số điện thoại:</b>  </div>';
                                         echo !empty($seeker->email) ? '<div style="margin-top: 5px;"> <b>Email:</b> '.$seeker->email.' </div>' : '<div style="margin-top: 5px;"> <b>Email:</b>  </div>';
+                                        echo !empty($seeker->link) ? '<div style="margin-top: 5px;"> <b>Link:</b> '.$seeker->link.' </div>' : '<div style="margin-top: 5px;"> <b>Link:</b>  </div>';
                                         echo !empty($seeker->title) ? '<div style="margin-top: 5px;"> <b>Tiêu đề hồ sơ:</b> '.$seeker->title.' </div>' : '<div style="margin-top: 5px;"> <b>Tiêu đề hồ sơ:</b> </div>';
-                                        echo !empty($seeker->major_id) ? '<div style="margin-top: 5px;"> <b>Chuyên ngành:</b> '.$seeker->major->name.' </div>' : '<div style="margin-top: 5px;"> <b>Chuyên ngành:</b> </div>';
+                                        // echo !empty($seeker->major_id) ? '<div style="margin-top: 5px;"> <b>Chuyên ngành:</b> '.$seeker->major->name.' </div>' : '<div style="margin-top: 5px;"> <b>Chuyên ngành:</b> </div>';
                                         echo !empty($seeker->objective) ? '<div style="margin-top: 5px;"> <b>Mục tiêu nghề nghiệp:</b> '.$seeker->objective.' </div>' : '<div style="margin-top: 5px;"> <b>Mục tiêu nghề nghiệp:</b></div>';
                                         @endphp
                                     </div>
@@ -251,10 +278,11 @@
                                 @endif
                             </div>
                             @if(!empty($seeker))
-                            <div class="mt-5 text-center">
-                                <a href="" class="btn btn-primary">Xem CV</a>
-                                
+                            <div class="my-5 text-center">
+                                <a href="{{route('profilePreview', $seeker)}}" class="btn btn-primary me-5">Xem trước Profile</a>
+                                <a href="{{route('exportProfile', $seeker)}}" class="btn btn-primary">Tải xuống dạng PDF</a>
                             </div>
+                            
                             @endif
                         </div>
                     </div>

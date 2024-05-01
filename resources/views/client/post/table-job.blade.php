@@ -15,14 +15,27 @@
                                     <li class=" info-high lead fw-light">{{ $item->company->company_name }}</li>
 
                                     <li>{{number_format($item->min_salary, 0, ',', '.')}} - {{number_format($item->max_salary, 0, ',', '.')}} VNĐ</li>
-                                    <li>còn {{$current_date->diff($item->end_date)->days}} ngày</li>
-                                    @if (auth('candidate')->check())
-                                        <a style="top: 0px" href=""><button
-                                                class="bookmark-btn"><span
-                                                    class="flaticon-bookmark"></span></button></a>
+                                    @if ($current_date->diff($item->end_date)->days>0)
+                                        <li>còn {{$current_date->diff($item->end_date)->days}} ngày</li>
                                     @else
-                                        <button style="top: 0px" class="bookmark-btn"><span
-                                                class="flaticon-bookmark"></span></button>
+                                        <li>còn  {{24 - $current_date->diffInHours($item->end_date)}} giờ</li>
+                                    @endif
+                                    @if (auth('candidate')->check())
+                                        @if (!in_array($item->id, auth('candidate')->user()->saved_jobs->pluck('id')->toArray()))
+                                            <a style="top: 0px" href="{{route('saveJob', $item->id)}}"><button
+                                                    class="bookmark-btn"><span
+                                                        class="flaticon-bookmark"></span></button></a>
+                                        @else
+                                                <a style="top: 0px" href="{{route('cancelSaveJob', $item->id)}}">
+                                                    <button class="bookmark-btn">
+                                                        <span><i class="fa-solid fa-bookmark"></i></span>
+                                                    </button>
+                                                </a>
+                                        @endif
+                                    @else
+                                        <a style="top: 0px" href="#"><button
+                                            class="bookmark-btn"><span
+                                                class="flaticon-bookmark"></span></button></a>
                                     @endif
                                 </ul>
                             </div>

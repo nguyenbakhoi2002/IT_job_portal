@@ -54,7 +54,7 @@
                   <a class="theme-btn btn-style-one" href="{{route('login')}}">Ứng tuyển ngay</a>
                 @endif
 
-                @if (auth('candidate')->check())
+                {{-- @if (auth('candidate')->check())
                   @if (!empty($idJobShort[$data_job->id]) )
                     @if($idJobShort[$data_job->id]->job_post_id == $data_job->id)
                       <a href="{{route('delete_shortlisted', ['id' => $idJobShort[$data_job->id]->id])}}" class="bookmark-btn" style="background-color: #f7941d;"><span class="flaticon-bookmark" style="color: white"></span></a>
@@ -64,6 +64,23 @@
                   @endif
                 @else
                     <a class="bookmark-btn" href="{{route('login')}}"><span class="flaticon-bookmark"></span></a>
+                @endif --}}
+                @if (auth('candidate')->check())
+                    @if (!in_array($data_job->id, auth('candidate')->user()->saved_jobs->pluck('id')->toArray()))
+                        <a style="top: 0px" href="{{route('saveJob', $data_job->id)}}"><button
+                                class="bookmark-btn"><span
+                                    class="flaticon-bookmark"></span></button></a>
+                    @else
+                            <a style="top: 0px" href="{{route('cancelSaveJob', $data_job->id)}}">
+                                <button class="bookmark-btn">
+                                    <span><i class="fa-solid fa-bookmark"></i></span>
+                                </button>
+                            </a>
+                    @endif
+                @else
+                    <a style="top: 0px" href="#"><button
+                        class="bookmark-btn"><span
+                            class="flaticon-bookmark"></span></button></a>
                 @endif
               </div>
               </div>
@@ -138,17 +155,23 @@
                                       @endif
                                   @endforeach
                             </ul>
-                           @if (auth('candidate')->check())
-                              @if (!empty($idJobShort[$item->id]) )
-                                @if($idJobShort[$item->id]->job_post_id == $item->id)
-                                  <a href="{{route('delete_shortlisted', ['id' => $idJobShort[$item->id]->id])}}" class="bookmark-btn" style="background-color: #f7941d;"><span class="flaticon-bookmark" style="color: white"></span></a>
-                                @endif
+                            @if (auth('candidate')->check())
+                              @if (!in_array($item->id, auth('candidate')->user()->saved_jobs->pluck('id')->toArray()))
+                                  <a style="top: 0px" href="{{route('saveJob', $item->id)}}"><button
+                                          class="bookmark-btn"><span
+                                              class="flaticon-bookmark"></span></button></a>
                               @else
-                                <a href=""><button class="bookmark-btn"  ><span class="flaticon-bookmark" ></span></button></a>
+                                      <a style="top: 0px" href="{{route('cancelSaveJob', $item->id)}}">
+                                          <button class="bookmark-btn">
+                                              <span><i class="fa-solid fa-bookmark"></i></span>
+                                          </button>
+                                      </a>
                               @endif
-                            @else
-                              <a href="{{route('login')}}" class="bookmark-btn"><span class="flaticon-bookmark"></span></a>
-                            @endif
+                          @else
+                              <a style="top: 0px" href="#"><button
+                                  class="bookmark-btn"><span
+                                      class="flaticon-bookmark"></span></button></a>
+                          @endif
                             </div>
                         </div>
                     </div>

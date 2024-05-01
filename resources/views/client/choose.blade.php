@@ -1,6 +1,6 @@
 @extends('client.layout.app')
 @section('title')
-    {{ __('UB Work') }}
+    BaKhoi
 @endsection
 @section('content')
 <section class="call-to-action-two" style="background-image: url({{asset('assets/client-bower/images/background/1.jpg')}});margin-top: 100px;">
@@ -11,7 +11,7 @@
       </div>
 
       <div class="btn-box">
-        <a href="{{ route('candidate.login') }}" class="theme-btn btn-style-three">Đăng nhập ứng viên</a>
+        <a href="{{ route('login') }}" class="theme-btn btn-style-three">Đăng nhập ứng viên</a>
         <a href="{{ route('company.login') }}" class="theme-btn btn-style-two">Đăng nhập nhà tuyển dụng</a>
       </div>
     </div>

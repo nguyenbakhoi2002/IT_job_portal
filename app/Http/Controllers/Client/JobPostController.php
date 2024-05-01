@@ -26,8 +26,9 @@ class JobPostController extends Controller
 
         // $current_date->diff($item->end_date)->days
         $current_date = Carbon::now();
+        $current_date_string = Carbon::now()->toDateString();
         // dd($current_date->diff($end_date)->days);
-        $data = JobPost::where('end_date', '>', $current_date)->where('status', 1)->paginate(12);
+        $data = JobPost::where('end_date', '>=', $current_date_string)->where('status', 1)->paginate(12);
         $exp = TimeExperience::all();
         $major = Major::all();
         $skill = Skill::all();

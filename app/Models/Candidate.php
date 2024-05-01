@@ -21,4 +21,11 @@ class Candidate extends Authenticatable
       public function seekerProfile(){
         return $this->hasMany(SeekerProfile::class, 'candidate_id');
      }
+     public function saved_jobs(){
+      return $this->belongsToMany(JobPost::class, 'saved_jobs', 'candidate_id', 'job_post_id')->withPivot('created_at', 'updated_at');
+    }
+    public function saved_companies(){
+      return $this->belongsToMany(Company::class, 'saved_companies', 'candidate_id', 'company_id')->withPivot('created_at', 'updated_at');;
+    }
+    
 }

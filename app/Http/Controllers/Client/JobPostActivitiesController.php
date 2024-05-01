@@ -9,6 +9,7 @@ use App\Models\Education;
 use App\Models\Project;
 use App\Models\Experience;
 use App\Models\skill;
+use App\Models\Major;
 use App\Models\Language;
 use App\Models\SeekerLanguage;
 use App\Models\JobPostLanguage;
@@ -191,5 +192,25 @@ class JobPostActivitiesController extends Controller
             // return response()->json(['error' => 'Hủy ứng tuyển thất bại' . $e->getMessage()]);
         }
     }   
-
+    public function jobApplied(){
+        $client = auth('candidate')->user();
+        //lấy ra profile của client, lấy cả clone
+        $seekerProfile = $client->seekerProfile()->get();
+        $data = [];
+        $job_applied = [];
+        if (!empty($seekerProfile)) {
+            foreach($seekerProfile as $sp){
+                $job_posts = $sp->activities;
+                foreach($job_posts as $jp){
+                   $job_applied[] = $jp; 
+                    // $data["$jp->id"]=JobPostActivity::where("seeker_profile_id", $sp->id)
+                    //                                 ->where("job_post_id", $jp->id)->first();
+                }
+            }
+            $job_applied = collect($job_applied);
+            $job_applied = $job_applied->sortByDesc('updated_at')->values()->all();
+        }
+        return view('client.candidate.job-applied', ['job_applied'=>$job_applied, 'data'=>$data]);
+    }
+    
 }

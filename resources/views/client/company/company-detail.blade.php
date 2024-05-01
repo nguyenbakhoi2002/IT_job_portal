@@ -38,11 +38,11 @@
                         </div>
 
                         <div class="btn-box">
-                            @if (auth('candidate')->check()) 
+                            {{-- @if (auth('candidate')->check()) 
                                 <a href="{{route('feedback', ['id' => $company_detail->id])}}" class="theme-btn btn-style-one">Đánh giá</a>
                             @else
                                 <button class="theme-btn btn-style-one">Đánh giá</button>
-                            @endif
+                            @endif --}}
 
                             {{-- @if (auth('candidate')->check()) 
                                  <a class="bookmark-btn"  href="{{route('shortlisted_company', ['id' => $company_detail->id])}}"><i class="flaticon-bookmark"></i></a>
@@ -50,16 +50,21 @@
                            
                                 <button class="bookmark-btn"><i class="flaticon-bookmark"></i></button>
                             @endif --}}
-                            @if (auth('candidate')->check()) 
-                                @if (!empty($idCompanyShort[$company_detail->id]) )
-                                    @if($idCompanyShort[$company_detail->id]->company_id == $company_detail->id)
-                                    <a href="{{route('delete_shortlisted_company', ['id' => $idCompanyShort[$company_detail->id]->id])}}"><button class="bookmark-btn" style="background-color: #f7941d;"><span class="flaticon-bookmark" style="color: white" ></span></button></a>
-                                    @endif
+                            
+                            @if (auth('candidate')->check())
+                                @if (!in_array($company_detail->id, auth('candidate')->user()->saved_companies->pluck('id')->toArray()))
+                                    <a href="{{route('saveCompany', $company_detail->id)}}">
+                                        <button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
+                                    </a>
                                 @else
-                                    <a href="{{route('shortlisted_company', ['id' => $company_detail->id])}}"><button class="bookmark-btn"  ><span class="flaticon-bookmark" ></span></button></a>
+                                    <a href="{{route('cancelSaveCompany', $company_detail->id)}}">
+                                        <button class="bookmark-btn"><span><i class="fa-solid fa-bookmark"></i></span></button>
+                                    </a>
                                 @endif
                             @else
-                                <button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
+                                <a href="#">
+                                    <button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
+                                </a>
                             @endif
                         </div>
                     </div>
@@ -120,7 +125,7 @@
                                                 @endif
                                             @endforeach
                                         </ul>
-                                        @if (auth('candidate')->check()) 
+                                        {{-- @if (auth('candidate')->check()) 
                                             @if (!empty($job_short[$item->id]) )
                                                 @if($job_short[$item->id]->job_post_id == $item->id)
                                                 <a href="{{route('delete_shortlisted', ['id' => $job_short[$item->id]->id])}}" class="bookmark-btn" style="background-color: #f7941d;"><span class="flaticon-bookmark" style="color: white"></span></a>
@@ -130,6 +135,23 @@
                                             @endif
                                         @else
                                                 <a class="bookmark-btn" href=""><span class="flaticon-bookmark"></span></a>
+                                        @endif --}}
+                                        @if (auth('candidate')->check())
+                                            @if (!in_array($item->id, auth('candidate')->user()->saved_jobs->pluck('id')->toArray()))
+                                                <a style="top: 0px" href="{{route('saveJob', $item->id)}}"><button
+                                                        class="bookmark-btn"><span
+                                                            class="flaticon-bookmark"></span></button></a>
+                                            @else
+                                                    <a style="top: 0px" href="{{route('cancelSaveJob', $item->id)}}">
+                                                        <button class="bookmark-btn">
+                                                            <span><i class="fa-solid fa-bookmark"></i></span>
+                                                        </button>
+                                                    </a>
+                                            @endif
+                                        @else
+                                            <a style="top: 0px" href="#"><button
+                                                class="bookmark-btn"><span
+                                                    class="flaticon-bookmark"></span></button></a>
                                         @endif
                                         </div>
                                     </div>

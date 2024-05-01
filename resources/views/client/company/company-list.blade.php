@@ -88,7 +88,22 @@
                                         </ul>
                                     </div>
                                     {{-- @dd($job) --}}
-                                    <button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
+                                    @if (auth('candidate')->check())
+
+                                        @if (!in_array($item->id, auth('candidate')->user()->saved_companies->pluck('id')->toArray()))
+                                            <a href="{{route('saveCompany', $item->id)}}">
+                                                <button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
+                                            </a>
+                                        @else
+                                            <a href="{{route('cancelSaveCompany', $item->id)}}">
+                                                <button class="bookmark-btn"><span><i class="fa-solid fa-bookmark"></i></span></button>
+                                            </a>
+                                        @endif
+                                    @else
+                                        <a href="#">
+                                            <button class="bookmark-btn"><span class="flaticon-bookmark"></span></button>
+                                        </a>
+                                    @endif
                                 </div>
                             </div>
                         @endforeach
