@@ -63,7 +63,7 @@ class JobPost extends Model
     }
     //thong tin ngoại ngữ
     public function languages(){
-        return $this->belongsToMany(Language::class, 'job_post_language', 'job_post_id', 'language_id');
+        return $this->belongsToMany(Language::class, 'job_post_language', 'job_post_id', 'language_id')->withPivot('level');
     }
     //lấy ra bằng cấp và kinh nghiệm yêu cầu
     public function degree(){

@@ -5,7 +5,7 @@
 @section('content')
     <section class="job-detail-section">
       <!-- Upper Box -->
-      <div class="upper-box" style="background-image: url({{asset('storage/images/bg-4.png')}}) ">
+      <div class="upper-box" style="background-image: url({{asset('storage/images/bg-4.png')}}); padding-bottom: 0 ">
         <div class="auto-container">
           <!-- Job Block -->
           <div class="job-block-seven row">
@@ -84,8 +84,22 @@
                 @endif
               </div>
               </div>
-              <div class="col-md-4 col-sm-12 p-5">
-                thong tin coong ty
+              <div class="col-md-4 col-sm-12 p-5" style="padding: 0 !important">
+                <div class="sidebar-widget company-widget"style="margin-top: 20px ">
+                  <div class="widget-content">
+                    <div class="company-title">
+                      <div class="company-logo"><img src="{{asset('/uploads/images/company/'.$data_job->company->logo)}}" alt=""></div>
+                      <h5 class="company-name">{{$data_job->company->company_name}}</h5>
+                      {{-- <a href="{{route('company-detail',$data_job->company)}}" class="profile-link">Thông tin công ty</a> --}}
+                    </div>
+
+                    <ul class="company-info">
+                      <li>Loại hình doanh nghiệp: <span>{{$data_job->company->company_model}}</span></li>
+                      {{-- <li>Quy mô: <span>{{$data_job->company->company_size}}</span></li> --}}
+                    </ul>
+                    <div class="btn-box"><a target="_blank" href="{{$data_job->company->link_web}}" class="theme-btn btn-style-three">Website công ty</a></div>
+                  </div>
+                </div>
               </div>
               
             </div>
@@ -99,7 +113,9 @@
             <div class="content-column col-lg-8 col-md-12 col-sm-12">
               <div class="job-detail">
                 <h4>Mô tả công việc</h4>
-                <p>{!! $data_job->description !!}</p>
+                <ul>
+                  {!! $data_job->description !!}
+                </ul>
                 <h4>Yêu cầu công việc</h4>
                 <ul class="list-style-three">
                   {!! $data_job->requirement !!}
@@ -112,7 +128,33 @@
                 @endif
                 <h4>Kĩ năng và kinh nghiệm</h4>
                 <ul class="list-style-three">
+                  <li>Bằng cấp: {{ $data_job->degree->name}}</li>
+                  <li>
+                    Thành thạo các ngôn ngữ sau:
+                    @foreach($data_job->skills as $skill)
+                        {{$skill->name}},
+                    @endforeach
+                  </li>
                   <li>Y/C: {{ $data_job->experience->level != 0 ?"Ít nhất ". $data_job->experience->name." kinh nghiệm": "Không yêu cầu kinh nghiệm" }}
+                </ul>
+                <h4>Ngoại ngữ : </h4>
+                <ul class="list-style-three">
+                  @foreach($data_job->languages as $language)
+                        <li>
+                          {{$language->name}} - 
+                          @if ($language->pivot->level==0)
+                            Sơ cấp
+                          @elseif($language->pivot->level == 1)  
+                            Cơ bản
+                          @elseif($language->pivot->level == 2)  
+                            Trung cấp
+                          @elseif($language->pivot->level == 3)  
+                            Cao cấp
+                          @elseif($language->pivot->level == 4)  
+                            Bản ngữ
+                          @endif
+                        </li> 
+                  @endforeach
                 </ul>
               </div>
 
@@ -202,20 +244,15 @@
                         <span>{{$data_job->company->address}}</span>
                       </li>
                       <li>
-                        <i class="icon icon-clock"></i>
-                        <h5>Giờ làm việc:</h5>
-                        <span>{{$data_job->company->working_time}} giờ/ngày</span>
-                      </li>
-                      <li>
                         <i class="icon icon-salary"></i>
                         <h5>Lương:</h5>
                          <span>{{number_format($data_job->min_salary, 0, ',', '.')}} - {{number_format($data_job->max_salary, 0, ',', '.')}} đ</span>
                       </li>
-                      <li>
+                      {{-- <li>
                         <i class="icon icon-rate"></i>
                         <h5>Trung bình:</h5>
                          <span>{{number_format($data_job->min_salary/8/27, 0, ',', '.')}} - {{number_format($data_job->max_salary/8/27, 0, ',', '.')}} đ / giờ</span>
-                      </li>
+                      </li> --}}
                     </ul>
                   </div>
 
@@ -240,33 +277,23 @@
                   </div>
                 </div>
 
-                <div class="sidebar-widget company-widget">
+                {{-- <div class="sidebar-widget company-widget">
                   <div class="widget-content">
                     <div class="company-title">
                       <div class="company-logo"><img src="{{asset('/uploads/images/company/'.$data_job->company->logo)}}" alt=""></div>
                       <h5 class="company-name">{{$data_job->company->company_name}}</h5>
                       <a href="{{route('company-detail',$data_job->company)}}" class="profile-link">Thông tin công ty</a>
                     </div>
-
                     <ul class="company-info">
                       <li>Loại hình doanh nghiệp: <span>{{$data_job->company->company_model}}</span></li>
-                      {{-- <li>Quy mô: <span>{{$data_job->company->company_size}}</span></li> --}}
                       <li>Thành lập: <span>{{date('d-m-Y', strtotime($data_job->company->founded_in))}}</span></li>
                       <li>Số điện thoại: <span>{{$data_job->company->phone}}</span></li>
                       <li>Email: <span>{{$data_job->company->email}}</span></li>
                       <li>Địa điểm: <span>{{$data_job->company->address}}</span></li>
-                      {{-- <li>Truyền thông xã hội:
-                        <div class="social-links">
-                          <a href="#"><i class="fab fa-facebook-f"></i></a>
-                          <a href="#"><i class="fab fa-twitter"></i></a>
-                          <a href="#"><i class="fab fa-instagram"></i></a>
-                          <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                        </div>
-                      </li> --}}
                     </ul>
                     <div class="btn-box"><a target="_blank" href="{{$data_job->company->link_web}}" class="theme-btn btn-style-three">Website công ty</a></div>
                   </div>
-                </div>
+                </div> --}}
               </aside>
             </div>
           </div>

@@ -4,7 +4,7 @@ return [
         'sidebar'=>[
             'dashboard'=>[
                 'title' => "Tổng quan",
-                'route' => 'company.home',
+                'route' => 'company.dashboard',
                 'icon'  => 'la la-home',
             ],
             'post' => [
@@ -12,29 +12,29 @@ return [
                 'route' => 'company.post.index',
                 'icon'  => 'la la-paper-plane',
             ],
-            'filter' => [
-                'title' => "Tìm CV",
-                'route' => 'company.filter',
-                'icon'  => 'la la-search',
-            ],
-            'manage-cv' => [
-                'title' => "Quản lý CV",
-                'route' => 'company.manageCV',
-                'icon'  => 'la la-home',
-            ],
-            'history-payment' => [
-                'title' => "Lịch sử giao dịch",
-                'route' => 'company.historyPayment',
-                'icon'  => 'la la-history',
-            ],
+            // 'filter' => [
+            //     'title' => "Tìm CV",
+            //     'route' => 'company.filter',
+            //     'icon'  => 'la la-search',
+            // ],
+            // 'manage-cv' => [
+            //     'title' => "Quản lý CV",
+            //     'route' => 'company.manageCV',
+            //     'icon'  => 'la la-home',
+            // ],
+            // 'history-payment' => [
+            //     'title' => "Lịch sử giao dịch",
+            //     'route' => 'company.historyPayment',
+            //     'icon'  => 'la la-history',
+            // ],
             'profile' => [
                 'title' => "Sửa thông tin",
-                'route' => 'company.profile',
+                'route' => 'company.info',
                 'icon'  => 'la la-user-tie',
             ],
             'image-paper' => [
                 'title' => "Giấy phép kinh doanh",
-                'route' => 'company.image-paper',
+                'route' => 'company.imagePaper',
                 'icon'  => 'la la-file',
             ],
         ]

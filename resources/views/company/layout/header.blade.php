@@ -28,24 +28,12 @@
                 <!-- Dashboard Option -->
                 <div class="dropdown dashboard-option">
                     <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
-                        @if(auth('company')->user()->logo == null || empty(auth('company')->user()->logo))
-                            <img style="object-fit: cover;" src="{{  asset('assets/admin-bower/dist/img/avatar.png') }}" alt="avatar"
-                                    class="thumb">
+                        @if(!is_null(auth('company')->user()->logo))
+                            <img style="object-fit: cover;" src="{{ asset('uploads/images/company/'. auth('company')->user()->logo) }}" alt="avatar"
+                                class="thumb">
                         @else
-                            @php
-                                $pattern = "/(http(s?):)/";
-                                $m = preg_match($pattern,auth('company')->user()->logo);
-                            @endphp
-                            @if($m)
-                                <img style="object-fit: cover;" src="{{  auth('company')->user()->logo }}" alt="logo"
-                                    class="thumb">
-                            @elseif(Storage::exists(auth('company')->user()->logo) )
-                                <img style="object-fit: cover;" src="{{ asset('storage/images/'. auth('company')->user()->logo) }}" alt="logo"
-                                    class="thumb">
-                            @else
-                                <img style="object-fit: cover;" src="{{  asset('assets/admin-bower/dist/img/avatar.png') }}" alt="avatar"
-                                        class="thumb">
-                            @endif
+                            <img style="object-fit: cover;" src="{{  asset('assets/admin-bower/dist/img/avatar.png') }}" alt="avatar"
+                                 class="thumb">
                         @endif
                         <span class="name">{{ auth('company')->user()->company_name }}</span>
                     </a>

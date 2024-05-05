@@ -17,7 +17,7 @@ class Company extends Authenticatable
     protected $table = 'companies';
     protected $fillable = ['id', 'company_name', 'name', 'email', 'password', 'address','phone', 'logo',
      'company_model','status', 'created_at', 'updated_at', 'working_time',
-     'link_web', 'tax_code','image_paper', 'team', 'about','founded_in'];
+     'link_web', 'tax_code','image_paper', 'team','map', 'about','founded_in'];
      public function jobPost(){
         return $this->hasMany(JobPost::class, 'company_id')->where('status', 1);
      }

@@ -11,7 +11,9 @@ use App\Models\Major;
 use App\Models\Skill;
 use App\Models\TimeExperience;
 use App\Models\Degree;
+use App\Models\Language;
 use App\Models\JobPostActivity;
+use App\Models\JobPostLanguage;
 use DB;
 
 //request
@@ -47,7 +49,7 @@ class JobPostController extends Controller
         if($key = request()->key){
             $list_jobs = JobPost::where('title','like','%' . $key . '%')->paginate(10);
         }
-        return view('company.post.index', ['title'=>$title, 'list_jobs'=>$list_jobs]);
+        return view('company.post.index', ['title'=>$title, 'list_jobs'=>$list_jobs, 'activeRoute'=>'post']);
     }
 
     /**
@@ -70,18 +72,24 @@ class JobPostController extends Controller
         $title = "Thêm bài tuyển";
         $majors = Major::all();
         $skills = Skill::all();
+        $languages = Language::all();
+
         $time_exp = TimeExperience::where('status', 1)->orderBy('level')->get();
         $degrees = Degree::where('status', 1)->orderBy('level')->get();
         return view('company.post.add', 
-        ['title'=>$title, 'majors'=>$majors, 'skills'=>$skills, 'time_exp'=>$time_exp, 'degrees'=>$degrees, 'dataProvinces'=>$dataProvinces]);
+        ['title'=>$title, 'majors'=>$majors, 'skills'=>$skills, 'time_exp'=>$time_exp, 'degrees'=>$degrees,'languages'=>$languages,
+         'dataProvinces'=>$dataProvinces, 'activeRoute'=>'post']);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(JobPostRequest $request)
+    // JobPostRequest
+    public function store(Request $request)
     {
+        // dd($request->all());
         //dd($request->skill);
+        DB::beginTransaction();
         try{
             $data = $request->all();
             //lấy ra id company
@@ -94,11 +102,31 @@ class JobPostController extends Controller
             $skills = $request->skill;
             //thêm dữ liệu vào bảng trung gian
             $jp->skills()->attach($skills);
+            //thêm ngoại ngữ
+            if($request->has('language_id')){
+                $languageIds = $request->language_id;
+                $language_levels = $request->language_level;
+                //lấy ra id của bài đnăg vừa tạo
+                $job_post_id = $jp->id;
+                //chạy vòng for vì language_id nhận là mảng
+                for ($i = 0; $i < count($languageIds); $i++) {
+                    
+                    $language_id = $languageIds[$i]; // Gán giá trị từ mảng language_id
+                    $language_level = $language_levels[$i]; // Gán giá trị từ mảng level
+                    JobPostLanguage::create([
+                        'job_post_id'=>$job_post_id,
+                        'language_id'=>$language_id,
+                        'level'=>$language_level,
+                    ]);
+                }
+            }
+            DB::commit();
             Session::flash('success', 'Thêm thành công!');
             return Redirect()->route('company.post.index');
 
         }
         catch(Exception $e){
+            DB::rollBack();
             Session::flash('error', 'Lỗi thêm mới!');
             return Redirect()->route('company.post.create');
         }
@@ -129,15 +157,21 @@ class JobPostController extends Controller
         $title = "Sửa bài tuyển dụng";
         $majors = Major::all();
         $skills = Skill::all();
+        $languages = Language::all();
+
         $time_exp = TimeExperience::where('status', 1)->orderBy('level')->get();
         $degrees = Degree::where('status', 1)->orderBy('level')->get();
         //lấy ra thông tin tất cả các skill có trong bài đăng 
         //pluck chỉ lấy ra id, kết quả trả về collection
         $skillActive = $post->skills->pluck('id')->toArray();
+        //lấy ra jobpost_language của bài đnăg
+        $job_post_language = JobPostlanguage::where('job_post_id', $post->id)->get();
+        // dd($job_post_language);
         // dd($skillActive);
         return view('company.post.edit',
         ['post'=> $post, 'title'=>$title, 'majors'=>$majors, 'skills'=>$skills, 'time_exp'=>$time_exp,
-         'degrees'=>$degrees, 'dataProvinces'=>$dataProvinces, 'skillActive'=>$skillActive]);
+         'degrees'=>$degrees, 'dataProvinces'=>$dataProvinces, 'skillActive'=>$skillActive, 'activeRoute'=>'post', 
+        'job_post_language'=>$job_post_language, 'languages'=>$languages]);
     }
 
     /**
@@ -151,6 +185,13 @@ class JobPostController extends Controller
             $post->update($request->all());
             //cập nhập dữ liệu trong bảng trung gian
             $post->skills()->sync($skill);
+            //phần ngoại ngữ
+            //sẽ lấy ra các ngoại ngữ khi sử, chạy vòng lặp từng cái một, trong vòng lặp lại có 1 vòng lặp, 
+            //chạy những ngoại ngữ cữ, nếu giống ngoại ngữ mới thì cập nhật level
+            //còn những ngoại ngữ mới ko có trong bảng cũ thì p làm sao ????
+
+
+
             Session::flash('success', 'Sửa bài đăng thành công!');
             return Redirect()->route('company.post.index');
         } catch (\Throwable $th) {
@@ -173,6 +214,7 @@ class JobPostController extends Controller
         // dd($list_seekerProfile);
         $name= $jobPost->title;
         $title = "Danh sách ứng tuyển - $name";
-        return view('company.post.profileApply', ['title' => $title, 'list_seekerProfile'=>$list_seekerProfile]);
+        return view('company.post.profileApply', 
+        ['title' => $title, 'list_seekerProfile'=>$list_seekerProfile, 'activeRoute'=>'post']);
     }
 }

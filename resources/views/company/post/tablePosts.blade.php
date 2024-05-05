@@ -32,7 +32,7 @@
                 <td>
                     <div class="option-box">
                         <ul class="option-list d-block text-center">
-                            <li class="mb-2"><a target="_blank" href=""><button
+                            <li class="mb-2"><a target="_blank" href="{{route('job-detail', $item->id)}}"><button
                                         data-text="Chi tiết"><span class="la la-eye"></span></button></a></li>
                             <li><a href="{{ route('company.post.edit', $item) }}"><button
                                         data-text="Chỉnh sửa tin"><span class="la la-pencil"></span></button></a></li>

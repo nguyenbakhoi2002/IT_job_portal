@@ -16,7 +16,7 @@
 </head>
 
 <body>
-
+    
     <div class="page-wrapper dashboard ">
         <div class="preloader"></div>
 
@@ -40,11 +40,11 @@
     </div><!-- End Page Wrapper -->
     @section('script')
         @include('company.layout.script')
-        <script>
+        {{-- <script>
             $('.select2').select2({
                 'width' : '100%',
             });
-        </script>
+        </script> --}}
         @include('admin.layout.toastr')
     @show
 </body>

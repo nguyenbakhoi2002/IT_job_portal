@@ -223,6 +223,61 @@
                                                             </div>
                                                         @enderror
                                                     </div>
+                                                    {{-- language --}}
+                                                    <div class="form-group col-lg-12 col-md-12">
+                                                        <label>Yêu cầu ngôn ngữ</label>
+                                                        <table width="100%" class="table-bordered table-sm table">
+                                                            <thead class="text-uppercase table-light">
+                                                            <tr>
+                                                                <th class="text-center">Ngoại ngữ</th>
+                                                                <th class="text-center">Trình độ ngoại ngữ</th>
+                                                                <th class="text-center">Delete</th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody id="languagedetail_tr">
+                                                            @foreach($job_post_language as $item)
+                                                                <tr>
+                                                                    <td>
+                                                                        <select data-placeholder="Chọn ... " class="chosen-select" name="language_id[]">
+                                                                            @foreach ($languages as $value )
+                                                                                <option value="{{$value->id}}" 
+                                                                                    {{ old('language_id') ? (old('language_id') == $value['id'] ? 'selected' : '') : ($item->language_id == $value['id'] ? 'selected' : '') }}
+                                                                                    {{-- {{ old('language_id') == $value->id ? 'selected' : '' }} --}}
+                                                                                    >
+                                                                                    {{$value->name}}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                    </td>
+                                                                    <td>
+                                                                        <select data-placeholder="Chọn ... " class="chosen-select" name="language_level[]">
+                                                                            @foreach (config('custom.language_level') as $value)
+                                                                                <option value="{{ $value['id']}}" 
+                                                                                {{ old('language_level') ? (old('language_level') == $value['id'] ? 'selected' : '') : ($item->level == $value['id'] ? 'selected' : '') }}
+                                                                                {{-- {{ old('language_level') == $value['id'] ? 'selected' : '' }} --}}
+                                                                                >{{ $value['name']}}</option>
+                                                                            @endforeach
+                                                                        </select>
+                                                                        
+                                                                    </td>
+                                                                    
+                                                                    <td class="text-center">
+                                                                        <div class="btn btn-primary delete">
+                                                                            <i class="fa-solid fa-trash"></i>
+                                                                        </div>
+                                                                        
+                                                                    </td>
+                                                                </tr>
+                                                            @endforeach
+                
+                                                            </tbody>
+                                                        </table>
+                                                        <div class="btn btn-primary" id="plus-language" style="max-width: 250px">
+                                                            <i class="fa-solid fa-plus"></i>Thêm ngôn ngữ   
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    {{-- end_language --}}
                                                     <div class="form-group col-lg-12 col-md-12">
                                                         <label>Quyền lợi</label>
                                                         <textarea class="description" name="benefits" placeholder="">{{ $post->benefits }}</textarea>
@@ -263,6 +318,32 @@
                     ['para', ['ul', 'ol']],
                 ],
                 height: 150,
+            });
+            $(document).on('click', '#plus-language', function () {
+                $('#languagedetail_tr').append(addLanguage());
+            });
+            $(document).on('click', '.delete', function () {
+                var rowToRemove = $(this).closest('tr');
+                Swal.fire({
+                    title: 'Bạn có chắc chắn?',
+                    text: 'Bạn sẽ không thể khôi phục dữ liệu này!',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Có, xóa!',
+                    cancelButtonText: 'Không, hủy bỏ'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        console.log('Người dùng đã xác nhận');
+                        rowToRemove.remove();
+                        Swal.fire(
+                            'Đã xóa!',
+                            'Dữ liệu của bạn đã được xóa.',
+                            'success'
+                        );
+                    } else {
+                        console.log('Người dùng đã hủy bỏ');
+                    }
+                });
             });
 
         });

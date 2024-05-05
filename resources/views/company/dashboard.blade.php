@@ -3,13 +3,13 @@
 @section('content')
     <div class="row">
         <div class="ui-block col-xl-3 col-lg-6 col-md-6 col-sm-12">
-            <div class="ui-item">
+            <div class="ui-item justify-content-around">
                 <div class="left">
                     <i class="icon flaticon-briefcase"></i>
                 </div>
-                <div class="right">
-                    <h4>jobPost_Count</h4>
-                    <p>Tin tuyển dụng</p>
+                <div class=" ">
+                    <p>Tin tuyển dụng đã đăng</p>
+                    <p>{{count($list_job)}}</p>
                 </div>
             </div>
         </div>
@@ -18,9 +18,10 @@
                 <div class="left">
                     <i class="icon la la-file-invoice"></i>
                 </div>
-                <div class="right">
-                    <h4>__Applies__</h4>
-                    <p>Ứng tuyển</p>
+                <div class="">
+                    <p>Số CV đã ứng tuyển</p>
+                    <p>{{($count_applied)}}</p>
+
                 </div>
             </div>
         </div>
@@ -52,5 +53,5 @@
     </div>
     </div>
     <!-- End Info Section -->
-    <a href="{{route('company.post.index')}}">post index</a>
+    {{-- <a href="{{route('company.post.index')}}">post index</a> --}}
 @endsection
