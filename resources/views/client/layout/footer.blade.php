@@ -5,8 +5,8 @@
             <div class="row">
                 <div class="big-column col-xl-4 col-lg-3 col-md-12">
                     <div class="footer-column about-widget">
-                        <div class="logo"><a href="#"><img src="{{ asset('images/logo_nbk.png') }}"
-                                    alt="" style="max-height: 40px;"></a>
+                        <div class="logo"><a href="#"><img src="{{ asset('images/logo_bakhoi.png') }}"
+                                    alt=""></a>
                         </div>
                         <p class="phone-num"><span>Call us </span><a href="">0368454462</a></p>
                         <p class="address">Nguyễn Bá Khôi

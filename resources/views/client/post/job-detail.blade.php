@@ -1,11 +1,11 @@
 @extends('client.layout.app')
 @section('title')
-    'BaKhoi'| {{$data_job->title}}
+    BaKhoi {{$data_job->title}}
 @endsection
 @section('content')
     <section class="job-detail-section">
       <!-- Upper Box -->
-      <div class="upper-box" style="background-image: url({{asset('storage/images/bg-4.png')}}); padding-bottom: 0 ">
+      <div class="upper-box" style="margin-top: 144px;background-image: url({{asset('storage/images/bg-4.png')}}); padding-bottom: 0; padding-top:0 ">
         <div class="auto-container">
           <!-- Job Block -->
           <div class="job-block-seven row">
@@ -33,7 +33,11 @@
                       @endif
                   @endforeach
                   <li class="time">
+                    @if ($data_job->end_date > \Carbon\Carbon::now())
                     còn {{$current_date->diff($data_job->end_date)->days}} ngày để nộp đơn
+                    @else
+                    hết hạn được {{$current_date->diff($data_job->end_date)->days}} ngày 
+                    @endif
                   </li>
                 </ul>
                 <div class="btn-box">
@@ -87,13 +91,14 @@
               <div class="col-md-4 col-sm-12 p-5" style="padding: 0 !important">
                 <div class="sidebar-widget company-widget"style="margin-top: 20px ">
                   <div class="widget-content">
-                    <div class="company-title">
-                      <div class="company-logo"><img src="{{asset('/uploads/images/company/'.$data_job->company->logo)}}" alt=""></div>
-                      <h5 class="company-name">{{$data_job->company->company_name}}</h5>
+                    <div class="company-info" style="display: flex;
+                    align-items: center;">
+                      <div class="" style="flex: 1; border: 1px solid #333 margin-right: 10px"><img src="{{asset('/uploads/images/company/'.$data_job->company->logo)}}" alt=""></div>
+                      <h5 class="" style="flex: 2;">{{$data_job->company->company_name}}</h5>
                       {{-- <a href="{{route('company-detail',$data_job->company)}}" class="profile-link">Thông tin công ty</a> --}}
                     </div>
 
-                    <ul class="company-info">
+                    <ul class="company-info" style="padding-left:0 ">
                       <li>Loại hình doanh nghiệp: <span>{{$data_job->company->company_model}}</span></li>
                       {{-- <li>Quy mô: <span>{{$data_job->company->company_size}}</span></li> --}}
                     </ul>

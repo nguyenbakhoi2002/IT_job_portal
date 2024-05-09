@@ -1,5 +1,7 @@
 .nav-outer img,.main-footer .logo img {
-    max-height: 40px;
+    /* max-height: 40px; */
+    width: 200px;
+    object-fit: cover;
 }
 .btn-style-one {
     background-color: #f7941d;

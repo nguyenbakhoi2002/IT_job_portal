@@ -347,5 +347,29 @@
             });
 
         });
+        function addLanguage() {
+            var html = `<tr>
+                    <td>
+                        <select data-placeholder="Chọn ... " class="chosen-select" name="language_id[]">
+                            @foreach ($languages as $value )
+                                <option value="{{$value->id}}" {{ old('language_id') == $value->id ? 'selected' : '' }}>{{$value->name}}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td>
+                        <select data-placeholder="Chọn ... " class="chosen-select" name="language_level[]">
+                            @foreach (config('custom.language_level') as $value)
+                                <option value="{{ $value['id']}}" {{ old('language_level') == $value['id'] ? 'selected' : '' }}>{{ $value['name']}}</option>
+                            @endforeach
+                        </select>
+                    </td>
+                    <td class="text-center">
+                        <div class="btn btn-primary delete">
+                            <i class="fa-solid fa-trash"></i>
+                        </div>
+                    </td>
+                </tr>`;
+            return html;
+        }
     </script>
 @endsection

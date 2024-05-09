@@ -5,8 +5,9 @@
             <!--Nav Outer -->
             <div class="nav-outer">
                 <div class="logo-box">
-                    <div class="logo"><a href=""><img src="{{ asset('images/logo_ubwork.png') }}"
-                                alt="" title=""></a></div>
+                    <div class="logo" style="margin: 0 50px;"><a href="{{route('index')}}">
+                        <img src="{{ asset('images/logo_bakhoi.png') }}" alt=""
+                            title="" ></a></div>
                 </div>
 
                 <nav class="nav main-menu">
@@ -38,7 +39,7 @@
                         <span class="name">{{ auth('company')->user()->company_name }}</span>
                     </a>
                     <ul class="dropdown-menu">
-                        <li><a href=""><i class="fa fa-cube"></i>Gói dịch vụ</a></li>
+                        <li><a href="{{route('company.changePassword')}}"><i class="fa fa-cube"></i>Đổi mật khẩu</a></li>
                         <li><a href="{{route('company.logout')}}"><i class="la la-sign-out"></i>Đăng xuất</a>
                             </form>
                         </li>

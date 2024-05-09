@@ -3,11 +3,11 @@
     BaKhoi
 @endsection
 @section('content')
-<section class="call-to-action-two" style="background-image: url({{asset('assets/client-bower/images/background/1.jpg')}});margin-top: 100px;">
+<section class="call-to-action-two" style="background-image: url({{asset('assets/client-bower/images/background/1.jpg')}});margin-top: 144px;">
     <div class="auto-container">
       <div class="sec-title light text-center">
         <h2>Chào mừng bạn đã quay trở lại</h2>
-        <div class="text">UBWORK xin mời bạn lựa chọn hình thức đăng nhập</div>
+        <div class="text">BaKhoi xin mời bạn lựa chọn hình thức đăng nhập</div>
       </div>
 
       <div class="btn-box">

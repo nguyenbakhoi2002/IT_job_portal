@@ -34,7 +34,7 @@
           <!--Nav Outer -->
           <div class="nav-outer">
             <div class="logo-box">
-              <div class="logo"><a href="{{route('company.login')}}"><img src="" alt="" title=""></a></div>
+              <div class="logo"><a href="{{route('admin.login')}}"><img src="" alt="" title=""></a></div>
             </div>
           </div>
         </div>
@@ -52,7 +52,7 @@
         <!-- Login Form -->
         <div class="login-form default-form">
           <div class="form-inner">
-            <h3>Đăng nhập với tư cách là nhà tuyển dụng</h3>
+            <h3>Đăng nhập vào ADMIN BaKhoi</h3>
             <!--Login Form-->
             <form method="POST" action="">
                 @csrf
@@ -79,7 +79,7 @@
               {{-- <input type="hidden" name="_token" value="{!! csrf_token() !!}"> --}}
             </form>
             <div class="bottom-box">
-                <div class="text"><a href="">Quên Mật Khẩu?</a><span> Hoặc</span> Bạn chưa có tài khoản? <a href="{{route('company.register')}}">Đăng ký</a>
+                <div class="text"><a href="">Quên Mật Khẩu?</a><span> Hoặc</span> Bạn chưa có tài khoản? <a href="">Đăng ký</a>
                 </div>
               <div class="divider"><span>hoặc</span></div>
               <div class="btn-box row">

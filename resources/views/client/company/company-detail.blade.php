@@ -5,7 +5,7 @@
 @section('content')
     <section class="job-detail-section">
         <!-- Upper Box -->
-        <div class="upper-box">
+        <div class="upper-box" style="margin-top: 144px">
             <div class="auto-container">
                 <!-- Job Block -->
                 <div class="job-block-seven">

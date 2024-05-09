@@ -12,6 +12,7 @@ use App\Http\Controllers\Client\SavedJobController;
 use App\Http\Controllers\Client\SavedCompanyController;
 use App\Http\Controllers\Client\CandidateController;
 use App\Http\Controllers\Company\LoginController;
+use App\Http\Controllers\Admin\AdminController;
 
 
 
@@ -37,6 +38,15 @@ Route::prefix('company')->group(function () {
     Route::get('/login', [LoginController::class, 'login'])->name('company.login');
     Route::post('/login', [LoginController::class, 'postLogin']);
     Route::get('/logout',[LoginController::class, 'logout'])->name('logout'); 
+    Route::get('/register', [LoginController::class, 'register'])->name('company.register');
+    Route::post('/register', [LoginController::class, 'postRegister']);
+
+});
+//admin
+Route::prefix('admin')->group(function () {
+    Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
+    Route::post('/login', [AdminController::class, 'postLogin']);
+    Route::get('/logout',[AdminController::class, 'logout'])->name('logout'); 
 
 
 });

@@ -14,6 +14,7 @@ use App\Models\Degree;
 use App\Models\Language;
 use App\Models\JobPostActivity;
 use App\Models\JobPostLanguage;
+use Illuminate\Support\Carbon;
 use DB;
 
 //request
@@ -32,7 +33,7 @@ class JobPostController extends Controller
     {
         $title = "Bài đăng";
         $company_id = auth('company')->user()->id;
-        $list_jobs = JobPost::where('company_id', $company_id)->paginate(10);
+        $list_jobs = JobPost::where('company_id', $company_id)->where('status', 1)->paginate(10);
 
         //loc.start
         
@@ -122,7 +123,7 @@ class JobPostController extends Controller
             }
             DB::commit();
             Session::flash('success', 'Thêm thành công!');
-            return Redirect()->route('company.post.index');
+            return Redirect()->route('company.post.postCreated');
 
         }
         catch(Exception $e){
@@ -180,21 +181,51 @@ class JobPostController extends Controller
     public function update(JobPostRequest $request, JobPost $post)
     {
         //dd($post);
+        DB::beginTransaction();
         try {
+            $job_post_id = $post->id;
             $skill=$request->skill;
             $post->update($request->all());
             //cập nhập dữ liệu trong bảng trung gian
             $post->skills()->sync($skill);
             //phần ngoại ngữ
-            //sẽ lấy ra các ngoại ngữ khi sử, chạy vòng lặp từng cái một, trong vòng lặp lại có 1 vòng lặp, 
-            //chạy những ngoại ngữ cữ, nếu giống ngoại ngữ mới thì cập nhật level
-            //còn những ngoại ngữ mới ko có trong bảng cũ thì p làm sao ????
+            //sẽ lấy ra các ngoại ngữ khi sửa, chạy vòng lặp từng cái một, trong vòng lặp lại có 1 vòng lặp, 
+            //chạy những ngoại ngữ cũ, nếu giống ngoại ngữ mới thì cập nhật level
+            //còn những ngoại ngữ mới ko có trong bảng cũ thì p làm sao ???? sẽ xét array_in nếu ko có thì thêm mới
+            
+            //đầu tiên cần xóa bỏ những ngôn ngữ ko được giữ lại 
+            //nếu có request language
+            if($request->has('language_id')){
+                $languageIds = $request->language_id;
+                $language_levels = $request->language_level;
+                for ($i = 0; $i < count($languageIds); $i++) {
+                    $languageId = $languageIds[$i];
+                    $languageLevel = $language_levels[$i];
+            
+                    // Tìm bản ghi theo job_post_id và language_id, nếu không tìm thấy thì tạo mới
+                    // nếu tìm thấy thì update
+                    JobPostLanguage::updateOrCreate(
+                        ['job_post_id' => $job_post_id, 'language_id' => $languageId],
+                        ['level' => $languageLevel]
+                    );
+                }
+                
+                //lấy ra những ngôn ngữ bị loại bỏ(có trong dữ liệu nhưng không có trong request thay đổi) để xóa bỏ
+                 JobPostLanguage::where('job_post_id', $job_post_id)
+                ->whereNotIn('language_id', $languageIds)
+                ->delete();
+            }
+            else{
+                //nếu ko có request sẽ xóa bỏ hết các ngôn ngữ ứng với bài đăng hiện tại
+                JobPostLanguage::where('job_post_id', $job_post_id)->delete();
+            }
 
 
-
+            DB::commit();
             Session::flash('success', 'Sửa bài đăng thành công!');
-            return Redirect()->route('company.post.index');
+            return Redirect()->route('company.post.postCreated');
         } catch (\Throwable $th) {
+            DB::rollBack();
             Session::flash('error', 'Lỗi sửa!');
             return Redirect()->route('company.post.edit');
         }
@@ -216,5 +247,27 @@ class JobPostController extends Controller
         $title = "Danh sách ứng tuyển - $name";
         return view('company.post.profileApply', 
         ['title' => $title, 'list_seekerProfile'=>$list_seekerProfile, 'activeRoute'=>'post']);
+    }
+    public function postExpired(){
+        $list_jobs = JobPost::whereDate('end_date', '<', Carbon::now())->paginate(10);
+        if($key = request()->key){
+            $list_jobs = JobPost::where('title','like','%' . $key . '%')->paginate(10);
+        }
+        $title = "Danh sách các bài đăng đã hết hạn";
+        return view('company.post.postExpired', 
+        ['title' => $title, 'list_jobs'=>$list_jobs, 'activeRoute'=>'post']);
+    }
+    public function postCreated(){
+        $list_jobs = JobPost::where('status', 0)->orWhere('status', 2)->orWhere('status', 3)->orderBy('id', 'desc')->paginate(10);
+        if($key = request()->key){
+            $list_jobs = JobPost::where('title','like','%' . $key . '%')->paginate(10);
+        }
+        $title = "Danh sách các bài đăng chưa kiểm duyệt";
+        return view('company.post.postCreated', 
+        ['title' => $title, 'list_jobs'=>$list_jobs, 'activeRoute'=>'post']);
+    }
+    public function status(Request $request, string $id){
+        JobPost::where('id', $id)->update(['status' => 3]);
+        return response()->json(['success'=>'Yêu cầu đăng bài thành công, sẽ được xem xét trong vòng 2 ngày']);
     }
 }

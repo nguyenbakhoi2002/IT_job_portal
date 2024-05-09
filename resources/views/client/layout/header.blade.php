@@ -5,12 +5,14 @@
         <!--Nav Outer -->
         <div class="nav-outer">
             <div class="logo-box">
-                <div class="logo"><a href="/"><img src="{{ asset('images/logo_ubwork.png') }}" alt=""
-                            title="" style="max-height: 40px;"></a></div>
+                {{-- <div class="logo"><a href="/"><img src="{{ asset('images/logo_ubwork.png') }}" alt="" --}}
+                    <div class="logo" style="margin: 0 50px;"><a href="{{route('index')}}">
+                        <img src="{{ asset('images/logo_bakhoi.png') }}" alt=""
+                            title="" ></a></div>
             </div>
 
             <nav class="nav main-menu">
-                <ul class="navigation" id="navbar">
+                <ul class="navigation" id="navbar" style="margin-bottom: 0">
                     <li class="current dropdown">
                         {{-- <span>Home</span> --}}
                         <a href="{{route('index')}}">Trang chủ</a>

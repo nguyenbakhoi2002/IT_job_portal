@@ -19,7 +19,7 @@
     </style>
 @endsection
 @section('content')
-    <section class="page-title " style="margin-top: 90px">
+    <section class="page-title " style="margin-top: 144px">
         <div class="auto-container">
             <div class="title-outer">
                 <h1>Danh sách công việc </h1>

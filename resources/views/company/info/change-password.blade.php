@@ -1,6 +1,6 @@
-@extends('client.layout.app')
+@extends('company.layout.app')
 @section('title')
-    BaKhoi | Đổi mật khẩu ứng viên
+    BaKhoi|Đổi mật khẩu company
 @endsection
 @section('content')
     <section class="user-dashboard pt-5 mt-5">
@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="widget-content">
-                  <form class="default-form" action="{{route("updatePassword")}}" method="post" enctype="multipart/form-data">
+                  <form class="default-form" action="{{route("company.updatePassword")}}" method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                       <div class="form-group col-lg-6 col-md-12">

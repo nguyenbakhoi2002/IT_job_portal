@@ -19,3 +19,15 @@
 <script src="{!! asset('assets/admin-bower/plugins/select2-master/select2.full.min.js') !!}"></script>
 <script src="{{ asset('assets/admin-bower/plugins/sweetalert2/sweetalert2.all.min.js') }}"></script>
 <script src="{{ asset('assets/admin-bower/plugins/toastr/toastr.min.js') }}"></script>
+<script>
+    const parentLinks = document.querySelectorAll('.parent-link');
+
+    parentLinks.forEach(function(link) {
+        link.addEventListener('click', function(event) {
+            console.log('khôi');
+            event.preventDefault(); // Ngăn chặn mặc định hành vi click
+            const navigation = this.nextElementSibling; // Lấy phần tử anh em kế tiếp của menu cha
+            navigation.classList.toggle('active'); // Thêm hoặc loại bỏ lớp active
+        });
+    });
+</script>

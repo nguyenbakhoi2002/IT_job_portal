@@ -8938,19 +8938,39 @@ Preloader
   position: absolute;
   left: 50%;
   top: 50%;
-  height: 50px;
-  width: 50px;
-  margin-left: -25px;
-  margin-top: -25px;
+  height: 94px;
+  width: 200px;
+  transform: translate(-50%, -60%);
   background-position: center center;
   background-repeat: no-repeat;
+  background-size: contain;
   background-image: url(../images/favicon.png);
-  background-image: url(https://didongviet.vn/dchannel/wp-content/uploads/2023/08/hinh-nen-3d-hinh-nen-iphone-dep-3d-didongviet@2x-576x1024.jpg);
+  background-image: url(../../../images/logo_bakhoi.png);
+  /* background-image: url(https://didongviet.vn/dchannel/wp-content/uploads/2023/08/hinh-nen-3d-hinh-nen-iphone-dep-3d-didongviet@2x-576x1024.jpg); */
   content: "";
 }
 
 .preloader:before {
   position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 60px;
+  width: 150px;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 40px;
+  color: #C46F01;
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: 2px;
+  content: "";
+  background-image: url(../../../images/loading.png);
+  background-size: 50px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  /* position: absolute;
   top: 50%;
   left: 0;
   right: 0;
@@ -8962,7 +8982,7 @@ Preloader
   font-size: 14px;
   font-weight: 400;
   letter-spacing: 2px;
-  content: "LOADING";
+  content: url(../../../images/loading.png) "LOADING"; */
 }
 
 /*==========================

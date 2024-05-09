@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashBoardController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\MajorController;
 use App\Http\Controllers\Admin\DegreeController;
+use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\TimeController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\CandidateController;
@@ -52,4 +53,10 @@ Route::resource('time', TimeController::class);
     Route::get('time-trash/{id}', [TimeController::class, 'restore'])->name('time.restore');
     Route::get('/time-forceDelete/{id}',[TimeController::class, 'force'] )->name('time.forceDelete');
 
+//language- ngoại ngữ
+Route::resource('language', LanguageController::class); 
+    Route::post('language-status/{id}', [LanguageController::class, 'status'])->name('language.status');
+    Route::get('language-trash',[LanguageController::class, 'trash'] )->name('language.trash');
+    Route::get('language-trash/{id}', [LanguageController::class, 'restore'])->name('language.restore');
+    Route::get('/language-forceDelete/{id}',[LanguageController::class, 'force'] )->name('language.forceDelete');
 ?>

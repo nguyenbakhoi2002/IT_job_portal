@@ -8,7 +8,7 @@
             <!-- small box -->
             <div class="small-box bg-success">
                 <div class="inner">
-                    {{-- <h3>{{ count($countCandidate) }}</h3> --}}
+                    <h3>{{ count($candidate) }}</h3>
 
                     <p>Ứng viên có trong hệ thống</p>
                 </div>
@@ -23,7 +23,7 @@
             <!-- small box -->
             <div class="small-box bg-primary">
                 <div class="inner">
-                    {{-- <h3>{{ count($countCompany) }}</h3> --}}
+                    <h3>{{ count($company) }}</h3>
 
                     <p>Công ty có trong hệ thống</p>
                 </div>
@@ -39,9 +39,9 @@
             <!-- small box -->
             <div class="small-box bg-warning">
                 <div class="inner">
-                    {{-- <h3>{{ count($countCV) }}</h3> --}}
+                    <h3>{{ count($job_post) }}</h3>
 
-                    <p> CV có trong hệ thống</p>
+                    <p> Công việc có trong hệ thống</p>
                 </div>
                 <div class="icon">
                     <i class="ion ion-stats-bars"></i>
@@ -54,7 +54,7 @@
             <!-- small box -->
             <div class="small-box bg-danger">
                 <div class="inner">
-                    {{-- <h3>{{ count($countCV) }}</h3> --}}
+                    <h3>{{ count($admin) }}</h3>
 
                     <p> Quản trị có trong hệ thống</p>
                 </div>
@@ -76,7 +76,7 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Tổng số kĩ năng</span>
                     <span class="info-box-number">
-                        {{-- {{ count($countSkill) }} --}}
+                        {{ count($skill) }}
                     </span>
                 </div>
 
@@ -90,7 +90,7 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Tổng số chuyên ngành</span>
                     <span class="info-box-number">
-                      {{-- {{ count($countMajor) }} --}}
+                      {{ count($major) }}
                     </span>
                 </div>
 
@@ -103,7 +103,7 @@
                 <div class="info-box-content">
                     <span class="info-box-text">Tổng số Công Ty chờ xét duyệt</span>
                     <span class="info-box-number">
-                      {{-- {{ count($countPendingImagePaper) }} --}}
+                      {{ count($company_wait) }}
                     </span>
                 </div>
             </div>
@@ -113,9 +113,9 @@
             <div class="info-box mb-3">
                 <span class="info-box-icon bg-success elevation-1"><i class="fa fa-check"></i></span>
                 <div class="info-box-content">
-                    <span class="info-box-text">Tổng số Công Ty đã xét duyệt</span>
+                    <span class="info-box-text">Tổng số Công việc chờ xét duyệt</span>
                     <span class="info-box-number">
-                      {{-- {{ count($countActiveImagePaper) }} --}}
+                      {{ count($post_wait) }}
                     </span>
                 </div>
             </div>

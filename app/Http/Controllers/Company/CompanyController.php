@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Admin\UpdateCompanyRequest;
 use App\Http\Requests\Admin\paperUpdateCompanyRequest;
 use Illuminate\Support\Str;
+use App\Http\Requests\Client\ChangePwRequest;
 use Session;
+use Hash;
+
 class CompanyController extends Controller
 {
     public function info(){
@@ -69,6 +72,26 @@ class CompanyController extends Controller
             return redirect()->back()->with('success', 'sửa thành công');
         } catch (\Exception  $e) {
             return redirect()->back()->with('error', 'sửa thất bại'.$e->getMessage());
+        }
+    }
+    public function changePassword()
+    {
+        $detail = auth('company')->user();
+        return view('company.info.change-password', ['detail' =>$detail, 'title'=>'Đổi mật khẩu công ty']);
+    }
+    public function updatePassword(ChangePwRequest $request)
+    {
+        $company = auth('company')->user();
+
+        if (Hash::check($request->password_old, $company->password)) {
+            $request->merge(['password'=>Hash::make($request->password)]);
+            $company->update(['password'=>$request->password]);
+            Session::flash('success', 'Đổi mật khẩu thành công! Vui lòng đăng nhập lại');
+            auth('company')->logout();
+            return  redirect()->route('company.login');
+        }else {
+            Session::flash('error', 'Mật khẩu cũ không đúng!');
+            return Redirect()->back();
         }
     }
 }

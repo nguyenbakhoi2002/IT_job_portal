@@ -48,6 +48,10 @@ return [
             'driver' => 'session',
             'provider' => 'candidates',
         ],
+        'admin' => [
+            'driver' => 'session',
+            'provider' => 'admins',
+        ],
     ],
 
     /*
@@ -80,6 +84,10 @@ return [
         'candidates' => [
             'driver' => 'eloquent',
             'model' => App\Models\Candidate::class,
+        ],
+        'admins' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Admin::class,
         ],
         // 'users' => [
         //     'driver' => 'database',
@@ -121,6 +129,12 @@ return [
         ],
         'candidates' => [
             'provider' => 'candidates',
+            'table' => 'password_reset_tokens',
+            'expire' => 60,
+            'throttle' => 60,
+        ],
+        'admins' => [
+            'provider' => 'admins',
             'table' => 'password_reset_tokens',
             'expire' => 60,
             'throttle' => 60,

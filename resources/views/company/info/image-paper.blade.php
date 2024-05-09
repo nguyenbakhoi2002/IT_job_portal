@@ -59,14 +59,14 @@
   border: 1px solid #888;
   width: 80%; /* Chiều rộng của nội dung modal */
   max-width: 600px; /* Chiều rộng tối đa của nội dung modal */
-  max-height: 80%; /* Chiều cao tối đa của nội dung modal */
+  max-height: 100%; /* Chiều cao tối đa của nội dung modal */
   overflow-y: auto; /* Cho phép cuộn nếu nội dung quá dài */
 }
   </style>
 @endsection
 @section('content')
 <section class="user-dashboard">
-  <div id="myModal" class="modal">
+  <div id="myModal" class="modal" style="max-width: 100%">
     <span class="close">&times;</span>
     <img class="modal-content" id="img01">
   </div>

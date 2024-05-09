@@ -41,7 +41,7 @@ class RouteServiceProvider extends ServiceProvider
             // Route::middleware('web','locale','auth')
 
             // thêm routes admin.php
-            Route::middleware('web') 
+            Route::middleware('web', 'auth.admin') 
                 // ->namespace($this->namespace)   
                 ->prefix('admin')
                 ->name('admin.')

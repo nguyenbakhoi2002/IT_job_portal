@@ -24,9 +24,13 @@
                     /{{$item->activities->count()}}(ALL)<br> Ngày hết hạn:
                     {{ date_format(new DateTime($item->end_date), 'd/m/Y') }}</td>
                 @if ($item->status == 1)
-                    <td><p class="text-success">active</p></td>
+                    <td><p class="text-success">Hoạt động</p></td>
+                @elseif($item->status == 2)
+                    <td><p class="text-danger">Bị từ Chối duyệt</p></td>
+                    @elseif($item->status == 3)
+                    <td><p class="text-warning">Đợi duyệt</p></td>
                 @else
-                    <td><p class="text-danger">block</p></td>
+                    <td><p class="text-primary">Trạng thái ban đầu</p></td>
                 @endif
 
                 <td>
@@ -34,8 +38,8 @@
                         <ul class="option-list d-block text-center">
                             <li class="mb-2"><a target="_blank" href="{{route('job-detail', $item->id)}}"><button
                                         data-text="Chi tiết"><span class="la la-eye"></span></button></a></li>
-                            <li><a href="{{ route('company.post.edit', $item) }}"><button
-                                        data-text="Chỉnh sửa tin"><span class="la la-pencil"></span></button></a></li>
+                            {{-- <li><a href="{{ route('company.post.edit', $item) }}"><button
+                                        data-text="Chỉnh sửa tin"><span class="la la-pencil"></span></button></a></li> --}}
                             {{-- <li><button data-text="Delete Aplication"><span class="la la-trash"></span></button></li> --}}
                         </ul>
                     </div>

@@ -79,7 +79,7 @@
             
             <div class="row">
 
-                <div class="col-lg-12" style="background-color: #e8effd">
+                <div class="col-lg-12" style="margin-top: 90px, background-color: #e8effd">
                     <!-- CV Manager Widget -->
                     <div class="cv-manager-widget ls-widget " style="background-color: #e8effd">
                         
