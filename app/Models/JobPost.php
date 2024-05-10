@@ -12,7 +12,7 @@ class JobPost extends Model
     protected $table = 'job_posts';
     protected $fillable = [
         'id', 'company_id', 'title','level', 'min_salary', 'max_salary', 'end_date', 'amount', 'type_work', 'description', 'requirement', 'benefits', 'area',
-         'address', 'status', 'degree_id', 'time_exp_id', 'major_id',  'created_at',    'updated_at'
+         'address', 'status','date_request', 'degree_id', 'time_exp_id', 'major_id','admin_id',  'created_at',    'updated_at'
         ];
 
     //truy xuất số lượng CV gửi về    
@@ -25,14 +25,14 @@ class JobPost extends Model
     //hạn chế sử dụng DB:raw(các loại truy vấn thô, vì dễ bị tấn công sql)
     public function applied()
     {
-        return $this->belongsToMany(SeekerProfile::class, 'job_post_activity', 'job_post_id', 'seeker_profile_id')->withPivot('seen', 'satisfy')
+        return $this->belongsToMany(SeekerProfile::class, 'job_post_activity', 'job_post_id', 'seeker_profile_id')->withPivot('id','seen', 'satisfy','created_at', 'updated_at')
                     ->select('seeker_profile.*', DB::raw('IF(job_post_activity.satisfy IS NULL OR job_post_activity.satisfy = "", 0, 
                     LENGTH(job_post_activity.satisfy) - LENGTH(REPLACE(job_post_activity.satisfy, "|", ""))+ 1)  AS satisfy_count'))
                     ->orderByDesc('satisfy_count');
     }
     //thông tin ứng viên
     public function seekerProfile(){
-        return $this->belongsToMany(SeekerProfile::class, 'job_post_activity', 'job_post_id', 'seeker_profile_id')->withPivot('seen', 'satisfy');
+        return $this->belongsToMany(SeekerProfile::class, 'job_post_activity', 'job_post_id', 'seeker_profile_id')->withPivot('id','seen', 'satisfy', 'created_at', 'updated_at');
     }
     //lấy ra thông tin ứng viên đáp ứng được yêu cầu của bài đăng
     public function seekerProfileRequest($degreeLevel, $experienceYears, $jobPostSkills){

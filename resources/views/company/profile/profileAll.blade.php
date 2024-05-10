@@ -58,7 +58,66 @@
                     </div>
                     <div class="widget-content">
                         <div class="table-outer">
-                          @include('company.post.tableProfileApply')
+                          {{-- @include('company.post.tableProfileApply') --}}
+                          
+<table class="default-table manage-job-table" data-pageApplied>
+    <thead>
+        <tr>
+            <th>Ứng viên</th>
+            <th>Công việc ứng tuyển</th>
+            <th>Ngày apply</th>
+            <th>Trạng thái</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach ($list_seekerProfile as $item)
+            <tr>
+                <td>
+                    <h6>{{ $item->name }}</h6>
+                    <a target="_blank" href="{{route('profilePreview', $item)}}" class="btn btn-primary text-white" >Chi tiết</a>
+                    {{-- <span>{{ $item->pivot->seen == 1 ? "Đã xem" : "Chưa xem" }}</span> --}}
+                </td>
+                @php
+                    $job_post = \App\Models\JobPost::find($item->pivot->job_post_id);
+                    echo '<td>'.$job_post->title.'</td>'
+                @endphp
+                {{-- <td>
+                    {{ $job_post->name }}
+                </td> --}}
+                <td>
+                    {{ \Carbon\Carbon::parse($item->pivot->created_at)->format('d-m-Y')}}
+                </td>
+                <td>
+                    
+                    <form action="{{route('company.updateStatusAll',  $item->pivot->id)}}" method="post">
+                        @csrf
+                        @method('post')
+                        <select class="status-profile" name="status" data-id="{{$item->pivot->id}}">
+                          <option @if($item->pivot->seen == 0) selected @endif value="0">Chưa xem</option>
+                          <option @if($item->pivot->seen == 1) selected @endif value="1">Đã xem</option>
+                          <option @if($item->pivot->seen == 2) selected @endif value="2">Không phù hợp</option>
+                          <option @if($item->pivot->seen == 3)  selected @endif value="3" >Phù hợp</option>
+                        </select>
+                      </form>
+                </td>
+                {{-- <td><a target="_blank" href="" class="btn btn-primary text-white" >Chi tiết</a></td> --}}
+                {{-- <td><a target="_blank" href="{{route('profilePreview', $item)}}" class="btn btn-primary text-white" >Chi tiết</a></td> --}}
+            </tr>
+        @endforeach
+    </tbody>
+    {{-- <tfoot>
+        <tr>
+            <td><nav class="ls-pagination">
+              {{$list_seekerProfile->links('company.layout.paginate')}}
+             </nav>
+            </td>
+          </tr>
+    </tfoot> --}}
+</table>
+<div class="text-center mt-3">
+    {{$list_seekerProfile->appends(request()->all())->links()}} 
+</div>
+
                         </div>
                     </div>
                 </div>
@@ -69,9 +128,8 @@
 @endsection
 @section('script')
   @parent
-  {{-- <script src="{{asset('js/paginate.js')}}"></script> --}}
+  <script src="{{asset('js/paginate.js')}}"></script>
   <script src="{{asset('js/company/update-status-profile.js')}}"></script>
-
   <script>
       $(function() {
         $(document).on("click",".pagination li a,#button_search", function(e) {

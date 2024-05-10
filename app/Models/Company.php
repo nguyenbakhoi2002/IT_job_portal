@@ -21,4 +21,9 @@ class Company extends Authenticatable
      public function jobPost(){
         return $this->hasMany(JobPost::class, 'company_id')->where('status', 1);
      }
+     public function seekerProfile(){
+      return $this->belongsToMany(SeekerProfile::class, 'job_post_activity', 'company_id', 'seeker_profile_id')
+      ->orderBy('job_post_activity.id', 'desc')
+      ->withPivot('id','seen', 'satisfy','job_post_id' ,'created_at', 'updated_at');
+  }
 }

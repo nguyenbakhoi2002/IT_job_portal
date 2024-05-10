@@ -23,9 +23,14 @@ Route::get('/post-expired',  [JobPostController::class, 'postExpired'])->name('p
 //đăng bài - thay đổi status
 Route::post('post-created-status/{id}', [JobPostController::class, 'status'])->name('postPost');
 
-
-// Route::prefix('post')->group(function () {
-    Route::get('/profile-apply/{id}', [JobPostController::class, 'profileApply'])->name('profileApply');
+//profile tất cả
+Route::get('/profile-all',  [ProfileApplyController::class, 'profileAll'])->name('profileAll'); 
+//status của profile (trang tất cả profille)
+Route::post('/profile-status/{id}', [ProfileApplyController::class, 'statusAll'])->name('updateStatusAll');
+// profile cho từng bài đăng
+Route::get('/profile-apply/{id}', [JobPostController::class, 'profileApply'])->name('profileApply');
+//status của profile (trang profille của từng bài đăng)
+// Route::post('/profile-apply-status/{id}', [ProfileApplyController::class, 'statusOwn'])->name('updateStatusOwn');
 // });
 //thông tin công ty
 Route::get('/info', [CompanyController::class, 'info'])->name('info');

@@ -1,6 +1,20 @@
 @extends('admin.layout.app')
 @section('title')
-    {{ __('Dashboard') }}
+    Dashboard
+@endsection
+@section('style')
+    @parent
+    <style>
+        @keyframes bounce {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .info-box-animation {
+            animation: bounce 2s infinite; /* Áp dụng animation với tên 'bounce', thời gian 2s, và lặp vô hạn */
+        }
+    </style>
 @endsection
 @section('content')
     <div class="row">
@@ -98,27 +112,55 @@
 
         </div>
         <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-                <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-toggle-on"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Tổng số Công Ty chờ xét duyệt</span>
-                    <span class="info-box-number">
-                      {{ count($company_wait) }}
-                    </span>
+            @if(count($company_wait)>0)
+            <a href="{{route('admin.company.companyWaiting')}}" class="text-dark">
+                <div class="info-box info-box-animation  mb-3">
+                    <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-toggle-on"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Tổng số Công Ty bị chặn</span>
+                        <span class="info-box-number">
+                        {{ count($company_wait) }}
+                        </span>
+                    </div>
                 </div>
-            </div>
+            </a>
+            @else
+                <div class="info-box mb-3">
+                    <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-toggle-on"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Tổng số Công Ty chờ xét duyệt</span>
+                        <span class="info-box-number">
+                        {{ count($company_wait) }}
+                        </span>
+                    </div>
+                </div>
+            @endif
 
         </div>
         <div class="col-12 col-sm-6 col-md-3">
-            <div class="info-box mb-3">
-                <span class="info-box-icon bg-success elevation-1"><i class="fa fa-check"></i></span>
-                <div class="info-box-content">
-                    <span class="info-box-text">Tổng số Công việc chờ xét duyệt</span>
-                    <span class="info-box-number">
-                      {{ count($post_wait) }}
-                    </span>
+            @if(count($post_wait)>0)
+            <a href="{{route('admin.post.jobPostWaiting')}}" class="text-dark">
+                <div class="info-box info-box-animation mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fa fa-check"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Tổng số Công việc chờ xét duyệt</span>
+                        <span class="info-box-number">
+                        {{ count($post_wait) }}
+                        </span>
+                    </div>
                 </div>
-            </div>
+            </a>
+            @else
+                <div class="info-box  mb-3">
+                    <span class="info-box-icon bg-success elevation-1"><i class="fa fa-check"></i></span>
+                    <div class="info-box-content">
+                        <span class="info-box-text">Tổng số Công việc chờ xét duyệt</span>
+                        <span class="info-box-number">
+                        {{ count($post_wait) }}
+                        </span>
+                    </div>
+                </div>
+            @endif
         </div>
         {{-- <div class="col-12 col-sm-6 col-md-3">
             <div class="info-box mb-3">

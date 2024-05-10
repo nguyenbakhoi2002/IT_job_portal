@@ -24,11 +24,14 @@ class JobPostActivitiesController extends Controller
     public function applied(Request $request, string $id){
         DB::beginTransaction();
         try {
+            
             //mảng chứa các tiêu chí tuyển dụng mà ứng viên thỏa mãn
             //lưu là edu|exp|skill|language cách nhau bởi dấu |
             $satisfy = [];
             //lấy ra bài đăng đang được ứng tuyển
             $post =  JobPost::find($id);
+            //lấy ra công ty
+            $company_id = $post->company_id;
             //lấy ra các yêu cầu 
             //level của bằng cấp;
             $required_degree = $post->degree->level;
@@ -147,6 +150,7 @@ class JobPostActivitiesController extends Controller
             $jobPostActivities = new JobPostActivity();
             $jobPostActivities->seeker_profile_id = $clonedProfile->id;
             $jobPostActivities->job_post_id = $id;
+            $jobPostActivities->company_id = $company_id;
             $jobPostActivities->satisfy = implode('|', $satisfy); // Chuyển mảng $satisfy thành chuỗi ngăn cách bởi dấu '|'
             $jobPostActivities->save();
 

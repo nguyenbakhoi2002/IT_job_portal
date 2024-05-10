@@ -11,7 +11,7 @@ class JobPostActivity extends Model
     // public $timestamps = false;
     protected $table = 'job_post_activity';
     protected $fillable = [
-        'id', 'seeker_profile_id', 'job_post_id','seen', 'satisfy', 'created_ad', 'updated_ad'
+        'id', 'seeker_profile_id', 'job_post_id','seen', 'satisfy','company_id', 'created_ad', 'updated_ad'
     ]; 
     public function jobPost(){
         return $this->belongsTo(JobPost::class, 'job_post_id');

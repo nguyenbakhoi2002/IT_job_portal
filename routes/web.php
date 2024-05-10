@@ -53,8 +53,8 @@ Route::prefix('admin')->group(function () {
 //profile
 Route::post('/create-cv', [ProfileController::class, 'createProfile'])->name('createProfile')->middleware('auth.candidate');
 Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('auth.candidate');
-Route::get('/profile-preview/{seeker_profile}', [ProfileController::class, 'profilePreview'])->name('profilePreview')->middleware('auth.candidate');
-Route::get('/export-profile/{seeker_profile}', [ProfileController::class, 'exportProfile'])->name('exportProfile')->middleware('auth.candidate');
+Route::get('/profile-preview/{seeker_profile}', [ProfileController::class, 'profilePreview'])->name('profilePreview');
+Route::get('/export-profile/{seeker_profile}', [ProfileController::class, 'exportProfile'])->name('exportProfile');
 
 Route::prefix('update-cv')->middleware('auth.candidate')->group(function () {
     //thông tin cơ bản

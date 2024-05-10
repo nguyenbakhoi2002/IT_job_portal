@@ -267,7 +267,10 @@ class JobPostController extends Controller
         ['title' => $title, 'list_jobs'=>$list_jobs, 'activeRoute'=>'post']);
     }
     public function status(Request $request, string $id){
-        JobPost::where('id', $id)->update(['status' => 3]);
+        JobPost::where('id', $id)->update([
+            'status' => 3,
+            'date_request' => Carbon::now(),
+        ]);
         return response()->json(['success'=>'Yêu cầu đăng bài thành công, sẽ được xem xét trong vòng 2 ngày']);
     }
 }

@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\DegreeController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\TimeController;
 use App\Http\Controllers\Admin\CompanyController;
+use App\Http\Controllers\Admin\JobPostController;
 use App\Http\Controllers\Admin\CandidateController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
@@ -19,6 +20,19 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::get('/company-forceDelete/{id}',[CompanyController::class, 'force'] )->name('company.forceDelete');
     //status
     Route::post('company-status/{id}', [CompanyController::class, 'status'])->name('company.status');
+//company bị chặn
+    Route::get('/company-waiting',[CompanyController::class, 'companyWaiting'] )->name('company.companyWaiting');
+
+//bài đăng - jobpost
+Route::resource('post', JobPostController::class);  
+
+//số bài đăng chờ duyệt
+Route::get('/job-post-waiting',[JobPostController::class, 'jobPostWaiting'] )->name('post.jobPostWaiting');
+//chấp nhận bài đăng
+Route::post('/job-accept/{id}',[JobPostController::class, 'jobAccept'] )->name('post.accept');
+//từ chối bài đăng
+Route::get('/job-refuse/{id}',[JobPostController::class, 'jobRefuse'] )->name('post.refuse');
+
 //candidate-ứng viên
     Route::resource('candidate', CandidateController::class); 
     //thùng rác

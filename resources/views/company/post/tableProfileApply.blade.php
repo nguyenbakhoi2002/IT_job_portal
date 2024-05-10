@@ -14,7 +14,7 @@
             <tr>
                 <td>
                     <h6>{{ $item->name }}</h6>
-                    <span>{{ $item->pivot->seen == 1 ? "Đã xem" : "Chưa xem" }}</span>
+                    <a target="_blank" href="{{route('profilePreview', $item)}}" class="btn btn-primary text-white" >Xem Profile</a>
                 </td>
                 <td>
                     {{ $item->phone }} <br>{{ $item->email }}
@@ -70,7 +70,18 @@
                 <td>
                     {{ \Carbon\Carbon::parse($item->pivot->created_at)->format('d-m-Y')}}
                 </td>
-                <td><a target="_blank" href="" class="btn btn-primary text-white" >Chi tiết</a></td>
+                <td>
+                    <form action="{{route('company.updateStatusAll',  $item->pivot->id)}}" method="post">
+                        @csrf
+                        @method('post')
+                        <select class="status-profile" name="status" data-id="{{$item->pivot->id}}">
+                          <option @if($item->pivot->seen == 0) selected @endif value="0">Chưa xem</option>
+                          <option @if($item->pivot->seen == 1) selected @endif value="1">Đã xem</option>
+                          <option @if($item->pivot->seen == 2) selected @endif value="2">Không phù hợp</option>
+                          <option @if($item->pivot->seen == 3)  selected @endif value="3" >Phù hợp</option>
+                        </select>
+                      </form>
+                </td>
             </tr>
         @endforeach
     </tbody>

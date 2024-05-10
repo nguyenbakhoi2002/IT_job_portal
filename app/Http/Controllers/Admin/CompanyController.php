@@ -163,4 +163,7 @@ class CompanyController extends Controller
         Company::where('id', $id)->update(['status' => $val]);
         return response()->json(['success'=>'Cập nhật trạng thái thành công!']);
     }
+    public function companyWaiting(){
+        return 'khôi';
+    }
 }
