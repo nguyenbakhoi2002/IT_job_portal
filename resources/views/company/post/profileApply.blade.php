@@ -56,6 +56,8 @@
                             </form>
                         </div>
                     </div>
+                    <a href="{{route('company.exportProfileApply', $id)}}" class="btn btn-success" style="margin-left: 30px; margin-bottom: 30px">Export Excel</a>
+
                     <div class="widget-content">
                         <div class="table-outer">
                           @include('company.post.tableProfileApply')

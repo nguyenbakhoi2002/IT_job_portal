@@ -25,7 +25,18 @@
     .tt-dataset a:hover{
             color:#f7941d;
     }
+    .info-high {
+    color: #212F3F;
+    font-size: 16px;
+    height: 24px;
+    overflow: hidden; 
+    display: block;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    }
 </style>
+
 @endsection
     <section class="banner-section">
         <div class="auto-container">
@@ -35,7 +46,7 @@
                         <div class="title-box">
                             <h3>Có<span class="colored"> 
                                 {{-- <!-- {{ $countJob }} --> --}}
-                            </span> Bài đăng ở đây<br>dành cho @if (auth('candidate')->user())
+                            </span> rất nhiều công việc ở đây<br>dành cho @if (auth('candidate')->user())
                                 {{auth('candidate')->user()->email}}
                                 @else bạn
                             @endif</h3>
@@ -85,8 +96,8 @@
                             style="transform: translate3d(-4px, -7.36px, 0px) scale(1) rotate(0deg); opacity: 1; visibility: visible; animation-delay: 1000ms; animation-name: fadeIn;">
                             <span class="icon flaticon-email-3"></span>
                             <p>
-                                {{-- <!-- {{$countJobActive}}  --> --}}
-                                công việc <br>được ứng tuyển</p>
+                                 {{count($job_post_activities)}}
+                                 lượt <br>ứng tuyển</p>
                         </div>
 
                         <!-- Info BLock Two -->
@@ -94,7 +105,7 @@
                             data-speed-y="1"
                             style="transform: translate3d(-2px, -3.68px, 0px) scale(1) rotate(0deg); opacity: 1; visibility: visible; animation-delay: 2000ms; animation-name: fadeIn;">
                             <p>
-                                {{-- <!-- {{$countCandidate}}+  --> --}}
+                                {{count($candidate)}}
                                 Ứng viên</p>
                             <div class="image"><img
                                     src="{{ asset('/assets/client-bower/images/resource/multi-peoples.png') }}"
@@ -107,7 +118,7 @@
                             style="transform: translate3d(-8px, -14.72px, 0px) scale(1) rotate(0deg); opacity: 1; visibility: visible; animation-delay: 1500ms; animation-name: fadeIn;">
                             <span class="icon flaticon-briefcase"></span>
                             <p>
-                                {{-- <!-- {{$countJob}}+  --> --}}
+                                {{count($job)}}
                                 Công việc</p>
                             <span class="sub-text">Hãy tìm <span style="color=#f7941d;">công việc</span> phù hợp với bạn</span>
                             <span class="right_icon fa fa-check"></span>
@@ -119,8 +130,8 @@
                             style="transform: translate3d(-6px, -11.04px, 0px) scale(1) rotate(0deg); opacity: 1; visibility: visible; animation-delay: 2500ms; animation-name: fadeIn;">
                             <span class="icon flaticon-file"></span>
                             <div class="inner">
-                                <p>Tải lên CV của bạn</p>
-                                <span class="sub-text">Chỉ mất vài giây CV của bạn sẽ được đăng tải</span>
+                                <p>Tự tạo CV của riêng bạn bạn</p>
+                                <span class="sub-text">Chỉ mất vài phút bạn sẽ có một profile hoàn hảo</span>
                             </div>
                         </div>
                     </div>
@@ -136,9 +147,9 @@
             <div class="row wow fadeInUp">
                 <div class="sec-title text-center">
                     <h2>Về Chúng Tôi</h2>
-                    <div class="text">Ubwork là website công nghệ nhân sự (HR Tech). Với năng lực lõi là
-                        công nghệ, sứ mệnh của Ubwork đặt ra cho mình là thay đổi thị
-                        trường tuyển dụng - nhân sự ngày một hiệu quả hơn. Bằng công nghệ, chúng tôi tạo ra nền tảng cho
+                    <div class="text">BaKhoi là website tìm kiếm việc làm công nghệ thông tin. Với năng lực lõi là
+                        công nghệ, sứ mệnh của BaKhoi đặt ra cho mình là thay đổi thị
+                        trường tuyển dụng - nhân sự IT ngày một hiệu quả hơn. Bằng công nghệ, chúng tôi tạo ra nền tảng cho
                         phép người lao động tạo CV, phát triển được các kỹ năng cá nhân, xây dựng hình ảnh chuyên nghiệp
                         trong mắt nhà tuyển dụng và tiếp cận với các cơ hội việc làm phù hợp.</div>
                 </div>
@@ -148,7 +159,7 @@
                             <span class="icon fas fa-user"></span>
                             <h4><a href="#">Ứng Viên</a></h4>
                             <p>
-                                {{-- <!-- Có {{ count($user) }}  --> --}}
+                                 Có {{ count($candidate) }}
                                 ứng viên sử dụng dịch vụ.</p>
                         </div>
                     </div>
@@ -157,7 +168,7 @@
                             <span class="icon fas fa-building"></span>
                             <h4><a href="#">Doanh Nghiệp</a></h4>
                             <p>
-                                {{-- <!-- Có {{ count($company) }}  --> --}}
+                                 Có {{ count($company) }} 
                                 doanh nghiệp sử dụng dịch vụ.</p>
                         </div>
                     </div>
@@ -166,19 +177,19 @@
                             <span class="icon fas fa-clipboard-list"></span>
                             <h4><a href="#">Bài Đăng</a></h4>
                             <p>
-                                {{-- <!-- Có {{ count($job_post) }} --> --}}
+                                 Có {{ count($job) }}
                                  bài đăng đã được đăng tải.</p>
                         </div>
                     </div>
-                    <div class="inner-box">
+                    {{-- <div class="inner-box">
                         <div class="content">
                             <span class="icon fas fa-search"></span>
                             <h4><a href="#">Tìm Việc</a></h4>
                             <p>
-                                {{-- <!-- Có {{ count($user_type) }}  --> --}}
+                                Có {{ count($user_type) }}
                                 người dùng đang bật chế độ tìm việc.</p>
                         </div>
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 
@@ -190,18 +201,18 @@
             </div>
 
             <div class="row wow fadeInUp">
-                {{-- <!-- @foreach ($data_job_type as $item_job)
+                @foreach ($major_popular as $item_job)
                     <div class="category-block col-lg-4 col-md-6 col-sm-12">
                         <div class="inner-box">
                             <div class="content">
-                                <span class="{{ $item_job->icon }}"></span>
-                                <h4><a href="{{ route('job', ['id' => $item_job->id]) }}">{{ $item_job->name }}</a>
+                                {{-- <span class="{{ $item_job->icon }}"></span> --}}
+                                <h4><a href="job-list?name=&area=&type=&skill=&major={{$item_job->id}}">{{ $item_job->name }}</a>
                                 </h4>
-                                <p>( {{ $count[$item_job->id] }} bài đăng)</p>
+                                <p>( {{ count($item_job->jobPost) }} bài đăng)</p>
                             </div>
                         </div>
                     </div>
-                @endforeach --> --}}
+                @endforeach 
             </div>
         </div>
     </section>
@@ -216,18 +227,18 @@
                 </div>
                 <div class="row wow fadeInUp mt-3">
                     <!-- Job Block -->
-                    {{-- <!-- @foreach ($data as $item)
+                    {{-- @foreach ($job_popular as $item)
                         <div class="job-block col-lg-6 col-md-12 col-sm-12">
                             <div class="inner-box">
                                 <div class="content">
-                                    <span class="company-logo"><img src="{{ asset('storage/images/company/' . $item->company->logo) }}"
+                                    <span class="company-logo"><img src="{{ asset('uploads/images/company/' . $item->logo) }}"
                                             alt=""></span>
                                     <h4 style="text-align: left;"><a
-                                            href="{{ route('job-detail', ['id' => $item->id]) }}">{{ $item->title }}</a>
+                                            href="">{{ $item->title }}</a>
                                     </h4>
                                     <ul class="job-info">
                                         <li><span class="icon flaticon-briefcase"></span>{{ $item->major->name }}</li>
-                                        <li><span class="icon flaticon-map-locator"></span>{{ $item->company->address }}
+                                        <li><span class="icon flaticon-map-locator"></span>{{ $item->address }}
                                         </li>
                                         <li><span class="icon flaticon-clock-3"></span>{{ $item->company->working_time }}
                                             giờ</li>
@@ -262,11 +273,75 @@
                                 </div>
                             </div>
                         </div>
-                    @endforeach --> --}}
+                    @endforeach --}}
+                    <div class="ls-outer" aria-live="polite">
+                        <div class="row searchpate" id="paginated-list" >
+                            @foreach ($job_popular as $item)
+                                    <div class="job-block col-lg-4 col-md-6 col-sm-12 pagi">
+                                        <div class="inner-box" style="height:160px; padding: 10px 10px">
+                                            <div class="content-box d-flex justify-content-center align-items-center" style="height:140px;">
+                                                <div class="content-logo  me-3">
+                                                    <img class="rounded" style="width:100px; height: 100px;" src="{{asset('uploads/images/company/'.$item->company->logo)}}"alt="">
+                                                </div>
+                                                <div class="content-info col-8">
+                                                    <ul class="" style="padding-left: 0; text-align:left; margin-top: 10px">
+                                                        <li>
+                                                            <a class="info-high fw-bold" 
+                                                            href="{{ route('job-detail', $item) }}"
+                                                            >{{ $item->title }}</a>
+                                                        </li>
+                                                        <li class=" info-high lead fw-light">({{ count($item->activities) }} lượt ứng tuyển)</li>
+
+                                                        <li class=" info-high lead fw-light ">{{ $item->company->company_name }}</li>
+                    
+                                                        <li class=" info-high lead fw-light text-success">Lương: {{number_format($item->min_salary, 0, ',', '.')}} - {{number_format($item->max_salary, 0, ',', '.')}} VNĐ</li>
+                                                        @foreach ($dataProvinces as $value)
+                                                            @if($value['Id'] == $item->area)
+                                                            <li><span class="icon flaticon-map-locator"></span>{{$value['Ten']}}</li>
+                                                            @endif
+                                                        @endforeach
+                                                        @if ($current_date->diff($item->end_date)->days>0)
+                                                            <li class=" info-high lead fw-light">còn {{$current_date->diff($item->end_date)->days}} ngày để ứng tuyển</li>
+                                                        @else
+                                                            <li class=" info-high lead fw-light">còn  {{24 - $current_date->diffInHours($item->end_date)}} giờ để ứng tuyển</li>
+                                                        @endif
+                                                        @if (auth('candidate')->check())
+                                                            @if (!in_array($item->id, auth('candidate')->user()->saved_jobs->pluck('id')->toArray()))
+                                                                <a style="top: 0px" href="{{route('saveJob', $item->id)}}"><button
+                                                                        class="bookmark-btn"><span
+                                                                            class="flaticon-bookmark"></span></button></a>
+                                                            @else
+                                                                    <a style="top: 0px" href="{{route('cancelSaveJob', $item->id)}}">
+                                                                        <button class="bookmark-btn">
+                                                                            <span><i class="fa-solid fa-bookmark"></i></span>
+                                                                        </button>
+                                                                    </a>
+                                                            @endif
+                                                        @else
+                                                            <a style="top: 0px" href="#"><button
+                                                                class="bookmark-btn"><span
+                                                                    class="flaticon-bookmark"></span></button></a>
+                                                        @endif
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    </div>
+                            @endforeach
+                        </div>
+                        {{-- <nav class="ls-pagination">
+                            @if (!empty($urlWith))
+                                {{$data->appends($urlWith)->links('company.layout.paginate')}}
+                            @else
+                                {{$data->links('company.layout.paginate')}}
+                            @endif
+                           </nav> --}}
+                    </div>
                 </div>
 
                 <div class="btn-box">
-                    <a href="" class="theme-btn btn-style-one bg-blue"><span class="btn-title">Xem
+                    <a href="{{route('job-list')}}" class="theme-btn btn-style-one bg-blue"><span class="btn-title">Xem
                             thêm</span></a>
                 </div>
             </div>

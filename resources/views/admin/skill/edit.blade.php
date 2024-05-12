@@ -1,7 +1,11 @@
 @extends('admin.layout.app')
 @section('title')
-    {{ __('Skill - edit') }}
+  {{$title}}
 @endsection
+{{-- @section('style')
+  @parent
+<link href="{{asset('assets/client-bower/css/style.css')}}" rel="stylesheet">
+@endsection --}}
 @section('content')
 <section class="content">
     <div class="container-fluid">
@@ -37,6 +41,7 @@
                         @enderror
                     </div>
                   </div>
+                  
                     </div>
                     <div class="mt-3">
                         <input type="submit" value="Lưu" class="btn btn-primary float-left mr-3">
@@ -52,5 +57,8 @@
 @endsection
 @section('script')
 @parent
+
+
+
 {{-- <script src="{{asset('js/admin/candidate.js')}}"></script> --}}
 @endsection

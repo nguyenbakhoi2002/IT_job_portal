@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\JobPost;
 use App\Models\Major;
+use App\Models\Company;
 use App\Models\Skill;
 use App\Models\TimeExperience;
 use Carbon\Carbon;
@@ -29,6 +30,45 @@ class JobPostController extends Controller
         $current_date_string = Carbon::now()->toDateString();
         // dd($current_date->diff($end_date)->days);
         $data = JobPost::where('end_date', '>=', $current_date_string)->where('status', 1)->paginate(12);
+        if(request()->major || request()->skill || request()->exp || request()->area || request()->name){
+            $data_ids = Skill::join('job_post_skill', 'skills.id', '=', 'job_post_skill.skill_id')
+            ->join('job_posts', 'job_post_skill.job_post_id', '=', 'job_posts.id')
+            ->join('companies', 'job_posts.company_id', '=', 'companies.id')
+            ->where(function ($q){
+                $search = request()->name;
+                $major = request()->major;
+                // $type = $request['searchType'];
+                $exp = request()->exp;
+                $area =request()->area;
+                $skill = request()->skill;
+                if (!empty($search)) {
+                    $q->orwhere('job_posts.title', 'LIKE', '%' . $search . '%')
+                    ->orwhere('companies.name', 'LIKE', '%' . $search . '%');
+                }
+                if (!empty($area)) {
+                    $q->where('job_posts.area', '=', $area);
+                }
+                if (!empty($exp)) {
+                    $q->where('job_posts.time_exp_id', '=', $exp);
+                }
+                if (!empty($skill)) {
+                    $q->where('skills.id', '=', $skill);
+                }
+                if (!empty($major)) {
+                    $q->where('job_posts.major_id', '=', $major);
+                }
+                // if (!empty($type)) {
+                //     $q->where('job_posts.type_work', '=', $type);
+                // }
+                
+            })
+            ->select('job_posts.*')
+            ->distinct()
+            ->with(['job_post.company', 'job_post.major'])
+            ->pluck('job_posts.id')
+            ->toArray();
+            $data = JobPost::whereIn('id', $data_ids)->where('end_date', '>=', $current_date_string)->where('status', 1)->paginate(12);
+        }
         $exp = TimeExperience::all();
         $major = Major::all();
         $skill = Skill::all();

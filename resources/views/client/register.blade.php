@@ -5,7 +5,7 @@
 <!-- Mirrored from creativelayers.net/themes/superio/register.html by HTTrack Website Copier/3.x [XR&CO'2014], Wed, 31 Aug 2022 09:27:55 GMT -->
 <head>
   <meta charset="utf-8">
-  <title>UBWORK | Register</title>
+  <title>BaKhoi | Register</title>
 
   <!-- Stylesheets -->
   <link href="{{ asset('assets/client-bower/css/bootstrap.css')}}" rel="stylesheet">

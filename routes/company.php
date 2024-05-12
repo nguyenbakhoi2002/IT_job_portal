@@ -29,6 +29,9 @@ Route::get('/profile-all',  [ProfileApplyController::class, 'profileAll'])->name
 Route::post('/profile-status/{id}', [ProfileApplyController::class, 'statusAll'])->name('updateStatusAll');
 // profile cho từng bài đăng
 Route::get('/profile-apply/{id}', [JobPostController::class, 'profileApply'])->name('profileApply');
+//export excel profile cho từng bài đăng
+Route::get('/export-profile-apply/{id}', [JobPostController::class, 'exportProfileApply'])->name('exportProfileApply');
+
 //status của profile (trang profille của từng bài đăng)
 // Route::post('/profile-apply-status/{id}', [ProfileApplyController::class, 'statusOwn'])->name('updateStatusOwn');
 // });

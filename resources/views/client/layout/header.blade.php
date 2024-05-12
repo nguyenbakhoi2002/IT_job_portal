@@ -33,7 +33,7 @@
                             </li>
                         </ul> --}}
                     </li>
-                    <li class="dropdown">
+                    {{-- <li class="dropdown">
                         @if (auth('candidate')->check())
                             @if (count(auth('candidate')->user()->seekerProfile()->where('is_clone', 0)->get())>0)
                                 <a href="{{route('profile')}}" >Quản lý CV</a>
@@ -44,12 +44,12 @@
                             <a href="{{route('login')}}">Quản lý CV</a>
                         @endif
                         
-                    </li>
+                    </li> --}}
                     <li class="dropdown">
                         <a href="{{route('company-list')}}">Công ty</a>
                     </li>
                     <li class="dropdown">
-                        <a href="">Tìm Việc Nhanh</a>
+                        <a href="{{route('contact')}}">About</a>
                     </li>
                     {{-- <li class="dropdown">
                         <a href="{{route('logout')}}">Đăng xuất</a>
@@ -94,6 +94,17 @@
                     <ul class="dropdown-menu" style="min-width: 330px;">
                         {{-- <li class="active"><a href=""> <i class="la la-home"></i> Dashboard</a></li> --}}
                         <li><a href="{{route('detail')}}"><i class="la la-user-tie"></i>Thông tin</a></li>
+                        <li>
+                            @if (auth('candidate')->check())
+                            @if (count(auth('candidate')->user()->seekerProfile()->where('is_clone', 0)->get())>0)
+                                <a href="{{route('profile')}}" >Quản lý CV</a>
+                            @else
+                                <a href="#" id="quanlycv">Quản lý CV</a>
+                            @endif
+                            @else
+                                <a href="{{route('login')}}">Quản lý CV</a>
+                            @endif
+                        </li>
                         <li><a href="{{route('jobApplied')}}"><i class="la la-briefcase"></i> Công việc đã ứng tuyển</a></li>
                         <li><a href="{{route('jobSaved')}}"><i class="la la-bookmark-o"></i>Công việc đã lưu</a></li>
                         {{-- <li><a href=""><i class="la la-briefcase"></i> Công việc đã tìm kiếm nhanh</a></li> --}}
@@ -122,7 +133,7 @@
     
     <!-- Mobile Header -->
     <div class="mobile-header">
-        <div class="logo"><a href=""><img src="{{ asset('images/logo_ubwork.png') }}" alt=""
+        <div class="logo"><a href=""><img src="{{ asset('images/logo_bakhoi.png') }}" alt=""
                     title=""></a>
         </div>
 

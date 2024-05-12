@@ -15,4 +15,7 @@ class Skill extends Model
     // public $timestamps = false;//để không bị thêm  hai trường updated_at và created_at
     protected $table = 'skills';
     protected $fillable = ['id', 'name', 'description', 'created_at', 'updated_at'];
+    public function job_post(){
+        return $this->belongsToMany(JobPost::class, 'job_post_skill','skill_id' ,'job_post_id')->withPivot('id');
+    }
 }

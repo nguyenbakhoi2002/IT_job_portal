@@ -51,7 +51,7 @@
 
     <!-- Mobile Header -->
     <div class="mobile-header">
-        <div class="logo"><a href=""><img src="{{ asset('images/logo_ubwork.png') }}"
+        <div class="logo"><a href=""><img src="{{ asset('images/logo_bakhoi.png') }}"
                     alt="" title=""></a></div>
 
         <!--Nav Box-->

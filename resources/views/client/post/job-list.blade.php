@@ -38,8 +38,8 @@
                     <div class="row">
                         <div class="form-group col-lg-2 col-md-12 col-sm-12" >
                             <span class="icon flaticon-search-1"></span>
-                            <input type="text" class="form-control search-input" id="search-text" name="search"
-                                placeholder="Mời Nhập Từ Khóa">
+                            <input type="text" class="form-control search-input" id="search-text" name="name"
+                                placeholder="Mời Nhập tên công ty hoặc tên công việc ">
                         </div>
                         <div class="form-group col-lg-2 col-md-12 col-sm-12" >
                             <span class="icon flaticon-map-locator"></span>
@@ -80,7 +80,7 @@
                         
                         
                         <div class="form-group col-lg-1 col-md-12 col-sm-12 p-0">
-                            <button type="submit" href="{{url("job")}}" id="button_search" class="theme-btn btn-style-one btn-search rounded-right">Tìm Kiếm</button>
+                            <button type="submit" id="button_search" class="theme-btn btn-style-one btn-search rounded-right">Tìm Kiếm</button>
                         </div>
                     </div>
                 </form>
@@ -93,7 +93,7 @@
 @endsection
 @section('script')
     @parent
-    <script>
+    {{-- <script>
         $(function() {
             function isUndefined(value) {
                 return value === undefined || value === null
@@ -128,6 +128,7 @@
                     $(".view-table").html(data);
                 });
                 return false;
-            })})
-    </script>
+            })
+            })
+    </script> --}}
 @endsection

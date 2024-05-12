@@ -3,7 +3,7 @@
     <a href="" class="brand-link">
         <img src="{{ asset('assets/admin-bower/dist/img/AdminLTELogo.png') }}" alt="AdminLTE Logo"
             class="brand-image img-circle elevation-3" style="opacity: .8">
-        <span class="brand-text font-weight-light">UBWORK</span>
+        <span class="brand-text font-weight-light">BaKhoi</span>
     </a>
 
     <!-- Sidebar -->
@@ -50,6 +50,13 @@
                         <i class="nav-icon fas fa-table"></i>
                         <p> Công ty </p>
                     </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('admin.post.index')}}" class="nav-link">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p> Công viêc </p>
+                    </a>
+                </li>
                 <li class="nav-item ">
                     <a href="{{route('admin.candidate.index')}}" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
@@ -103,7 +110,7 @@
                         </li>
                     </ul>
                   </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-table"></i>
                         <p>
@@ -125,14 +132,14 @@
                             </a>
                         </li>
                     </ul>
-                  </li>
+                  </li> --}}
                 <li class="nav-item">
                     <a href="" class="nav-link">
                         <i class="fas fa-users nav-icon"></i>
                         <p>Người dùng</p>
                     </a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                     <a href="#" class="nav-link">
                         <i class="nav-icon fas fa-user-shield"></i>
                         <p>
@@ -154,9 +161,9 @@
                             </a>
                         </li>
                     </ul>
-                  </li>
+                  </li> --}}
                   <li class="nav-item ">
-                    <a href="" class="nav-link">
+                    <a href="{{route('admin.logout')}}" class="nav-link">
                         <i class="fa fa-sign-out-alt"></i>
                         <p>
                             Đăng xuất

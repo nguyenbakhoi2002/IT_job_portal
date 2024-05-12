@@ -20,6 +20,8 @@ use App\Http\Controllers\Admin\AdminController;
 Route::get('/choose-login', [HomeController::class, 'choose'])->name('choose');
 //candidate
 Route::get('/', [HomeController::class, 'index'])->name('index');
+Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+
 Route::get('/login', [ClientController::class, 'login'])->name('login');
 Route::post('/login', [ClientController::class, 'postLogin']);
 Route::get('/register', [ClientController::class, 'register'])->name('register');
@@ -37,7 +39,7 @@ Route::get('/logout', [ClientController::class, 'logout'])->name('logout');
 Route::prefix('company')->group(function () {
     Route::get('/login', [LoginController::class, 'login'])->name('company.login');
     Route::post('/login', [LoginController::class, 'postLogin']);
-    Route::get('/logout',[LoginController::class, 'logout'])->name('logout'); 
+    Route::get('/logout',[LoginController::class, 'logout'])->name('company.logout'); 
     Route::get('/register', [LoginController::class, 'register'])->name('company.register');
     Route::post('/register', [LoginController::class, 'postRegister']);
 
@@ -46,7 +48,7 @@ Route::prefix('company')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::get('/login', [AdminController::class, 'login'])->name('admin.login');
     Route::post('/login', [AdminController::class, 'postLogin']);
-    Route::get('/logout',[AdminController::class, 'logout'])->name('logout'); 
+    Route::get('/logout',[AdminController::class, 'logout'])->name('admin.logout'); 
 
 
 });

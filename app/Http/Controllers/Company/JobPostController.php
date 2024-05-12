@@ -16,6 +16,8 @@ use App\Models\JobPostActivity;
 use App\Models\JobPostLanguage;
 use Illuminate\Support\Carbon;
 use DB;
+use App\Exports\ListProfileExport;
+use Excel;
 
 //request
 use App\Http\Requests\Company\JobPostRequest;
@@ -223,7 +225,7 @@ class JobPostController extends Controller
 
             DB::commit();
             Session::flash('success', 'Sửa bài đăng thành công!');
-            return Redirect()->route('company.post.postCreated');
+            return Redirect()->route('company.postCreated');
         } catch (\Throwable $th) {
             DB::rollBack();
             Session::flash('error', 'Lỗi sửa!');
@@ -246,8 +248,17 @@ class JobPostController extends Controller
         $name= $jobPost->title;
         $title = "Danh sách ứng tuyển - $name";
         return view('company.post.profileApply', 
-        ['title' => $title, 'list_seekerProfile'=>$list_seekerProfile, 'activeRoute'=>'post']);
+        ['title' => $title, 'list_seekerProfile'=>$list_seekerProfile, 'activeRoute'=>'post', 'id'=>$id]);
     }
+    //export excel
+    public function exportProfileApply(string $id){
+        $jobPost = JobPost::find($id);
+
+        $name= $jobPost->title;
+        $title = "Danh sách ứng tuyển - $name";
+        return Excel::download(new ListProfileExport($id), $title.'.xlsx');
+    }
+    //bài đnăg hết hạn
     public function postExpired(){
         $list_jobs = JobPost::whereDate('end_date', '<', Carbon::now())->paginate(10);
         if($key = request()->key){
@@ -257,6 +268,7 @@ class JobPostController extends Controller
         return view('company.post.postExpired', 
         ['title' => $title, 'list_jobs'=>$list_jobs, 'activeRoute'=>'post']);
     }
+    //những bài đăng tạo ở trạng thái đầu
     public function postCreated(){
         $list_jobs = JobPost::where('status', 0)->orWhere('status', 2)->orWhere('status', 3)->orderBy('id', 'desc')->paginate(10);
         if($key = request()->key){
@@ -266,6 +278,7 @@ class JobPostController extends Controller
         return view('company.post.postCreated', 
         ['title' => $title, 'list_jobs'=>$list_jobs, 'activeRoute'=>'post']);
     }
+    //yêu cầu đăng bài
     public function status(Request $request, string $id){
         JobPost::where('id', $id)->update([
             'status' => 3,

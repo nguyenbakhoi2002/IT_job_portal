@@ -8,13 +8,18 @@
                                 <img class="rounded" style="width:100px; height: 100px;" src="{{asset('uploads/images/company/'.$item->company->logo)}}"alt="">
                             </div>
                             <div class="content-info col-8">
-                                <ul class="">
+                                <ul class="" style="padding-left: 0; margin-top: 10px;">
                                     <li >
-                                        <a class="info-high fw-bold" href="{{ route('job-detail', $item) }}">{{ $item->title }}</a>
+                                        <a class="info-high fw-bold" style="font-size: 20px;" href="{{ route('job-detail', $item) }}">{{ $item->title }}</a>
                                     </li>
-                                    <li class=" info-high lead fw-light">{{ $item->company->company_name }}</li>
+                                    <li class=" info-high" style="color: #5d677a">{{ $item->company->company_name }}</li>
 
-                                    <li>{{number_format($item->min_salary, 0, ',', '.')}} - {{number_format($item->max_salary, 0, ',', '.')}} VNĐ</li>
+                                    <li style="color: #008563 "><i class="fa-solid fa-dollar-sign"></i>{{number_format($item->min_salary, 0, ',', '.')}} - {{number_format($item->max_salary, 0, ',', '.')}} VNĐ</li>
+                                    @foreach ($dataProvinces as $value)
+                                        @if($value['Id'] == $item->area)
+                                        <li><span class="icon flaticon-map-locator"></span>{{$value['Ten']}}</li>
+                                        @endif
+                                    @endforeach
                                     @if ($current_date->diff($item->end_date)->days>0)
                                         <li>còn {{$current_date->diff($item->end_date)->days}} ngày</li>
                                     @else

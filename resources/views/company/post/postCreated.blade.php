@@ -38,8 +38,7 @@
                                         <tr>
                                             <td>
                                                 <h6>{{ $item->title }}</h6>
-                                                <span><a class="btn bg-light btn-sm "
-                                                        href="{{ route('company.profileApply', $item->id) }}"> Xem CV đã ứng tuyển</a></span>
+                                                {{-- <span><a class="btn bg-light btn-sm " href="{{ route('company.profileApply', $item->id) }}"> Xem CV đã ứng tuyển</a></span> --}}
                                             </td>
                                             <td>
                                                 <h6>{{ \Carbon\Carbon::parse($item->end_date)->format('d/m/Y') }}</h6>

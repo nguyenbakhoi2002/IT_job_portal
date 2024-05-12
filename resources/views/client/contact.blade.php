@@ -24,7 +24,7 @@
 
     <div class="col-md-12 col-sm-12 mb-3">
         <h2>Dành cho ứng viên</h2>
-        <span>Đặt câu hỏi trên Facebook UBWORK<br>
+        <span>Đặt câu hỏi trên Facebook BaKhoi<br>
         Đọc các bài blog của chúng tôi về bí quyết viết CV và kỹ năng phỏng vấn<br>
         Gọi chúng tôi theo số +84 28 6681 1397<span><br>
         <hr>

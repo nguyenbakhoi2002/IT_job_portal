@@ -12,7 +12,7 @@ class JobPost extends Model
     protected $table = 'job_posts';
     protected $fillable = [
         'id', 'company_id', 'title','level', 'min_salary', 'max_salary', 'end_date', 'amount', 'type_work', 'description', 'requirement', 'benefits', 'area',
-         'address', 'status','date_request', 'degree_id', 'time_exp_id', 'major_id','admin_id',  'created_at',    'updated_at'
+         'address', 'status','date_request', 'degree_id', 'time_exp_id', 'major_id','admin_id','admin_edit_id',  'created_at',    'updated_at'
         ];
 
     //truy xuất số lượng CV gửi về    
@@ -26,7 +26,7 @@ class JobPost extends Model
     public function applied()
     {
         return $this->belongsToMany(SeekerProfile::class, 'job_post_activity', 'job_post_id', 'seeker_profile_id')->withPivot('id','seen', 'satisfy','created_at', 'updated_at')
-                    ->select('seeker_profile.*', DB::raw('IF(job_post_activity.satisfy IS NULL OR job_post_activity.satisfy = "", 0, 
+                    ->select('seeker_profile.*','satisfy', DB::raw('IF(job_post_activity.satisfy IS NULL OR job_post_activity.satisfy = "", 0, 
                     LENGTH(job_post_activity.satisfy) - LENGTH(REPLACE(job_post_activity.satisfy, "|", ""))+ 1)  AS satisfy_count'))
                     ->orderByDesc('satisfy_count');
     }
@@ -79,5 +79,13 @@ class JobPost extends Model
     //lây ra công ty mà bài đăng thuộc về
     public function company(){
         return $this->belongsTo(Company::class, 'company_id');
+    }
+    //lấy ra quản trị đẫ duyệt bài
+    public function admin(){
+        return $this->belongsTo(Admin::class, 'admin_id');
+    }
+    //lấy ra quản trị đẫ sửa bài đăng
+    public function adminEdit(){
+        return $this->belongsTo(Admin::class, 'admin_edit_id');
     }
 }
