@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\MajorController;
 use App\Http\Controllers\Admin\DegreeController;
 use App\Http\Controllers\Admin\LanguageController;
 use App\Http\Controllers\Admin\TimeController;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\CompanyController;
 use App\Http\Controllers\Admin\JobPostController;
 use App\Http\Controllers\Admin\CandidateController;
@@ -73,4 +74,7 @@ Route::resource('language', LanguageController::class);
     Route::get('language-trash',[LanguageController::class, 'trash'] )->name('language.trash');
     Route::get('language-trash/{id}', [LanguageController::class, 'restore'])->name('language.restore');
     Route::get('/language-forceDelete/{id}',[LanguageController::class, 'force'] )->name('language.forceDelete');
+//admin-Quản trị viên
+Route::resource('admin', AdminController::class); 
+
 ?>

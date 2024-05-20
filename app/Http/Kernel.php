@@ -68,5 +68,6 @@ class Kernel extends HttpKernel
         'auth.company'=> \App\Http\Middleware\CheckLoginCompany::class,
         'auth.candidate'=> \App\Http\Middleware\CheckLoginCandidate::class,
         'auth.admin'=> \App\Http\Middleware\CheckLoginAdmin::class,
+        'checkCandidateStatus'=> \App\Http\Middleware\CheckCandidateStatus::class,
     ];
 }

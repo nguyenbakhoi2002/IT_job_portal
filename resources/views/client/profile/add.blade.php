@@ -78,11 +78,15 @@
         <div class="auto-container" >
             
             <div class="row">
+                @if ($candidate->job_search_function==0)
+                    <a href="{{route('functionOnSearch', $candidate->id)}}" id="bat-tim-viec" class="btn btn-primary col-lg-3" style="margin-top: 120px;">Bật chức năng tìm kiếm việc làm</a>
+                @else
+                    <a href="{{route('functionOffSearch', $candidate->id)}}" id="tat-tim-viec" class="btn btn-danger col-lg-3" style="margin-top: 120px;">Tắt chức năng tìm kiếm việc làm</a>
 
-                <div class="col-lg-12" style="margin-top: 90px, background-color: #e8effd">
+                @endif
+                <div class="col-lg-12" style="margin-top: 32px; background-color: #e8effd">
                     <!-- CV Manager Widget -->
                     <div class="cv-manager-widget ls-widget " style="background-color: #e8effd">
-                        
                         <div class="widget-title " 
                         style="display: flex;
                             align-items: center;
@@ -294,7 +298,7 @@
 @endsection
 @section('script')
     @parent
-    {{-- <script src="{{asset('js/client/create_cv.js')}}"></script> --}}
+    <script src="{{asset('js/client/bat-tat-tim-viec.js')}}"></script>
     <script>
         
 

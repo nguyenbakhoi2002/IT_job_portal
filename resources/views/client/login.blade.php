@@ -10,8 +10,8 @@
   <link href="{{ asset('assets/client-bower/css/style.css')}}" rel="stylesheet">
   <link href="{{ asset('assets/client-bower/css/responsive.css')}}" rel="stylesheet">
   <link rel="stylesheet" href="{{asset('assets/admin-bower/plugins/toastr/toastr.css')}}">
-  <link rel="shortcut icon" href="{{ asset('assets/client-bower/images/favicon.png')}}" type="image/x-icon">
-  <link rel="icon" href="{{ asset('assets/client-bower/images/favicon.png')}}" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ asset('favicon.ico')}}" type="image/x-icon">
+  <link rel="icon" href="{{ asset('favicon.ico')}}" type="image/x-icon">
 
   <!-- Responsive -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -79,7 +79,7 @@
               {{-- <input type="hidden" name="_token" value="{!! csrf_token() !!}"> --}}
             </form>
             <div class="bottom-box">
-                <div class="text"><a href="">Quên Mật Khẩu?</a><span> Hoặc</span> Bạn chưa có tài khoản? <a href="{{route('register')}}">Đăng ký</a>
+                <div class="text"><a href="{{route('refresh')}}">Quên Mật Khẩu?</a><span> Hoặc</span> Bạn chưa có tài khoản? <a href="{{route('register')}}">Đăng ký</a>
                 </div>
               <div class="divider"><span>hoặc</span></div>
               <div class="btn-box row">

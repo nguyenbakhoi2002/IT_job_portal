@@ -85,6 +85,7 @@ class ProfileController extends Controller
         $languages = Language::all();
         //lấy ra id của người đang đăng nhập
         $candidate_id  = auth('candidate')->user()->id;
+        $candidate  = auth('candidate')->user();
         $seeker = SeekerProfile::where('candidate_id', $candidate_id)->where('is_clone', 0)->first();
         // if(empty($seeker)){
         //     return response()->json(['hasSeekerProfile' => false]);
@@ -112,7 +113,7 @@ class ProfileController extends Controller
         return view('client.profile.add', 
         ['maJor'=>$maJor, 'seeker'=>$seeker, 'skills'=>$skills,'languages'=>$languages,'degrees'=>$degrees ,
          'experiences'=>$experiences,'projects' =>$projects , 'educations'=>$educations, 'skillActive'=>$skillActive,
-          'list_language'=>$list_language, 'count_skill'=>$count_skill ]);
+          'list_language'=>$list_language, 'count_skill'=>$count_skill, 'candidate'=>$candidate ]);
     }
     //tạo cv bắt đầu bằng tên tiều đè
     public function createProfile(Request $request){

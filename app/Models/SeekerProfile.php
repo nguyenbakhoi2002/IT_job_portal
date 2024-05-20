@@ -24,8 +24,14 @@ class SeekerProfile extends Model
     public function skills(){
         return $this->belongsToMany(Skill::class, 'seeker_skill', 'seeker_profile_id', 'skill_id');
     }
+    public function seekerSkill(){
+        return $this->hasMany(SeekerSkill::class, 'seeker_profile_id');
+    }
     public function languages(){
         return $this->belongsToMany(Language::class, 'seeker_language', 'seeker_profile_id', 'language_id')->withPivot('level', 'certificate');
+    }
+    public function seekerLanguage(){
+        return $this->hasMany(SeekerLanguage::class, 'seeker_profile_id');
     }
     public function candidate(){
         return $this->belongsTo(Candidate::class, 'candidate_id');

@@ -94,4 +94,5 @@ class CompanyController extends Controller
             return Redirect()->back();
         }
     }
+    
 }

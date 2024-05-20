@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckLoginCompany
+class CheckCandidateStatus
 {
     /**
      * Handle an incoming request.
@@ -15,13 +15,12 @@ class CheckLoginCompany
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth('company')->check()){
-            if(auth('company')->user()->status ==0){
-                //chuyển hướng đến trang thông báo bị chặn
-                return  redirect()->route('company.block');
-            }
-            return $next($request);
+        
+        $user = Auth('candidate')->user();
+        if ($user && $user->status == 0) {
+            return  redirect()->route('client.block')->with('error', 'Tài khoản của bạn hiện đã bị chặn, hiện không thể thực hiện thao tác này');
         }
-        return  redirect()->route('company.login');
+
+        return $next($request);
     }
 }

@@ -1,7 +1,6 @@
 @extends('client.layout.app')
 @section('title')
-    {{-- {{ __('UB Work') }} --}}
-    NBK
+    BaKhoi
 @endsection
 @section('content')
 @section('style')
@@ -54,19 +53,21 @@
                         </div>
                         <!-- Job Search Form -->
                         <div class="job-search-form">
-                            <form method="get" action="job">
+                            <form method="" action="">
                                 <div class="row">
                                     <div class="form-group col-lg-5 col-md-12 col-sm-12">
                                         <span class="icon flaticon-search-1"></span>
-                                        <input type="text" class="form-control search-input" name="search" placeholder="Mời Nhập Từ Khóa">
+                                        <input type="text" class="form-control search-input" name="name" placeholder="Mời Nhập Từ Khóa">
                                     </div>
                                     <div class="form-group col-lg-4 col-md-12 col-sm-12 location">
                                         <span class="icon flaticon-briefcase"></span>
-                                        <select name="major" class="chosen-select">
-                                            <option value="">Chuyên Ngành</option>
-                                            {{-- <!-- @foreach ($maJor as $item)
-                                                <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                            @endforeach --> --}}
+                                        <select name="area" class="chosen-select">
+                                            <option value="">Thành phố</option>
+                                            @foreach ($dataProvinces as  $value)
+                                                <option value="{{ $value['Id']}}" >
+                                                    {{ $value['Ten']}}
+                                                </option>
+                                            @endforeach
                                         </select>
                                     </div>
                                     <div class="form-group col-lg-3 col-md-12 col-sm-12 btn-box">

@@ -134,9 +134,9 @@
                     </ul>
                   </li> --}}
                 <li class="nav-item">
-                    <a href="" class="nav-link">
+                    <a href="{{route('admin.admin.index')}}" class="nav-link">
                         <i class="fas fa-users nav-icon"></i>
-                        <p>Người dùng</p>
+                        <p>Quản trị viên</p>
                     </a>
                 </li>
                 {{-- <li class="nav-item">

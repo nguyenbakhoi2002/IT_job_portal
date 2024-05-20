@@ -21,12 +21,17 @@ Route::get('/choose-login', [HomeController::class, 'choose'])->name('choose');
 //candidate
 Route::get('/', [HomeController::class, 'index'])->name('index');
 Route::get('/contact', [HomeController::class, 'contact'])->name('contact');
+Route::get('/block', [HomeController::class, 'clientBlock'])->name('client.block');
 
+    //đăng nhập,đăng kí, đăng xuất
 Route::get('/login', [ClientController::class, 'login'])->name('login');
 Route::post('/login', [ClientController::class, 'postLogin']);
 Route::get('/register', [ClientController::class, 'register'])->name('register');
 Route::post('/register', [ClientController::class, 'postRegister']);
 Route::get('/logout', [ClientController::class, 'logout'])->name('logout');
+    //Quên mật khẩu
+    Route::get('refresh-pass', [ClientController::class, 'refresh'])->name('refresh');
+    Route::post('refresh-pass',[ClientController::class, 'refreshPass'])->name('refreshPass');
     //candidate-company
     Route::get('/company-list', [CompanyController::class, 'index'])->name('company-list');
     Route::get('/company-detail/{company}', [CompanyController::class, 'detail'])->name('company-detail');
@@ -42,6 +47,9 @@ Route::prefix('company')->group(function () {
     Route::get('/logout',[LoginController::class, 'logout'])->name('company.logout'); 
     Route::get('/register', [LoginController::class, 'register'])->name('company.register');
     Route::post('/register', [LoginController::class, 'postRegister']);
+    Route::get('/block', [LoginController::class, 'companyBlock'])->name('company.block');
+    Route::get('/logout', [LoginController::class, 'logout'])->name('company.logout');
+
 
 });
 //admin
@@ -53,12 +61,15 @@ Route::prefix('admin')->group(function () {
 
 });
 //profile
-Route::post('/create-cv', [ProfileController::class, 'createProfile'])->name('createProfile')->middleware('auth.candidate');
-Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware('auth.candidate');
-Route::get('/profile-preview/{seeker_profile}', [ProfileController::class, 'profilePreview'])->name('profilePreview');
-Route::get('/export-profile/{seeker_profile}', [ProfileController::class, 'exportProfile'])->name('exportProfile');
+//bật tắt tìm việc
+Route::get('job_search_function_on/{id}', [CandidateController::class, 'functionOnSearch'])->name('functionOnSearch')->middleware(['auth.candidate', 'checkCandidateStatus']);
+Route::get('job_search_function_off/{id}', [CandidateController::class, 'functionOffSearch'])->name('functionOffSearch')->middleware(['auth.candidate', 'checkCandidateStatus']);
+Route::post('/create-cv', [ProfileController::class, 'createProfile'])->name('createProfile')->middleware(['auth.candidate', 'checkCandidateStatus']);
+Route::get('/profile', [ProfileController::class, 'index'])->name('profile')->middleware(['auth.candidate', 'checkCandidateStatus']);
+Route::get('/profile-preview/{seeker_profile}', [ProfileController::class, 'profilePreview'])->name('profilePreview')->middleware(['auth.candidate', 'checkCandidateStatus']);
+Route::get('/export-profile/{seeker_profile}', [ProfileController::class, 'exportProfile'])->name('exportProfile')->middleware(['auth.candidate', 'checkCandidateStatus']);
 
-Route::prefix('update-cv')->middleware('auth.candidate')->group(function () {
+Route::prefix('update-cv')->middleware(['auth.candidate', 'checkCandidateStatus'])->group(function () {
     //thông tin cơ bản
     Route::post('/update-info', [ProfileController::class, 'updateInfo'])->name('updateCv.updateInfo');
     //kinh nghiệm làm việc
@@ -83,21 +94,21 @@ Route::prefix('update-cv')->middleware('auth.candidate')->group(function () {
 });
 
 //ứng tuyển
-Route::get('/applied/{id}', [JobPostActivitiesController::class, 'applied'])->name('applied')->middleware('auth.candidate');
+Route::get('/applied/{id}', [JobPostActivitiesController::class, 'applied'])->name('applied')->middleware(['auth.candidate', 'checkCandidateStatus']);
 //hủy ứng tuyển
-Route::get('/cancel-applied/{id}', [JobPostActivitiesController::class, 'cancelApplication'])->name('cancelApplied')->middleware('auth.candidate');
+Route::get('/cancel-applied/{id}', [JobPostActivitiesController::class, 'cancelApplication'])->name('cancelApplied')->middleware(['auth.candidate', 'checkCandidateStatus']);
 //danh sách các công việc đã ứng tuyển
-Route::get('/job-applied', [JobPostActivitiesController::class, 'jobApplied'])->name('jobApplied')->middleware('auth.candidate');
+Route::get('/job-applied', [JobPostActivitiesController::class, 'jobApplied'])->name('jobApplied')->middleware(['auth.candidate', 'checkCandidateStatus']);
 
 
 //lưu công việc
-Route::get('/save-job/{id}', [SavedJobController::class, 'saveJob'])->name('saveJob')->middleware('auth.candidate');
-Route::get('/cancel-save-job/{id}', [SavedJobController::class, 'cancelSaveJob'])->name('cancelSaveJob')->middleware('auth.candidate');
+Route::get('/save-job/{id}', [SavedJobController::class, 'saveJob'])->name('saveJob')->middleware(['auth.candidate', 'checkCandidateStatus']);
+Route::get('/cancel-save-job/{id}', [SavedJobController::class, 'cancelSaveJob'])->name('cancelSaveJob')->middleware(['auth.candidate', 'checkCandidateStatus']);
 //danh sách các công việc đã lưu
 Route::get('/job-saved', [SavedJobController::class, 'jobSaved'])->name('jobSaved')->middleware('auth.candidate');
 //lưu company
-Route::get('/save-company/{id}', [SavedCompanyController::class, 'saveCompany'])->name('saveCompany')->middleware('auth.candidate');
-Route::get('/cancel-save-company/{id}', [SavedCompanyController::class, 'cancelSaveCompany'])->name('cancelSaveCompany')->middleware('auth.candidate');
+Route::get('/save-company/{id}', [SavedCompanyController::class, 'saveCompany'])->name('saveCompany')->middleware(['auth.candidate', 'checkCandidateStatus']);
+Route::get('/cancel-save-company/{id}', [SavedCompanyController::class, 'cancelSaveCompany'])->name('cancelSaveCompany')->middleware(['auth.candidate', 'checkCandidateStatus']);
 //danh sách các công ty đã lưu
 Route::get('/company-saved', [SavedCompanyController::class, 'companySaved'])->name('companySaved')->middleware('auth.candidate');
 //thông tin cá nhân ứng viên

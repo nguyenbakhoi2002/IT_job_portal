@@ -18,6 +18,6 @@ class Major extends Model
     public function jobPost(){
         return $this->hasMany(JobPost::class, 'major_id')
                 ->where('status', 1)
-                ->where('end_date', '<', now());
+                ->where('end_date', '>', now());
      }
 }

@@ -67,4 +67,16 @@ class CandidateController extends Controller
             return Redirect()->back();
         }
     }
+    public function functionOnSearch(Request $request, string $id){
+        Candidate::where('id', $id)->update([
+            'job_search_function' => 1,
+        ]);
+        return response()->json(['success'=>'Đã bật chức năng tìm kiếm việc làm']);
+    }
+    public function functionOffSearch(Request $request, string $id){
+        Candidate::where('id', $id)->update([
+            'job_search_function' => 0,
+        ]);
+        return response()->json(['success'=>'Đã tắt chức năng tìm kiếm việc làm']);
+    }
 }

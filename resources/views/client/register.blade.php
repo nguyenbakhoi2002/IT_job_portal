@@ -12,8 +12,8 @@
   <link href="{{ asset('assets/client-bower/css/style.css')}}" rel="stylesheet">
   <link href="{{ asset('assets/client-bower/css/responsive.css')}}" rel="stylesheet">
 
-  <link rel="shortcut icon" href="{{ asset('assets/client-bower/images/favicon.png')}}" type="image/x-icon">
-  <link rel="icon" href="{{ asset('assets/client-bower/images/favicon.png')}}" type="image/x-icon">
+  <link rel="shortcut icon" href="{{ asset('favicon.ico')}}" type="image/x-icon">
+  <link rel="icon" href="{{ asset('favicon.ico')}}" type="image/x-icon">
 
   <!-- Responsive -->
   <meta http-equiv="X-UA-Compatible" content="IE=edge">

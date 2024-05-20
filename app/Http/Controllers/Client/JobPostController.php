@@ -29,7 +29,12 @@ class JobPostController extends Controller
         $current_date = Carbon::now();
         $current_date_string = Carbon::now()->toDateString();
         // dd($current_date->diff($end_date)->days);
-        $data = JobPost::where('end_date', '>=', $current_date_string)->where('status', 1)->paginate(12);
+        $data = JobPost::where('end_date', '>=', $current_date_string)
+                        ->where('status', 1)
+                        ->whereHas('company', function($query) {
+                            $query->where('status', 1);
+                        })
+                        ->paginate(12);
         if(request()->major || request()->skill || request()->exp || request()->area || request()->name){
             $data_ids = Skill::join('job_post_skill', 'skills.id', '=', 'job_post_skill.skill_id')
             ->join('job_posts', 'job_post_skill.job_post_id', '=', 'job_posts.id')
@@ -67,7 +72,13 @@ class JobPostController extends Controller
             ->with(['job_post.company', 'job_post.major'])
             ->pluck('job_posts.id')
             ->toArray();
-            $data = JobPost::whereIn('id', $data_ids)->where('end_date', '>=', $current_date_string)->where('status', 1)->paginate(12);
+            $data = JobPost::whereIn('id', $data_ids)
+                            ->where('end_date', '>=', $current_date_string)
+                            ->where('status', 1)
+                            ->whereHas('company', function($query) {
+                                $query->where('status', 1);
+                            })
+                            ->paginate(12);
         }
         $exp = TimeExperience::all();
         $major = Major::all();
@@ -105,7 +116,14 @@ class JobPostController extends Controller
         
         // dd(count($check_applied));
         // dd($dataProvinces);
-        $data_job_relate = JobPost::where('major_id', $job->major_id)->where('id', '!=', $job->id)->take(10)->get();
+        $data_job_relate = JobPost::where('major_id', $job->major_id)
+                                    ->where('id', '!=', $job->id)
+                                    ->where('status', 1)
+                                    ->where('end_date', '>', Carbon::now())
+                                    ->whereHas('company', function($query) {
+                                        $query->where('status', 1);
+                                    })
+                                    ->take(10)->get();
         return view('client/post/job-detail', 
         ['data_job' => $job, 'data_job_relate'=>$data_job_relate, 'dataProvinces'=>$dataProvinces, 'current_date'=>$current_date,
             'check_applied' => $check_applied, 'check_profile' => $check_profile

@@ -23,7 +23,7 @@
             </div>
             <div class="outer-box">
                 <div class="menu-btn rounded-pill p-2" style="font-size: 18px" >
-                     <i class="icon la la-coins" ></i> 
+                     {{-- <i class="icon la la-coins" ></i>  --}}
                      {{-- {{auth('company')->user()->coin}} --}}
                 </div>
                 <!-- Dashboard Option -->

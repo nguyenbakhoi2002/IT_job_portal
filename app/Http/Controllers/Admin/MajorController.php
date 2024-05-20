@@ -74,7 +74,7 @@ class MajorController extends Controller
     {
         try {
             $major->delete();
-            return redirect()->route('admin.major.index')->with('success', 'Xóa thành công');
+            return redirect()->back()->with('success', 'Xóa thành công');
         } catch (\Exception  $e) {
             return redirect()->back()->with('error', 'Xóa thất bại'.$e->getMessage());
         }

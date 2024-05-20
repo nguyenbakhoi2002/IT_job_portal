@@ -44,4 +44,7 @@ class LoginController extends Controller
         }
         return redirect()->route('company.login')->with('success', 'Tạo tài khoản mới thành công');
     }
+    public function companyBlock(){
+        return view('company.block', ['title'=>'Cảnh báo']);
+    }
 }

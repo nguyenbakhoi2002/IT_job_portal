@@ -7,6 +7,7 @@ use App\Models\Candidate;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\Client\RegisterRequest;
 use Hash;
 
@@ -42,5 +43,21 @@ class ClientController extends Controller
     public function logout() {
         auth('candidate')->logout();
         return  redirect()->route('login');
+    }
+    //quên mật khẩu
+    public function refresh(){
+        return view('client.refresh-password');
+    }
+    public function refreshPass(ForgotPasswordRequest $request){
+        $candidate = Candidate::where('email', $request->email)->first();
+        $token = strtoupper(Str::random(10));
+        $candidate->update([
+            'token' => $token,
+        ]); 
+        Mail::send('email.forget-pass', compact('candidate'), function ($email) use ($candidate) {
+            $email->subject('UbWork - Lấy Lại Mật Khẩu');
+            $email->to($candidate->email, $candidate->name);
+        });
+        return redirect()->route('candidate.login')->with('success', 'Vui Lòng Kiểm Tra Mail Để Thực Hiện Thay Đổi Mật Khẩu');
     }
 }

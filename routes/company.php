@@ -9,7 +9,6 @@ use App\Http\Controllers\Company\ProfileApplyController;
 use App\Http\Controllers\Company\LoginController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('/company-change-password', [CompanyController::class, 'changePassword'])->name('changePassword');
 Route::post('/company-update-password', [CompanyController::class, 'updatePassword'])->name('updatePassword');
 
@@ -25,6 +24,9 @@ Route::post('post-created-status/{id}', [JobPostController::class, 'status'])->n
 
 //profile tất cả
 Route::get('/profile-all',  [ProfileApplyController::class, 'profileAll'])->name('profileAll'); 
+//trang tìm kiếm ứng viên
+Route::get('profile-filter',[ProfileApplyController::class, 'profileFilter'])->name('profileFilter');;
+
 //status của profile (trang tất cả profille)
 Route::post('/profile-status/{id}', [ProfileApplyController::class, 'statusAll'])->name('updateStatusAll');
 // profile cho từng bài đăng

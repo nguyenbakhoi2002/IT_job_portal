@@ -236,9 +236,14 @@ class JobPostController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(JobPost $post)
     {
-        //
+        try {
+            $post->delete();
+            return redirect()->route('admin.major.index')->with('success', 'Xóa thành công');
+        } catch (\Exception  $e) {
+            return redirect()->back()->with('error', 'Xóa thất bại'.$e->getMessage());
+        }
     }
     public function profileApply(string $id){
         $jobPost = JobPost::find($id);

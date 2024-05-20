@@ -61,8 +61,14 @@
                                                                     data-text="Chi tiết"><span class="la la-eye"></span></button></a></li>
                                                         <li class="mb-2"><a href="{{ route('company.post.edit', $item) }}"><button
                                                                         data-text="Chỉnh sửa tin"><span class="la la-pencil"></span></button></a></li>
-                                                        <li><a href="{{ route('company.post.destroy', $item) }}"><button
-                                                                    data-text="Xóa tin"><span class="la la-trash"></span></button></a></li>
+                                                        {{-- <li>
+                                                            <form action="{{route('company.post.destroy', $item)}}" method="POST">
+                                                                @csrf
+                                                                @method("DELETE")
+                                                                <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                                            </form>
+                                                            
+                                                        </li> --}}
                                                     </ul>
                                                 </div>
                                             </td>

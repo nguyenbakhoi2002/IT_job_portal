@@ -19,7 +19,22 @@
                             href="{{ route('company.profileApply', $item->id) }}"> Xem CV</a></span>
                 </td>
                 <td>Lượt ứng tuyển:
-                    {{$item->seekerProfileRequest($item->degree->level, $item->experience->level, $item->skills->pluck('id')->toArray())->count()}} 
+                    @php
+                        $total = 0;
+                        $all_profile=$item->activities;
+                        foreach ($all_profile as $it) {
+                            $satisfyString = $it->satisfy;
+                            if($satisfyString!=''){
+                                $elementsArray = explode('|', $satisfyString);
+                                $numberOfElements = count($elementsArray);
+                                if($numberOfElements == 4){
+                                    $total++;
+                                }
+                            }
+                        }
+                    @endphp
+                    {{$total}}
+                    {{-- {{$item->seekerProfileRequest($item->degree->level, $item->experience->level, $item->skills->pluck('id')->toArray())->count()}}  --}}
                     (đáp ứng)
                     /{{$item->activities->count()}}(ALL)<br> Ngày hết hạn:
                     {{ date_format(new DateTime($item->end_date), 'd/m/Y') }}</td>

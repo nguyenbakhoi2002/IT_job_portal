@@ -3,7 +3,7 @@
 
 <head>
   <meta charset="utf-8">
-  <title>Login</title>
+  <title>Quên mật khẩu</title>
 
   <!-- Stylesheets -->
   <link href="{{ asset('assets/client-bower/css/bootstrap.css')}}" rel="stylesheet">
@@ -34,7 +34,7 @@
           <!--Nav Outer -->
           <div class="nav-outer">
             <div class="logo-box">
-              <div class="logo"><a href="{{route('admin.login')}}"><img src="" alt="" title=""></a></div>
+              <div class="logo"><a href="{{route('login')}}"><img src="" alt="" title=""></a></div>
             </div>
           </div>
         </div>
@@ -46,53 +46,33 @@
     <!--End Main Header -->
 
     <!-- Info Section -->
-    <div class="login-section">
-      <div class="image-layer" style="background-image: url({{ asset('assets/client-bower/images/background/12.jpg')}});"></div>
-      <div class="outer-box">
-        <!-- Login Form -->
-        <div class="login-form default-form">
-          <div class="form-inner">
-            <h3>Đăng nhập vào ADMIN BaKhoi</h3>
-            <!--Login Form-->
-            <form method="POST" action="">
-                @csrf
-              <div class="form-group">
-                <label>Email</label>
-                <input type="text" name="email" placeholder="Email" value="{{old('email')}}" >
-                @error('email')
-                  <small class="text-danger">{{$message}}</small>
-                @enderror
-              </div>
 
-              <div class="form-group">
-                <label>Password</label>
-                <input id="password-field" type="password" name="password" value="" placeholder="Password">
-                @error('password')
-                  <small class="text-danger">{{$message}}</small>
-                @enderror
-              </div>
-
-              <div class="form-group">
-                <button class="theme-btn btn-style-one" type="submit">Đăng nhập</button>
-
-              </div>
-              {{-- <input type="hidden" name="_token" value="{!! csrf_token() !!}"> --}}
-            </form>
-            <div class="bottom-box">
-                <div class="text"><a href="">Quên Mật Khẩu?</a><span> Hoặc</span> Bạn chưa có tài khoản? <a href="">Đăng ký</a>
-                </div>
-              <div class="divider"><span>hoặc</span></div>
-              <div class="btn-box row">
-                <div class="col-lg-12 col-md-12">
-                  <a href="" class="theme-btn social-btn-two google-btn"><i class="fab fa-google"></i> Google</a>
-                </div>
-              </div>
+    <section class="contact-section">
+        <div class="auto-container">
+            <div class="contact-form default-form">
+                <h3>Khôi Phục Mật Khẩu</h3>
+                <form method="post" action="" id="email-form">
+                    @csrf
+                    <div class="row">
+                        <form action="">
+                            <div class="col-lg-12 col-md-12 col-sm-12 form-group" style="margin-bottom: 30px">
+                                <label>Email</label>
+                                <input type="text" name="email" class="subject"
+                                    placeholder="Mời nhập email cần khôi phục" required>
+                                    @error('email')
+                                      <small class="text-danger">{{$message}}</small>
+                                    @enderror
+                            </div>
+                            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+                                <button class="theme-btn btn-style-one" type="submit" >Khôi Phục</button>
+                            </div>
+                        </form>
+                    </div>
+                </form>
             </div>
-          </div>
         </div>
-        <!--End Login Form -->
-      </div>
-    </div>
+    </section>
+
     <!-- End Info Section -->
 
 

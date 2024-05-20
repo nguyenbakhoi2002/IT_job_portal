@@ -22,10 +22,18 @@ class Candidate extends Authenticatable
         return $this->hasMany(SeekerProfile::class, 'candidate_id');
      }
      public function saved_jobs(){
-      return $this->belongsToMany(JobPost::class, 'saved_jobs', 'candidate_id', 'job_post_id')->withPivot('created_at', 'updated_at');
+      return $this->belongsToMany(JobPost::class, 'saved_jobs', 'candidate_id', 'job_post_id')
+      ->where('status', 1)
+      ->where('end_date', '>', now())
+      ->whereHas('company', function ($query) {
+        $query->where('status', 1);
+      })
+      ->withPivot('created_at', 'updated_at');
     }
     public function saved_companies(){
-      return $this->belongsToMany(Company::class, 'saved_companies', 'candidate_id', 'company_id')->withPivot('created_at', 'updated_at');;
+      return $this->belongsToMany(Company::class, 'saved_companies', 'candidate_id', 'company_id')
+      ->where('status', 1)
+      ->withPivot('created_at', 'updated_at');;
     }
     
 }
