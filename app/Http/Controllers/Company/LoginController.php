@@ -36,13 +36,14 @@ class LoginController extends Controller
         return view('company.register');
     }
     public function postRegister(RegisterRequest $request){
+        // dd('khôi');
         $request->merge(['password'=>Hash::make($request->password)]);
         try {
             Company::create($request->all());
+            return redirect()->route('company.login')->with('success', 'Tạo tài khoản mới thành công');
         } catch (\Throwable $th) {
             dd($th);
         }
-        return redirect()->route('company.login')->with('success', 'Tạo tài khoản mới thành công');
     }
     public function companyBlock(){
         return view('company.block', ['title'=>'Cảnh báo']);

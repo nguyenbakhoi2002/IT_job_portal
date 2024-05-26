@@ -10,6 +10,10 @@ use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ForgotPasswordRequest;
 use App\Http\Requests\Client\RegisterRequest;
 use Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\FindPwRequest;
+
 
 class ClientController extends Controller
 {
@@ -51,13 +55,35 @@ class ClientController extends Controller
     public function refreshPass(ForgotPasswordRequest $request){
         $candidate = Candidate::where('email', $request->email)->first();
         $token = strtoupper(Str::random(10));
+
         $candidate->update([
             'token' => $token,
         ]); 
         Mail::send('email.forget-pass', compact('candidate'), function ($email) use ($candidate) {
-            $email->subject('UbWork - Lấy Lại Mật Khẩu');
+            $email->subject('BaKhoi - Lấy Lại Mật Khẩu');
             $email->to($candidate->email, $candidate->name);
         });
-        return redirect()->route('candidate.login')->with('success', 'Vui Lòng Kiểm Tra Mail Để Thực Hiện Thay Đổi Mật Khẩu');
+        return redirect()->route('login')->with('success', 'Vui Lòng Kiểm Tra Mail Để Thực Hiện Thay Đổi Mật Khẩu');
+    }
+    public function getPass(Candidate $candidate)
+    {
+
+        return view('email.get-pass', ['candidate' => $candidate]);
+    }
+    public function postPass(FindPwRequest $request)
+    {
+        $candidate = Candidate::where('token', $request->token)->where('email', $request->email)->first();
+        
+        if ($candidate) {
+                $candidate->update([
+                    'token' => null,
+                    'password' => bcrypt($request->password)
+
+                ]);
+                return redirect()->route('login')->with('success', 'Đổi mật khẩu thành công');
+            
+        } else {
+            return redirect()->back()->with('error', 'Mã xác nhận không chính xác');
+        }
     }
 }

@@ -8,6 +8,10 @@ use App\Http\Requests\Admin\UpdateCompanyRequest;
 use App\Http\Requests\Admin\paperUpdateCompanyRequest;
 use Illuminate\Support\Str;
 use App\Http\Requests\Client\ChangePwRequest;
+use App\Http\Requests\ForgotPasswordCompanyRequest;
+use App\Models\Company;
+use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\FindPwRequest;
 use Session;
 use Hash;
 
@@ -92,6 +96,43 @@ class CompanyController extends Controller
         }else {
             Session::flash('error', 'Mật khẩu cũ không đúng!');
             return Redirect()->back();
+        }
+    }
+    //quên mật khẩu
+    public function refresh(){
+        return view('client.refresh-password');
+    }
+    public function refreshPass(ForgotPasswordCompanyRequest $request){
+        $candidate = Company::where('email', $request->email)->first();
+        $token = strtoupper(Str::random(10));
+
+        $candidate->update([
+            'token' => $token,
+        ]); 
+        Mail::send('email.forget-pass-company', compact('candidate'), function ($email) use ($candidate) {
+            $email->subject('BaKhoi - Lấy Lại Mật Khẩu Nhà Tuyển Dụng');
+            $email->to($candidate->email);
+        });
+        return redirect()->route('company.login')->with('success', 'Vui Lòng Kiểm Tra Mail Để Thực Hiện Thay Đổi Mật Khẩu');
+    }
+    public function getPass(Company $company)
+    {
+
+        return view('email.get-pass', ['candidate' => $company]);
+    }
+    public function postPass(FindPwRequest $request)
+    {
+        $candidate = Company::where('token', $request->token)->where('email', $request->email)->first();
+        if ($candidate) {
+                $candidate->update([
+                    'token' => null,
+                    'password' => bcrypt($request->password)
+
+                ]);
+                return redirect()->route('company.login')->with('success', 'Đổi mật khẩu thành công');
+            
+        } else {
+            return redirect()->back()->with('error', 'Mã xác nhận không chính xác');
         }
     }
     

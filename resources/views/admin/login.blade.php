@@ -78,7 +78,7 @@
               </div>
               {{-- <input type="hidden" name="_token" value="{!! csrf_token() !!}"> --}}
             </form>
-            <div class="bottom-box">
+            {{-- <div class="bottom-box">
                 <div class="text"><a href="">Quên Mật Khẩu?</a><span> Hoặc</span> Bạn chưa có tài khoản? <a href="">Đăng ký</a>
                 </div>
               <div class="divider"><span>hoặc</span></div>
@@ -87,7 +87,7 @@
                   <a href="" class="theme-btn social-btn-two google-btn"><i class="fab fa-google"></i> Google</a>
                 </div>
               </div>
-            </div>
+            </div> --}}
           </div>
         </div>
         <!--End Login Form -->

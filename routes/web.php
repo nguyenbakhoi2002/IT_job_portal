@@ -32,6 +32,7 @@ Route::get('/logout', [ClientController::class, 'logout'])->name('logout');
     //Quên mật khẩu
     Route::get('refresh-pass', [ClientController::class, 'refresh'])->name('refresh');
     Route::post('refresh-pass',[ClientController::class, 'refreshPass'])->name('refreshPass');
+    
     //candidate-company
     Route::get('/company-list', [CompanyController::class, 'index'])->name('company-list');
     Route::get('/company-detail/{company}', [CompanyController::class, 'detail'])->name('company-detail');
@@ -49,7 +50,12 @@ Route::prefix('company')->group(function () {
     Route::post('/register', [LoginController::class, 'postRegister']);
     Route::get('/block', [LoginController::class, 'companyBlock'])->name('company.block');
     Route::get('/logout', [LoginController::class, 'logout'])->name('company.logout');
-
+//Quên mật khẩu company
+Route::get('refresh-company-pass', [App\Http\Controllers\Company\CompanyController::class, 'refresh'])->name('company.refresh');
+Route::post('refresh-company-pass',[App\Http\Controllers\Company\CompanyController::class, 'refreshPass'])->name('company.refreshPass');
+//lấy lại mật khẩu company
+Route::get('get-pass-company/{company}/{token}', [App\Http\Controllers\Company\CompanyController::class, 'getPass'])->name('company.getPass');
+Route::post('get-pass-company/{company}/{token}',  [App\Http\Controllers\Company\CompanyController::class, 'postPass'])->name('company.postPass');
 
 });
 //admin
@@ -117,5 +123,9 @@ Route::post('/candidate-update-detail', [CandidateController::class, 'updateDeta
 //đổi mật khẩu
 Route::get('/change-password', [CandidateController::class, 'changePassword'])->name('changePassword')->middleware('auth.candidate');
 Route::post('/candidate-update-password', [CandidateController::class, 'updatePassword'])->name('updatePassword')->middleware('auth.candidate');
+//lấy lại mật khẩu
+Route::get('get-pass/{candidate}/{token}', [ClientController::class, 'getPass'])->name('getPass');
+Route::post('get-pass/{candidate}/{token}',  [ClientController::class, 'postPass'])->name('postPass');
+
 
 

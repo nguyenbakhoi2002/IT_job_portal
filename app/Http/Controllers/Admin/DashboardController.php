@@ -24,6 +24,7 @@ class DashboardController extends Controller
         $major = Major::all();
         $company_wait=Company::where('status', 0)->get();
         $post_wait=JobPost::where('status', 3)->get();
+
         return view('admin.dashboard', ['candidate' => $candidate, 'company' => $company,
          'seekerProfile' => $seekerProfile, 'admin' => $admin, 'skill' => $skill, 'major' =>$major,
           'company_wait' => $company_wait, 'post_wait' => $post_wait , 'job_post'=>$job_post]);

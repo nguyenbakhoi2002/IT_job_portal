@@ -50,7 +50,7 @@ class JobPostController extends Controller
         //loc end
         
         if($key = request()->key){
-            $list_jobs = JobPost::where('title','like','%' . $key . '%')->paginate(10);
+            $list_jobs = JobPost::where('company_id', $company_id)->where('title','like','%' . $key . '%')->paginate(10);
         }
         return view('company.post.index', ['title'=>$title, 'list_jobs'=>$list_jobs, 'activeRoute'=>'post']);
     }
@@ -98,7 +98,7 @@ class JobPostController extends Controller
             //lấy ra id company
             $data['company_id'] = auth('company')->user()->id;
             $data['status'] = 0;
-            // dd($request->skill);
+            // dd($data);
             //thêm dữ liệu vào bảng job-post
             $jp = JobPost::create($data);
             //lấy ra dữ liệu skill
@@ -125,7 +125,7 @@ class JobPostController extends Controller
             }
             DB::commit();
             Session::flash('success', 'Thêm thành công!');
-            return Redirect()->route('company.post.postCreated');
+            return Redirect()->route('company.postCreated');
 
         }
         catch(Exception $e){
@@ -240,7 +240,7 @@ class JobPostController extends Controller
     {
         try {
             $post->delete();
-            return redirect()->route('admin.major.index')->with('success', 'Xóa thành công');
+            return redirect()->route('company.post.index')->with('success', 'Xóa thành công');
         } catch (\Exception  $e) {
             return redirect()->back()->with('error', 'Xóa thất bại'.$e->getMessage());
         }
@@ -265,9 +265,10 @@ class JobPostController extends Controller
     }
     //bài đnăg hết hạn
     public function postExpired(){
-        $list_jobs = JobPost::whereDate('end_date', '<', Carbon::now())->paginate(10);
+        $company_id = auth('company')->user()->id;
+        $list_jobs = JobPost::where('company_id', $company_id)->whereDate('end_date', '<', Carbon::now())->paginate(10);
         if($key = request()->key){
-            $list_jobs = JobPost::where('title','like','%' . $key . '%')->paginate(10);
+            $list_jobs = JobPost::where('company_id', $company_id)->where('title','like','%' . $key . '%')->whereDate('end_date', '<', Carbon::now())->paginate(10);
         }
         $title = "Danh sách các bài đăng đã hết hạn";
         return view('company.post.postExpired', 
@@ -275,10 +276,21 @@ class JobPostController extends Controller
     }
     //những bài đăng tạo ở trạng thái đầu
     public function postCreated(){
-        $list_jobs = JobPost::where('status', 0)->orWhere('status', 2)->orWhere('status', 3)->orderBy('id', 'desc')->paginate(10);
-        if($key = request()->key){
-            $list_jobs = JobPost::where('title','like','%' . $key . '%')->paginate(10);
+        $company_id = auth('company')->user()->id;
+        // $list_jobs = JobPost::where('company_id', $company_id)->where('status', 0)->orWhere('status', 2)->orWhere('status', 3)->orderBy('id', 'desc')->paginate(10);
+        $query = JobPost::where('company_id', $company_id)
+                    ->where(function ($q) {
+                        $q->where('status', 0)
+                          ->orWhere('status', 2)
+                          ->orWhere('status', 3);
+                    });
+        // if($key = request()->key){
+        //     $list_jobs = JobPost::where('company_id', $company_id)->where('status', 0)->orWhere('status', 2)->orWhere('status', 3)->where('title','like','%' . $key . '%')->paginate(10);
+        // }
+        if ($key = request()->key) {
+            $query->where('title', 'like', '%' . $key . '%');
         }
+        $list_jobs = $query->orderBy('id', 'desc')->paginate(10);
         $title = "Danh sách các bài đăng chưa kiểm duyệt";
         return view('company.post.postCreated', 
         ['title' => $title, 'list_jobs'=>$list_jobs, 'activeRoute'=>'post']);

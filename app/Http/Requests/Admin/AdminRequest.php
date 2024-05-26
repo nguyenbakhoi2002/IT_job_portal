@@ -39,7 +39,16 @@ class AdminRequest extends FormRequest
                             'hinhanh_upload_logo' => 'image|mimes:jpg,png,jpeg|max:5000',
                         ];
                         break;
-  
+                        case 'updateDetail':
+                            $rules = [
+                                'name' => 'required',
+                                'phone' => 'required|max:10|unique:admin,phone,'.$this->id,
+                                'email' => 'required|email|unique:admin,email,'.$this->id,
+                                'address' => 'required',
+                                'hinhanh_upload_logo' => 'image|mimes:jpg,png,jpeg|max:5000',
+                            ];
+                            break;
+      
                     default:
                         break;
                 }
@@ -53,7 +62,7 @@ class AdminRequest extends FormRequest
                             'phone' => 'required|max:10|unique:admin,phone,'.$this->id,
                             'email' => 'required|email|unique:admin,email,'.$this->id,
                             'address' => 'required',
-                            'password' => 'required',
+                            // 'password' => 'required',
                             'hinhanh_upload_logo' => 'image|mimes:jpg,png,jpeg|max:5000',
                             
                         ];

@@ -49,13 +49,21 @@ return [
         ['id'=>'3','name'=>'Cao cấp'],
         ['id'=>'4','name'=>'Bản ngữ'],
     ],
-    'wage'=>[
-        ['id'=>'0','name'=>'dưới 10 triệu'],
-        ['id'=>'1','name'=>'10 - 15 triệu'],
-        ['id'=>'2','name'=>'15 - 20 triệu'],
-        ['id'=>'3','name'=>'20 - 25 triệu'],
-        ['id'=>'4','name'=>'25 - 30 triệu'],
-        ['id'=>'5','name'=>'30 - 50 triệu'],
-        ['id'=>'6','name'=>'trên 50 triệu'],
+    'company_model'=> [
+        ['id'=>'0','name'=>'Doanh nghiệp tư nhân'],
+        ['id'=>'1','name'=>'Công ty trách nhiệm hữu hạn một thành viên'],
+        ['id'=>'2','name'=>'Công ty trách nhiệm hữu hạn từ hai thành viên trở lên'],
+        ['id'=>'3','name'=>'Công ty cổ phần'],
+        ['id'=>'4','name'=>' Công ty hợp danh.'],
+    ],
+    'wage' => [
+        ['id' => '0', 'name' => 'dưới 10 triệu', 'min' => 0, 'max' => 10000000],
+        ['id' => '1', 'name' => '10 - 15 triệu', 'min' => 10000000, 'max' => 15000000],
+        ['id' => '2', 'name' => '15 - 20 triệu', 'min' => 15000000, 'max' => 20000000],
+        ['id' => '3', 'name' => '20 - 25 triệu', 'min' => 20000000, 'max' => 25000000],
+        ['id' => '4', 'name' => '25 - 30 triệu', 'min' => 25000000, 'max' => 30000000],
+        ['id' => '5', 'name' => '30 - 50 triệu', 'min' => 30000000, 'max' => 50000000],
+        ['id' => '6', 'name' => 'trên 50 triệu', 'min' => 50000000, 'max' => PHP_INT_MAX],
     ]
+
 ];

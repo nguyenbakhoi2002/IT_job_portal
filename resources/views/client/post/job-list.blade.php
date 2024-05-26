@@ -15,6 +15,9 @@
         -webkit-box-orient: vertical;
         -webkit-line-clamp: 1;
         }
+        .form-group{
+            width: 185px;
+        }
         
     </style>
 @endsection
@@ -39,7 +42,7 @@
                         <div class="form-group col-lg-2 col-md-12 col-sm-12" >
                             <span class="icon flaticon-search-1"></span>
                             <input type="text" class="form-control search-input" id="search-text" name="name"
-                                placeholder="Mời Nhập tên công ty hoặc tên công việc ">
+                                placeholder="công việc ">
                         </div>
                         <div class="form-group col-lg-2 col-md-12 col-sm-12" >
                             <span class="icon flaticon-map-locator"></span>
@@ -74,6 +77,15 @@
                                 <option value="">Chuyên Ngành</option>
                                 @foreach ($major as $item)
                                     <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="form-group col-lg-3 col-md-12 col-sm-12" >
+                            <span class="icon flaticon-briefcase"></span>
+                            <select name="wage" id="search-wage" class="chosen-select">
+                                <option value="">Mức lương</option>
+                                @foreach (config('custom.wage') as $item)
+                                    <option value="{{ $item['id'] }}">{{ $item['name'] }}</option>
                                 @endforeach
                             </select>
                         </div>

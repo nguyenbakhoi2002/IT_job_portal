@@ -60,11 +60,11 @@ class HomeController extends Controller
                 $search = request()->name;
                 $area =request()->area;
                 if (!empty($search)) {
-                    $q->orwhere('job_posts.title', 'LIKE', '%' . $search . '%')
-                    ->orwhere('companies.name', 'LIKE', '%' . $search . '%');
+                    $q->where('job_posts.title', 'LIKE', '%' . $search . '%');
+                    // ->orwhere('companies.name', 'LIKE', '%' . $search . '%');
                 }
                 if (!empty($area)) {
-                    $q->where('job_posts.area', '=', $area);
+                    $q->where('job_posts.area', $area);
                 }
             })
             ->select('job_posts.*')

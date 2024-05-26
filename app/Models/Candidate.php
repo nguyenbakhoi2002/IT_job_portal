@@ -17,7 +17,7 @@ class Candidate extends Authenticatable
     // public $timestamps = false;//để không bị thêm  hai trường updated_at và created_at
     protected $table = 'candidate';
     protected $fillable = ['id', 'name', 'email', 'password','phone','user_image',
-      'created_at', 'updated_at'];
+      'created_at', 'updated_at', 'token'];
       public function seekerProfile(){
         return $this->hasMany(SeekerProfile::class, 'candidate_id');
      }

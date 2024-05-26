@@ -79,14 +79,14 @@
               {{-- <input type="hidden" name="_token" value="{!! csrf_token() !!}"> --}}
             </form>
             <div class="bottom-box">
-                <div class="text"><a href="">Quên Mật Khẩu?</a><span> Hoặc</span> Bạn chưa có tài khoản? <a href="{{route('company.register')}}">Đăng ký</a>
+                <div class="text"><a href="{{route('company.refresh')}}">Quên Mật Khẩu?</a><span> Hoặc</span> Bạn chưa có tài khoản? <a href="{{route('company.register')}}">Đăng ký</a>
                 </div>
-              <div class="divider"><span>hoặc</span></div>
+              {{-- <div class="divider"><span>hoặc</span></div>
               <div class="btn-box row">
                 <div class="col-lg-12 col-md-12">
                   <a href="" class="theme-btn social-btn-two google-btn"><i class="fab fa-google"></i> Google</a>
                 </div>
-              </div>
+              </div> --}}
             </div>
           </div>
         </div>

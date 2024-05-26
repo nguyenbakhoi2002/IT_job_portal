@@ -75,6 +75,11 @@ Route::resource('language', LanguageController::class);
     Route::get('language-trash/{id}', [LanguageController::class, 'restore'])->name('language.restore');
     Route::get('/language-forceDelete/{id}',[LanguageController::class, 'force'] )->name('language.forceDelete');
 //admin-Quản trị viên
-Route::resource('admin', AdminController::class); 
-
+Route::resource('admin', AdminController::class)->middleware(['checkAdminType']); 
+//thông tin tài khoản
+Route::get('/admin-detail', [AdminController::class, 'detail'])->name('detail');
+Route::post('/admin-update-detail', [AdminController::class, 'updateDetail'])->name('updateDetail');
+//đổi mật khẩu
+Route::get('/change-password', [AdminController::class, 'changePassword'])->name('changePassword');
+Route::post('/candidate-update-password', [AdminController::class, 'updatePassword'])->name('updatePassword');
 ?>

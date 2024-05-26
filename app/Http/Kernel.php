@@ -69,5 +69,6 @@ class Kernel extends HttpKernel
         'auth.candidate'=> \App\Http\Middleware\CheckLoginCandidate::class,
         'auth.admin'=> \App\Http\Middleware\CheckLoginAdmin::class,
         'checkCandidateStatus'=> \App\Http\Middleware\CheckCandidateStatus::class,
+        'checkAdminType'=> \App\Http\Middleware\CheckAdminType::class,
     ];
 }

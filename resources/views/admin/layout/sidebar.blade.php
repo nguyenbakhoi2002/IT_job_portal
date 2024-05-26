@@ -9,19 +9,26 @@
     <!-- Sidebar -->
     <div class="sidebar">
         <!-- Sidebar user panel (optional) -->
-        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex align-items-center">
             <div class="image">
-                {{-- <img src="{{ Auth::user()->image ? Stogate::url(Auth::user()->image) : asset('assets/admin-bower/dist/img/avatar.png') }}" 
+                <img src="{{ auth('admin')->user()->image ? asset('uploads/images/admin/'. auth('admin')->user()->image) : asset('assets/admin-bower/dist/img/avatar.png') }}" 
                 class="img-circle elevation-2" alt="User Image">
-                --}}
+               
             </div>
             <div class="info">
-                {{-- <a href="#" class="d-block">Hello, {{ Auth::User()->name }}</a> --}}
+                <div href="#" class="d-block text-white">Hello, {{  auth('admin')->user()->name }}</div>
+                <div  class="d-block text-white"> Loại tài khoản:
+                    @if (auth('admin')->user()->type == 1)
+                            Admin
+                    @else
+                            Nhân viên
+                    @endif
+                </div>
             </div>
         </div>
 
         <!-- SidebarSearch Form -->
-        <div class="form-inline">
+        {{-- <div class="form-inline">
             <div class="input-group" data-widget="sidebar-search">
                 <input class="form-control form-control-sidebar" type="search" placeholder="{{ __('SEARCH') }}"
                     aria-label="Search">
@@ -31,7 +38,7 @@
                     </button>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
         <!-- Sidebar Menu -->
         <nav class="mt-2">
@@ -41,7 +48,7 @@
                     <a href="{{route('admin.dashboard')}}" class="nav-link">
                         <i class="nav-icon fas fa-tachometer-alt"></i>
                         <p>
-                            {{ __('Tổng quan') }}
+                           Tổng quan
                         </p>
                     </a>
                 </li>
@@ -162,6 +169,18 @@
                         </li>
                     </ul>
                   </li> --}}
+                  <li class="nav-item">
+                    <a href="{{route('admin.detail')}}" class="nav-link">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p> Thông tin tài khoản </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{route('admin.changePassword')}}" class="nav-link">
+                        <i class="nav-icon fas fa-table"></i>
+                        <p> Thay đổi mật khẩu</p>
+                    </a>
+                </li>
                   <li class="nav-item ">
                     <a href="{{route('admin.logout')}}" class="nav-link">
                         <i class="fa fa-sign-out-alt"></i>

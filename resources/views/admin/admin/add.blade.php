@@ -73,11 +73,11 @@
                                 <label>Loại tài khoản<span class="text-danger">*</span></label>
                                 <div class="d-flex">
                                     <div class="form-check mr-3">
-                                        <input type="radio" class="form-check-input" id="status" name="status" value="0" checked>Nhân viên
+                                        <input type="radio" class="form-check-input" id="status" name="type" value="0" checked>Nhân viên
                                         <label class="form-check-label" for="status"></label>
                                     </div>
                                     <div class="form-check mr-3">
-                                        <input type="radio" class="form-check-input" id="status" name="status" value="1" >Admin
+                                        <input type="radio" class="form-check-input" id="status" name="type" value="1" >Admin
                                         <label class="form-check-label" for="status"></label>
                                     </div>
                                 </div>

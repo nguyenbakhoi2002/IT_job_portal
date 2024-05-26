@@ -134,7 +134,7 @@
                   <th>Tên công ty</th>
                   <th>Ảnh</th>
                   <th>Email / Số điện thoại</th>
-                  <th>Đánh giá</th>
+                  {{-- <th>Đánh giá</th> --}}
                   <th>Ảnh xác thực</th>
                   <th>Trạng thái</th>
                   <th><a href="{{route('admin.company.create')}}"><i class="fa fa-plus"></i></a></th>
@@ -160,10 +160,10 @@
                           <p>{{$item->phone}}</p>
                         </td>
                         {{-- <td>{{$item->phone}}</td> --}}
-                        <td>
+                        {{-- <td>
                           chưa làm
                       
-                        </td>
+                        </td> --}}
                         @if ($item->image_paper)
                           <td><img onclick="modalImg({{$item->id}})" class="myImg{{$item->id}} cursoi" width="100px" src="{{asset('uploads/images/image_paper/'. $item->image_paper)}}" alt=""></td>
                           <div id="myModal" class="myModal{{$item->id}} modal">

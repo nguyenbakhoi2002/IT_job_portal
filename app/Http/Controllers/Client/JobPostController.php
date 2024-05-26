@@ -35,20 +35,21 @@ class JobPostController extends Controller
                             $query->where('status', 1);
                         })
                         ->paginate(12);
-        if(request()->major || request()->skill || request()->exp || request()->area || request()->name){
+        if(request()->major || request()->skill || request()->exp || request()->area || request()->name ||request()->wage){
             $data_ids = Skill::join('job_post_skill', 'skills.id', '=', 'job_post_skill.skill_id')
             ->join('job_posts', 'job_post_skill.job_post_id', '=', 'job_posts.id')
             ->join('companies', 'job_posts.company_id', '=', 'companies.id')
             ->where(function ($q){
                 $search = request()->name;
                 $major = request()->major;
+                $wage = request()->wage;
                 // $type = $request['searchType'];
                 $exp = request()->exp;
                 $area =request()->area;
                 $skill = request()->skill;
                 if (!empty($search)) {
-                    $q->orwhere('job_posts.title', 'LIKE', '%' . $search . '%')
-                    ->orwhere('companies.name', 'LIKE', '%' . $search . '%');
+                    $q->orwhere('job_posts.title', 'LIKE', '%' . $search . '%');
+                    // ->orwhere('companies.name', 'LIKE', '%' . $search . '%');
                 }
                 if (!empty($area)) {
                     $q->where('job_posts.area', '=', $area);
@@ -62,6 +63,28 @@ class JobPostController extends Controller
                 if (!empty($major)) {
                     $q->where('job_posts.major_id', '=', $major);
                 }
+                if (!empty($wage)) {
+                    $wageConfig = config('custom.wage')[$wage];
+                    $minSalary = $wageConfig['min'];
+                    $maxSalary = $wageConfig['max'];
+
+                    $q->where(function ($query) use ($minSalary, $maxSalary) {
+                        $query
+                            ->whereBetween('job_posts.min_salary', [$minSalary, $maxSalary])
+                            ->orWhereBetween('job_posts.max_salary', [$minSalary, $maxSalary]);
+
+
+                    });
+                    // $q->where(function ($query) use ($minSalary, $maxSalary) {
+                    //     $query->where(function ($q) use ($minSalary, $maxSalary) {
+                    //         $q->where('job_posts.min_salary', '>=', $minSalary)
+                    //           ->where('job_posts.min_salary', '<=', $maxSalary);
+                    //     })->orWhere(function ($q) use ($minSalary, $maxSalary) {
+                    //         $q->where('job_posts.max_salary', '>=', $minSalary)
+                    //           ->where('job_posts.max_salary', '<=', $maxSalary);
+                    //     });
+                    // });
+                }
                 // if (!empty($type)) {
                 //     $q->where('job_posts.type_work', '=', $type);
                 // }
@@ -72,6 +95,7 @@ class JobPostController extends Controller
             ->with(['job_post.company', 'job_post.major'])
             ->pluck('job_posts.id')
             ->toArray();
+            // dd($data_ids);
             $data = JobPost::whereIn('id', $data_ids)
                             ->where('end_date', '>=', $current_date_string)
                             ->where('status', 1)

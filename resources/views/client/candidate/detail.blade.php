@@ -14,8 +14,8 @@
                                 <h4>Thông tin của bạn</h4>
                             </div>
                             <div class="widget-content">
-                                <div class="form-group col-lg-6 col-md-12" style="margin-bottom: 30px">
-                                    @if ($detail->type == 1)
+                                {{-- <div class="form-group col-lg-6 col-md-12" style="margin-bottom: 30px">
+                                    @if ($detail->job_search_function == 1)
                                         <form action="{{ route('status', ['candidate' => $detail->id, $detail->type]) }}"
                                             method="POST">
                                             @csrf
@@ -30,7 +30,7 @@
                                             <button class="btn btn-danger">Đang Tắt</button>
                                         </form>
                                     @endif
-                                </div>
+                                </div> --}}
                                 <form class="default-form" action="{{route('updateDetail')}}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <input type="text" value="{{$detail->id}}" hidden name="id">

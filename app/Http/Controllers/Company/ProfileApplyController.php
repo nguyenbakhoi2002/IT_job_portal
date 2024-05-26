@@ -109,6 +109,7 @@ class ProfileApplyController extends Controller
             }
             $data_id=$query->pluck('id')->toArray();
             $seekerProfile=SeekerProfile::whereIn('id', $data_id)->paginate(12);
+            // $seekerProfile_id=SeekerProfile::whereIn('id', $data_id)->pluck('candidate_id')->toArray();
             // dd($seekerProfile);
 
         }

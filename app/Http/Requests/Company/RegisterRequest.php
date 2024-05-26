@@ -30,7 +30,7 @@ class RegisterRequest extends FormRequest
             "phone"=>'required',
             "company_model"=>'required',
             "link_web"=>'required',
-            "founded_in"=>'required',
+            // "founded_in"=>'required',
             "team"=>'required',
             "address"=>'required',
             

@@ -128,7 +128,7 @@
                 <div class="info-box mb-3">
                     <span class="info-box-icon bg-warning elevation-1"><i class="fa fa-toggle-on"></i></span>
                     <div class="info-box-content">
-                        <span class="info-box-text">Tổng số Công Ty chờ xét duyệt</span>
+                        <span class="info-box-text">Tổng số Công Ty bị chặn</span>
                         <span class="info-box-number">
                         {{ count($company_wait) }}
                         </span>
