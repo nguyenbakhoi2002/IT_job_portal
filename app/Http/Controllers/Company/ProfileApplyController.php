@@ -117,14 +117,20 @@ class ProfileApplyController extends Controller
         return view('company.profile.search-seeker', ['company'=>$company, 'major' => $major, 'title'=>'Tìm kiếm ứng viên',
         'skill' => $skill, 'time_exp' => $time_exp, 'degree' => $degree,'language'=>$language, 'seekerProfile'=>$seekerProfile]);
     }
+    //status của trang tất cả profile
     public function statusAll(Request $request, string $id){
         $val = $request->status;
         JobPostActivity::where('id', $id)->update(['seen' => $val]);
         return response()->json(['success'=>'Cập nhật trạng thái thành công!']);
     }
+    //status của trang profile cho từng bài đăng
     public function statusOwn(Request $request, string $id){
         $val = $request->status;
         JobPostActivity::where('id', $id)->update(['seen' => $val]);
         return response()->json(['success'=>'Cập nhật trạng thái thành công!']);
+    }
+    //xem trước profile của ứng viên tìm kiếm
+    public function profilePreview(SeekerProfile $seeker_profile){
+        return view('company.profile.template_new', ['seeker_profile' => $seeker_profile]);
     }
 }

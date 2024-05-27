@@ -5,6 +5,7 @@ use App\Http\Controllers\Company\DashboardController;
 use App\Http\Controllers\Company\JobPostController;
 use App\Http\Controllers\Company\CompanyController;
 use App\Http\Controllers\Company\ProfileApplyController;
+use App\Http\Controllers\Company\SavedCandidateController;
 
 use App\Http\Controllers\Company\LoginController;
 
@@ -26,6 +27,8 @@ Route::post('post-created-status/{id}', [JobPostController::class, 'status'])->n
 Route::get('/profile-all',  [ProfileApplyController::class, 'profileAll'])->name('profileAll'); 
 //trang tìm kiếm ứng viên
 Route::get('profile-filter',[ProfileApplyController::class, 'profileFilter'])->name('profileFilter');;
+//xem trước profile
+Route::get('/profile-preview/{seeker_profile}', [ProfileApplyController::class, 'profilePreview'])->name('profilePreview');
 
 //status của profile (trang tất cả profille)
 Route::post('/profile-status/{id}', [ProfileApplyController::class, 'statusAll'])->name('updateStatusAll');
@@ -43,5 +46,8 @@ Route::post('/info-update', [CompanyController::class, 'infoUpdate'])->name('inf
     //giấy phép kinh doanh
     Route::get('/image-paper', [CompanyController::class, 'imagePaper'])->name('imagePaper');
     Route::post('/image-paper-update', [CompanyController::class, 'imagePaperUpdate'])->name('imagePaperUpdate');
+//lưu ứng viên
+Route::get('/save-seeker/{id}', [SavedCandidateController::class, 'saveSeeker'])->name('saveSeeker');
+Route::get('/cancel-save-seeker/{id}', [SavedCandidateController::class, 'cancelSaveSeeker'])->name('cancelSaveSeeker');
 
 

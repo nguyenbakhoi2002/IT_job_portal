@@ -7,7 +7,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 		<link rel="stylesheet" href="{{asset('css/profile_new.css')}}">
-		<title>My Profile</title>
+		<title>Profile-{{$seeker_profile->name}}</title>
         <style>
             
   /* tự thêm  */
@@ -76,10 +76,18 @@
                             <ul>
                                 <li><i class="fa-solid fa-calendar-days"></i>{{$seeker_profile->date_of_birth?$seeker_profile->date_of_birth:''}}</li>
                                 <li><i class="fa-regular fa-user"></i>{{$seeker_profile->gender?$seeker_profile->gender:''}}</li>
-                                <li><i class="fa-solid fa-phone"></i>{{$seeker_profile->phone?$seeker_profile->phone:''}}</li>
-                                <li><i class="fa-regular fa-envelope"></i>{{$seeker_profile->mail?$seeker_profile->email:''}}</li>
-                                <li><i class="fa-solid fa-location-dot"></i>{{$seeker_profile->address?$seeker_profile->address:''}}</li>
-                                <li><i class="fa-solid fa-link"></i>{{$seeker_profile->link?$seeker_profile->link:''}}</li>
+                                @if ($seeker_profile->candidate->job_search_function == 0)
+                                    <li><i class="fa-solid fa-phone"></i><span style="color:red">Thông tin bị ẩn</span></li>
+                                    <li><i class="fa-regular fa-envelope"></i><span style="color:red">Thông tin bị ẩn</span></li>
+                                    <li><i class="fa-solid fa-location-dot"></i><span style="color:red">Thông tin bị ẩn</span></li>
+                                    <li><i class="fa-solid fa-link"></i><span style="color:red">Thông tin bị ẩn</span></li>   
+                                @else
+                                    <li><i class="fa-solid fa-phone"></i>{{$seeker_profile->phone?$seeker_profile->phone:''}}</li>
+                                    <li><i class="fa-regular fa-envelope"></i>{{$seeker_profile->mail?$seeker_profile->email:''}}</li>
+                                    <li><i class="fa-solid fa-location-dot"></i>{{$seeker_profile->address?$seeker_profile->address:''}}</li>
+                                    <li><i class="fa-solid fa-link"></i>{{$seeker_profile->link?$seeker_profile->link:''}}</li>
+                                @endif
+                                
                             </ul>
                         </div>
                     </div>
@@ -131,19 +139,25 @@
                     <div class="description-content">
                         <h1 class="tag">Học vấn</h1>
                         <ul>
-                            @foreach ($seeker_profile->educations as $education)
-                            <li>
-                                <div class="tabbar-title">
-                                    <p class="text-content" style="font-size: 20px">{{$education->school_name}}</p>
-                                    <p class="text-date">{{\Carbon\Carbon::parse($education->start_date)->format('d/m/Y')}} - {{$education->end_date?\Carbon\Carbon::parse($education->end_date)->format('d/m/Y'):'Hiện tại'}}</p>
-                                </div>
-                                <h3 style="font-size: 18px">{{$education->major->name}}</h3>
-                                <p class="text-content" style="font-size: 18px">
-                                    {{$education->description}}
-                                </p>
-                                
-                            </li>
-                            @endforeach
+                            @if ($seeker_profile->candidate->job_search_function == 0)
+                                <span style="color:red">Thông tin bị ẩn</span>
+                            @else
+                                @foreach ($seeker_profile->educations as $education)
+                                <li>
+                                    <div class="tabbar-title">
+                                        <p class="text-content" style="font-size: 20px">{{$education->school_name}}</p>
+                                        
+                                        <p class="text-date">{{\Carbon\Carbon::parse($education->start_date)->format('d/m/Y')}} - {{$education->end_date?\Carbon\Carbon::parse($education->end_date)->format('d/m/Y'):'Hiện tại'}}</p>
+                                    </div>
+                                    <h3 style="font-size: 18px">{{$education->major->name}}</h3>
+                                    <p class="text-content" style="font-size: 18px">
+                                        {{$education->description}}
+                                    </p>
+                                    
+                                </li>
+                                @endforeach
+                            @endif
+                           
                         </ul>
                     </div>
                     @endif
@@ -151,39 +165,50 @@
                     <div class="description-content">
                         <h1 class="tag">Kinh nghiệm làm việc</h1>
                         <ul>
-                            @foreach ($seeker_profile->experiences as $experience)
-                            <li>
-                                <div class="tabbar-title">
-                                    <p class="text-content" style="font-size: 20px">{{$experience->company_name}}</p>
-                                    <p class="text-date">{{\Carbon\Carbon::parse($experience->start_date)->format('d/m/Y')}} - {{$experience->end_date?\Carbon\Carbon::parse($experience->end_date)->format('d/m/Y'):'Hiện tại'}}</p>
-                                </div>
-                                <h3 style="font-size: 18px">{{$experience->work_position}}</h3>
-                                <p class="text-content" style="font-size: 18px">
-                                    {{$experience->description}}
-                                </p>
-                                
-                            </li>
-                            @endforeach
+                            @if ($seeker_profile->candidate->job_search_function == 0)
+                                <span style="color:red">Thông tin bị ẩn</span>        
+                            @else
+                                @foreach ($seeker_profile->experiences as $experience)
+                                <li>
+                                    <div class="tabbar-title">
+                                        <p class="text-content" style="font-size: 20px">{{$experience->company_name}}</p>
+                                        <p class="text-date">{{\Carbon\Carbon::parse($experience->start_date)->format('d/m/Y')}} - {{$experience->end_date?\Carbon\Carbon::parse($experience->end_date)->format('d/m/Y'):'Hiện tại'}}</p>
+                                    </div>
+                                    <h3 style="font-size: 18px">{{$experience->work_position}}</h3>
+                                    <p class="text-content" style="font-size: 18px">
+                                        {{$experience->description}}
+                                    </p>
+                                    
+                                </li>
+                                @endforeach
+                            @endif
                         </ul>
+
+                        
                     </div>
                     @endif
                     @if (count($seeker_profile->projects) > 0)
                     <div class="description-content">
                         <h1 class="tag">Dự án cá nhân</h1>
                         <ul>
-                            @foreach ($seeker_profile->projects as $project)
-                            <li>
-                                <div class="tabbar-title">
-                                    <p class="text-content" style="font-size: 20px">{{$project->name}}</p>
-                                    <p class="text-date">{{\Carbon\Carbon::parse($project->start_date)->format('d/m/Y')}} - {{$project->end_date?\Carbon\Carbon::parse($project->end_date)->format('d/m/Y'):'Hiện tại'}}</p>
-                                </div>
-                                {{-- <h3 style="font-size: 18px">{{$education->major->name}}</h3> --}}
-                                <p class="text-content" style="font-size: 18px">
-                                    {{$project->description}}
-                                </p>
-                                
-                            </li>
-                            @endforeach
+                            @if ($seeker_profile->candidate->job_search_function == 0)
+                                <span style="color:red">Thông tin bị ẩn</span>        
+                            @else
+                                @foreach ($seeker_profile->projects as $project)
+                                <li>
+                                    <div class="tabbar-title">
+                                        <p class="text-content" style="font-size: 20px">{{$project->name}}</p>
+                                        <p class="text-date">{{\Carbon\Carbon::parse($project->start_date)->format('d/m/Y')}} - {{$project->end_date?\Carbon\Carbon::parse($project->end_date)->format('d/m/Y'):'Hiện tại'}}</p>
+                                    </div>
+                                    {{-- <h3 style="font-size: 18px">{{$education->major->name}}</h3> --}}
+                                    <p class="text-content" style="font-size: 18px">
+                                        {{$project->description}}
+                                    </p>
+                                    
+                                </li>
+                                @endforeach
+                            @endif
+                            
                         </ul>
                     </div>
                     @endif

@@ -82,11 +82,11 @@
             <div class="outer-box">
                 <div class="dropdown dashboard-option">
                     <a class="dropdown-toggle" role="button" data-toggle="dropdown" aria-expanded="false">
-                        @if(!is_null(auth('candidate')->user()->user_image))
+                        @if(auth('candidate')->user()->user_image)
                             <img style="object-fit: cover;" src="{{ asset('uploads/images/candidate/'. auth('candidate')->user()->user_image) }}" alt="avatar"
                                 class="thumb">
                         @else
-                            <img style="object-fit: cover;" src="{{  asset('assets/admin-bower/dist/img/avatar.png') }}" alt="avatar"
+                            <img style="object-fit: cover;" src="{{  asset('uploads/images/candidate/logo_default_candidate.jpg') }}" alt="avatar"
                                  class="thumb">
                         @endif
                         <span class="name">{{auth('candidate')->user()->name }}</span>

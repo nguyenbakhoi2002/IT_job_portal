@@ -4,7 +4,7 @@
 @endsection
 @section('content')
 
-@if ($company->status == 1)
+{{-- @if ($company->status == 1) --}}
 {{-- <section class="page-title style-two"> --}}
     <div class="auto-container mb-0" >
     </div>
@@ -135,9 +135,9 @@
                     <div class="candidate-block-four col-lg-4 col-md-6 col-sm-12">
                         <div class="inner-box">
                           @if(!empty($item->image))
-                          <span class="thumb"><img src="{{ !empty($item->image) ? asset('storage/'. $item->image) : 'https://quarantine.doh.gov.ph/wp-content/uploads/2016/12/no-image-icon-md.png'}}" alt=""></span>
+                          <span class="thumb"><img src="{{ !empty($item->image) ? asset('uploads/images/candidate/'. $item->image) : asset('uploads/images/candidate/logo_default_candidate.jpg') }}" alt=""></span>
                           @else
-                          <span class="thumb"><img src="{{ !empty($item->candidate->avatar) ? asset('storage/'. $item->candidate->avatar) : 'https://quarantine.doh.gov.ph/wp-content/uploads/2016/12/no-image-icon-md.png'}}" alt=""></span>
+                          <span class="thumb"><img src="{{ !empty($item->candidate->avatar) ? asset('uploads/images/candidate/'. $item->candidate->avatar) : asset('uploads/images/candidate/logo_default_candidate.jpg') }}" alt=""></span>
                           @endif
                           <h3 class="name"><a href="#">
                             @php
@@ -153,23 +153,38 @@
                             @endphp
                           </a></h3>
                           @if ($item->candidate->job_search_function   ==  0)
-                            <span class="btn  btn-danger  rounded-pill" style="min-height: 22px">Đang tắt</span>
+                            <span class="btn  btn-danger  rounded-pill my-3" style="min-height: 22px">Đang tắt</span>
                           @else
-                            <span class="btn  btn-success rounded-pill" style="min-height: 22px">Tìm việc gấp</span>
+                            <span class="btn  btn-success rounded-pill my-3" style="min-height: 22px">Tìm việc gấp</span>
                           @endif
-                          {{-- //hocvan+ --}}
-                          <span class="cat" style="min-height: 22px">{{ !empty($item->major_id) ? $getMajor[$item->major_id]->name : "Chưa cập nhật"}}</span>
-                          <ul class="job-info">
+                         
+                          <ul class="job-info justify-content-start">
                             <li style="min-height: 22px;-webkit-line-clamp: 1; -webkit-box-orient: vertical; display: -webkit-box; overflow: hidden;">
-                            @if (!empty($item->address))
-                            <span class="icon flaticon-map-locator"></span>{{$item->address}}
-                            @elseif(!empty($item->candidate->address))
-                            <span class="icon flaticon-map-locator"></span>{{$item->candidate->address}}
-                            @endif         
-                          </li>
-                            
+                              @if (!empty($item->address))
+                              <span class="icon flaticon-map-locator"></span>{{$item->address}}
+                              @elseif(!empty($item->candidate->address))
+                              <span class="icon flaticon-map-locator"></span>{{$item->candidate->address}}
+                              @endif         
+                            </li>
+                            {{-- học vấn --}}
+                            <li style="min-height: 22px; padding-left:0px">
+                              @foreach ($item->educations as $edu)
+                                <i class="fa-solid fa-book-open me-2"></i>{{$edu->school_name}} - {{$edu->degree->name}}
+                              @endforeach  
+                            </li>
+                            <?php
+                                $totalExperience = $item->total_experience;
+                                if ($totalExperience >= 1) {
+                                    $formattedExperience = floor($totalExperience).' năm kinh nghiệm'; // Làm tròn xuống nếu lớn hơn hoặc bằng 1
+                                } else {
+                                    $formattedExperience = round($totalExperience * 12) . ' tháng kinh nghiệm'; // Chuyển đổi thành số tháng nếu nhỏ hơn 1
+                                }
+                            ?>
+                            <li style="min-height: 22px; padding-left:0px">
+                                <i class="fa-solid fa-hourglass me-2"></i>{{$formattedExperience}}
+                            </li>
                           </ul>
-                          <ul class="post-tags">
+                          {{-- <ul class="post-tags">
                             @if(count($item->skills) > 0)
                             @foreach ($item->skills as $sk)
                             <li><a href="javascript:void(0)">{{$sk->name}}</a></li>
@@ -179,13 +194,22 @@
                             <li><a href="javascript:void(0)">Chưa cập nhật</a></li>
                             @endif
                 
-                          </ul>
+                          </ul> --}}
                           
                           
                           <div class="d-flex justify-content-between">
                             @if (!empty($item->candidate_id))
-                            <a href="" class="theme-btn btn-style-three">Xem Chi Tiết</a>
-                            @endif
+                              <a href="{{route('company.profilePreview', $item)}}" target="_blank" class="theme-btn btn-style-three">Xem Chi Tiết</a>
+                              {{-- @if (!in_array($item->candidate_id, auth('company')->user()->saved_seekers->pluck('id')->toArray())) --}}
+                                  <a style="top: 0px; width: 40px; display:flex; justify-content:center;align-items:center" href="{{route('company.saveSeeker', $item->candidate_id)}}">
+                                    <i class="fa-regular fa-bookmark" style="font-size: 20px;"></i>
+                                  </a>
+                              {{-- @else
+                                      <a style="top: 0px; width: 40px; display:flex; justify-content:center;align-items:center" href="{{route('company.cancelSaveSeeker', $item->candidate_id)}}">
+                                          <i class="fa-solid fa-bookmark" style="font-size: 20px;"></i>
+                                      </a>
+                              @endif --}}
+                            @endif                                  
                 
                           </div>
                         </div>
@@ -204,12 +228,12 @@
       </div>
     </div>
   </section>
-  @elseif ($company->status == 2)
+  {{-- @elseif ($company->status == 2)
   <span class="text-warning" style="font-weight: 900">Bạn chưa đủ điều kiện xét duyệt, Vui lòng liên hệ admin</span>
   @else
   <span class="text-warning" style="font-weight: 900">Bạn cần chờ xét duyệt</span>
 
-  @endif
+  @endif --}}
 @endsection
 @section('script')
   @parent
