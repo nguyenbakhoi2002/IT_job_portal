@@ -16,7 +16,7 @@
                 <ul class="navigation-pr" style="margin-left: 20px">
                   <li class=""><a href="{{route('company.profileAll')}}"> <i class="{{$value['icon']}}"></i>Tất cả profile gửi về</a></li>
                   <li class=""><a href="{{route('company.profileFilter')}}"> <i class="{{$value['icon']}}"></i>Tìm kiếm Ứng viên</a></li>
-                  <li class=""><a href=""> <i class="{{$value['icon']}}"></i>Các ứng viên đã lưu</a></li>
+                  <li class=""><a href="{{route('company.listSeekerSaved')}}"> <i class="{{$value['icon']}}"></i>Các ứng viên đã lưu</a></li>
                 </ul>
               </li>
             @else

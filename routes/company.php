@@ -49,5 +49,7 @@ Route::post('/info-update', [CompanyController::class, 'infoUpdate'])->name('inf
 //lưu ứng viên
 Route::get('/save-seeker/{id}', [SavedCandidateController::class, 'saveSeeker'])->name('saveSeeker');
 Route::get('/cancel-save-seeker/{id}', [SavedCandidateController::class, 'cancelSaveSeeker'])->name('cancelSaveSeeker');
+Route::get('/candidate-saved', [SavedCandidateController::class, 'listSeekerSaved'])->name('listSeekerSaved');
+
 
 

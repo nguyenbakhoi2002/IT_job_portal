@@ -21,6 +21,9 @@ class Candidate extends Authenticatable
       public function seekerProfile(){
         return $this->hasMany(SeekerProfile::class, 'candidate_id');
      }
+     public function seekerProfileMain(){
+      return $this->hasOne(SeekerProfile::class, 'candidate_id')->where('is_clone', 0);
+   }
      public function saved_jobs(){
       return $this->belongsToMany(JobPost::class, 'saved_jobs', 'candidate_id', 'job_post_id')
       ->where('status', 1)

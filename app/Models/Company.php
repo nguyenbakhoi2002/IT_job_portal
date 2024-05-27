@@ -25,5 +25,16 @@ class Company extends Authenticatable
       return $this->belongsToMany(SeekerProfile::class, 'job_post_activity', 'company_id', 'seeker_profile_id')
       ->orderBy('job_post_activity.id', 'desc')
       ->withPivot('id','seen', 'satisfy','job_post_id' ,'created_at', 'updated_at');
-  }
+    }
+    public function saved_candidates(){
+      return $this->belongsToMany(Candidate::class, 'saved_candidates', 'company_id', 'candidate_id')
+      ->where('status', 1)
+      ->withPivot('created_at', 'updated_at');
+    }
+    public function saved_candidates_search($key){
+      return $this->belongsToMany(Candidate::class, 'saved_candidates', 'company_id', 'candidate_id')
+      ->where('status', 1)
+      ->where('name', 'like', '%'.$key.'%')
+      ->withPivot('created_at', 'updated_at');
+    }
 }

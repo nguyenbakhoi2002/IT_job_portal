@@ -200,15 +200,15 @@
                           <div class="d-flex justify-content-between">
                             @if (!empty($item->candidate_id))
                               <a href="{{route('company.profilePreview', $item)}}" target="_blank" class="theme-btn btn-style-three">Xem Chi Tiết</a>
-                              {{-- @if (!in_array($item->candidate_id, auth('company')->user()->saved_seekers->pluck('id')->toArray())) --}}
+                              @if (!in_array($item->candidate_id, auth('company')->user()->saved_candidates->pluck('id')->toArray()))
                                   <a style="top: 0px; width: 40px; display:flex; justify-content:center;align-items:center" href="{{route('company.saveSeeker', $item->candidate_id)}}">
                                     <i class="fa-regular fa-bookmark" style="font-size: 20px;"></i>
                                   </a>
-                              {{-- @else
+                              @else
                                       <a style="top: 0px; width: 40px; display:flex; justify-content:center;align-items:center" href="{{route('company.cancelSaveSeeker', $item->candidate_id)}}">
                                           <i class="fa-solid fa-bookmark" style="font-size: 20px;"></i>
                                       </a>
-                              @endif --}}
+                              @endif
                             @endif                                  
                 
                           </div>

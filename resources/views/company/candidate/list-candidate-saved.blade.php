@@ -62,41 +62,52 @@
     <thead>
         <tr>
             <th>Ứng viên</th>
-            <th>Công việc ứng tuyển</th>
-            <th>Ngày apply</th>
-            <th>Trạng thái</th>
+            <th>Học vấn</th>
+            <th>kinh nghiệm</th>
+            {{-- <th>Công việc ứng tuyển</th> --}}
+            <th>Ngày lưu</th>
+            <th>Hành động</th>
         </tr>
     </thead>
     <tbody>
+        {{-- list_seekerProfile chỉ là danh sách những ứng viên đã lưu thôi, lười đổi tên biến :)) --}}
         @foreach ($list_seekerProfile as $item)
+        @php
+            // dd($item->seekerProfileMain->id);
+        @endphp
             <tr>
                 <td>
                     <h6>{{ $item->name }}</h6>
-                    <a target="_blank" href="{{route('profilePreview', $item)}}" class="btn btn-primary text-white" >Chi tiết</a>
+                    <a target="_blank" href="{{route('company.profilePreview', $item->seekerProfileMain)}}" class="btn btn-primary text-white" >Chi tiết</a>
                     {{-- <span>{{ $item->pivot->seen == 1 ? "Đã xem" : "Chưa xem" }}</span> --}}
                 </td>
-                @php
-                    $job_post = \App\Models\JobPost::find($item->pivot->job_post_id);
-                    echo '<td>'.$job_post->title.'</td>'
-                @endphp
-                {{-- <td>
-                    {{ $job_post->name }}
-                </td> --}}
+                <td>
+                    @foreach ($item->seekerProfileMain->educations as $edu)
+                        <i class="fa-solid fa-book-open me-2"></i>{{$edu->school_name}} - {{$edu->degree->name}}
+                    @endforeach  
+                </td>
+                <?php
+                    $totalExperience = $item->seekerProfileMain->total_experience;
+                    if ($totalExperience >= 1) {
+                        $formattedExperience = floor($totalExperience).' năm kinh nghiệm'; // Làm tròn xuống nếu lớn hơn hoặc bằng 1
+                    } else {
+                        $formattedExperience = round($totalExperience * 12) . ' tháng kinh nghiệm'; // Chuyển đổi thành số tháng nếu nhỏ hơn 1
+                    }
+                ?>
+                <td>
+                    {{$formattedExperience}}
+                </td>
                 <td>
                     {{ \Carbon\Carbon::parse($item->pivot->created_at)->format('d-m-Y')}}
                 </td>
                 <td>
-                    
-                    <form action="{{route('company.updateStatusAll',  $item->pivot->id)}}" method="post">
-                        @csrf
-                        @method('post')
-                        <select class="status-profile" name="status" data-id="{{$item->pivot->id}}">
-                          <option @if($item->pivot->seen == 0) selected @endif value="0">Chưa xem</option>
-                          <option @if($item->pivot->seen == 1) selected @endif value="1">Đã xem</option>
-                          <option @if($item->pivot->seen == 2) selected @endif value="2">Không phù hợp</option>
-                          <option @if($item->pivot->seen == 3)  selected @endif value="3" >Phù hợp</option>
-                        </select>
-                      </form>
+                    <a style="top: 0px; display:flex; justify-content:center;align-items:center; padding: 10px;
+                    background-color: red;
+                    width: 70px;
+                    color: white;border-radius: 10px" 
+                    href="{{route('company.cancelSaveSeeker', $item->id)}}">
+                        Bỏ lưu
+                    </a>
                 </td>
                 {{-- <td><a target="_blank" href="" class="btn btn-primary text-white" >Chi tiết</a></td> --}}
                 {{-- <td><a target="_blank" href="{{route('profilePreview', $item)}}" class="btn btn-primary text-white" >Chi tiết</a></td> --}}

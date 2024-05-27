@@ -45,7 +45,12 @@ class ProfileApplyController extends Controller
         //                 ->groupby('seeker_profile_id')
         //                 ->select(['seeker_profile_id'])
         //                 ->paginate(10);
-        $list_profile = $company->seekerProfile()->paginate(10);
+        $list_profile = $company->seekerProfile()->paginate(20);
+        if((request()->search)){
+            $key = request()->search;
+            $list_profile = $company->seekerProfile()->where('name', 'like', '%'.$key.'%')->paginate(20);
+            // $saved_jobs = $client->saved_candidates_search($key)->paginate(20);
+        }
         // dd($list_profile);
         $title = "Danh sách ứng tuyển";
         return view('company.profile.profileAll', 
@@ -108,7 +113,11 @@ class ProfileApplyController extends Controller
                 });
             }
             $data_id=$query->pluck('id')->toArray();
-            $seekerProfile=SeekerProfile::whereIn('id', $data_id)->paginate(12);
+            $seekerProfile=SeekerProfile::whereIn('id', $data_id)
+            ->whereHas('candidate', function($query) {
+                $query->where('status', 1);
+            })
+            ->paginate(12);
             // $seekerProfile_id=SeekerProfile::whereIn('id', $data_id)->pluck('candidate_id')->toArray();
             // dd($seekerProfile);
 
