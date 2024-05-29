@@ -26,6 +26,7 @@ class ClientController extends Controller
         if (auth('candidate')->attempt(['email'=>$email, 'password'=>$password])){
             $data = auth('candidate')->user();
             auth('candidate')->login($data);
+            Session::flash('success', 'Chào mừng bạn đăng nhập vào hệ thống');
             return redirect()->route('index');
         } else {
             Session::flash('error', 'Email hoặc mật khẩu không đúng');

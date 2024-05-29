@@ -1,7 +1,7 @@
 
     {/* hiển thị modal create profile */}
     $(document).ready(function () {
-        $('#quanlycv').click(function(e) {
+        $('.quanlycv').click(function(e) {
             console.log($('#emptySeekerModal'));
             e.preventDefault();
            

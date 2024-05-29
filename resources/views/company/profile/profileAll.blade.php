@@ -72,7 +72,7 @@
             <tr>
                 <td>
                     <h6>{{ $item->name }}</h6>
-                    <a target="_blank" href="{{route('profilePreview', $item)}}" class="btn btn-primary text-white" >Chi tiết</a>
+                    <a target="_blank" href="{{route('company.profilePreview', $item)}}" class="btn btn-primary text-white" >Chi tiết</a>
                     {{-- <span>{{ $item->pivot->seen == 1 ? "Đã xem" : "Chưa xem" }}</span> --}}
                 </td>
                 @php

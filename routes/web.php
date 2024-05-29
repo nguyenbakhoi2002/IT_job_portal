@@ -11,6 +11,7 @@ use App\Http\Controllers\Client\JobPostActivitiesController;
 use App\Http\Controllers\Client\SavedJobController;
 use App\Http\Controllers\Client\SavedCompanyController;
 use App\Http\Controllers\Client\CandidateController;
+use App\Http\Controllers\Client\LoginGoogleController;
 use App\Http\Controllers\Company\LoginController;
 use App\Http\Controllers\Admin\AdminController;
 
@@ -126,6 +127,9 @@ Route::post('/candidate-update-password', [CandidateController::class, 'updatePa
 //lấy lại mật khẩu
 Route::get('get-pass/{candidate}/{token}', [ClientController::class, 'getPass'])->name('getPass');
 Route::post('get-pass/{candidate}/{token}',  [ClientController::class, 'postPass'])->name('postPass');
+//đăng nhập bằng google
+Route::get('/auth/google', [LoginGoogleController::class, 'redirectToGoogle']);
+Route::get('/auth/google/callback', [LoginGoogleController::class, 'handleGoogleCallback']);
 
 
 

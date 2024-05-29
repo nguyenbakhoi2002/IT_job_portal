@@ -140,6 +140,11 @@ class ProfileApplyController extends Controller
     }
     //xem trước profile của ứng viên tìm kiếm
     public function profilePreview(SeekerProfile $seeker_profile){
-        return view('company.profile.template_new', ['seeker_profile' => $seeker_profile]);
+        //lấy ra danh sách những Profile có trong công ty
+        //phải lấy ra vì sẽ dùng chung view này cho nhà tuyển dụng xem những CV mà họ nhận được, 
+        //nếu CV nằm trong danh sách đã nộp vào công ty thì sẽ xem được hết thông tin CV
+        $company = auth('company')->user();
+        $idSeekerProfile = $company->seekerProfile()->pluck('seeker_profile_id')->toArray();
+        return view('company.profile.template_new', ['seeker_profile' => $seeker_profile, 'idSeekerProfile'=>$idSeekerProfile]);
     }
 }

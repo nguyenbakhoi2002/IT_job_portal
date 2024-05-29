@@ -100,7 +100,7 @@
                                     @if (count(auth('candidate')->user()->seekerProfile()->where('is_clone', 0)->get())>0)
                                         <a href="{{route('profile')}}" ><i class="fa-solid fa-newspaper"></i>Quản lý CV</a>
                                     @else
-                                        <a href="#" id="quanlycv"><i class="fa-solid fa-newspaper"></i>Quản lý CV</a>
+                                        <a href="#" class="quanlycv"><i class="fa-solid fa-newspaper"></i>Quản lý CV</a>
                                     @endif
                                 @else
                                     <a href="{{route('client.block')}}" ><i class="fa-solid fa-newspaper"></i>Quản lý CV</a>

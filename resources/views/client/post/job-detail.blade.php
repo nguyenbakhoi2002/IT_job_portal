@@ -49,8 +49,10 @@
                     @else
                       @if ($check_profile==0)
                         {{-- nếu không có profile thì cho đi tạo profile --}}
-                        <a  href="{{route('profile')}}"  class="theme-btn btn-style-one">Ứng tuyển ngay</a>
+                        {{-- <a  href="{{route('profile')}}"  class="theme-btn btn-style-one">Ứng tuyển ngay</a> --}}
+                        <a  href="#" id=""  class="theme-btn btn-style-one quanlycv">Ứng tuyển ngay</a>
                       @else
+                      {{-- nếu có profile thì cho ứng tuyển --}}
                         <a  href="{{route('applied',$data_job->id)}}"  class="theme-btn btn-style-one">Ứng tuyển ngay</a>
                       @endif
                     @endif

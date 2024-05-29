@@ -76,7 +76,7 @@
                             <ul>
                                 <li><i class="fa-solid fa-calendar-days"></i>{{$seeker_profile->date_of_birth?$seeker_profile->date_of_birth:''}}</li>
                                 <li><i class="fa-regular fa-user"></i>{{$seeker_profile->gender?$seeker_profile->gender:''}}</li>
-                                @if ($seeker_profile->candidate->job_search_function == 0)
+                                @if ($seeker_profile->candidate->job_search_function == 0 && !in_array($seeker_profile->id, $idSeekerProfile))
                                     <li><i class="fa-solid fa-phone"></i><span style="color:red">Thông tin bị ẩn</span></li>
                                     <li><i class="fa-regular fa-envelope"></i><span style="color:red">Thông tin bị ẩn</span></li>
                                     <li><i class="fa-solid fa-location-dot"></i><span style="color:red">Thông tin bị ẩn</span></li>
@@ -139,7 +139,7 @@
                     <div class="description-content">
                         <h1 class="tag">Học vấn</h1>
                         <ul>
-                            @if ($seeker_profile->candidate->job_search_function == 0)
+                            @if ($seeker_profile->candidate->job_search_function == 0 && !in_array($seeker_profile->id, $idSeekerProfile))
                                 <span style="color:red">Thông tin bị ẩn</span>
                             @else
                                 @foreach ($seeker_profile->educations as $education)
@@ -165,7 +165,7 @@
                     <div class="description-content">
                         <h1 class="tag">Kinh nghiệm làm việc</h1>
                         <ul>
-                            @if ($seeker_profile->candidate->job_search_function == 0)
+                            @if ($seeker_profile->candidate->job_search_function == 0 && !in_array($seeker_profile->id, $idSeekerProfile))
                                 <span style="color:red">Thông tin bị ẩn</span>        
                             @else
                                 @foreach ($seeker_profile->experiences as $experience)
@@ -191,7 +191,7 @@
                     <div class="description-content">
                         <h1 class="tag">Dự án cá nhân</h1>
                         <ul>
-                            @if ($seeker_profile->candidate->job_search_function == 0)
+                            @if ($seeker_profile->candidate->job_search_function == 0 && !in_array($seeker_profile->id, $idSeekerProfile))
                                 <span style="color:red">Thông tin bị ẩn</span>        
                             @else
                                 @foreach ($seeker_profile->projects as $project)
