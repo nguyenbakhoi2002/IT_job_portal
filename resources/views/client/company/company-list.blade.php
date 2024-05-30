@@ -69,21 +69,34 @@
                             <div class="company-block-three">
                                 <div class="inner-box">
                                     <div class="content">
-                                        <div class="content-inner">
-                                            <span class="company-logo"><img src="{{asset('uploads/images/company/'. $item->logo)}}"
-                                                    alt=""></span>
-                                            <h4><a
+                                        <div class="content-inner" style="display: flex;">
+                                            <div style="position: relative;
+                                                        width: 60px;
+                                                        height: 60px;
+                                                        max-width: 60px;
+                                                        max-height: 60px;
+                                            
+                                            " class="company-logo">
+                                            
+                                            <img style="   width: 60px;
+                                            height: 60px;
+                                            object-fit: cover; 
+                                            border-radius: 50%;"  src="{{asset('uploads/images/company/'. $item->logo)}}"
+                                                    alt=""></div>
+                                            <div>
+                                                <h4 style="padding-left: 32px;"><a
                                                     href="{{route('company-detail', $item)}}">{{ $item->company_name }}</a>
-                                            </h4>
-                                            <ul class="job-info">
-                                                <li><span class="icon flaticon-map-locator"></span>{{ $item->address }}</li>
-                                                <li><span class="icon flaticon-briefcase"></span>{{ $item->company_model }}</li>
-                                                <li><span class="icon flaticon-clock-3"></span>{{$item->working_time}}</li>
-                                            </ul>
+                                                </h4>
+                                                <ul class="job-info" >
+                                                    <li><span class="icon flaticon-map-locator"></span>{{ $item->address }}</li>
+                                                    <li><span class="icon flaticon-briefcase"></span>{{ $item->company_model }}</li>
+                                                    {{-- <li><span class="icon flaticon-clock-3"></span>{{$item->working_time}}</li> --}}
+                                                </ul>
+                                            </div>
                                         </div>
 
-                                        <ul class="job-other-info">
-                                            <li class="time">Công việc – {{ $item->jobPost->count() }}</li>
+                                        <ul class="job-other-info" style="padding-left: 0 ">
+                                            <li class="time" style="margin-right: 0 ">Công việc – {{ $item->jobPost->count() }}</li>
                                             {{-- <li class="time">Open Jobs – {{count($job)}}</li> --}}
                                         </ul>
                                     </div>

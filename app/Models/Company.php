@@ -32,9 +32,14 @@ class Company extends Authenticatable
       ->withPivot('created_at', 'updated_at');
     }
     public function saved_candidates_search($key){
-      return $this->belongsToMany(Candidate::class, 'saved_candidates', 'company_id', 'candidate_id')
+      return $this->belongsToMany(Candidate::class, 'saved_companies', 'company_id', 'candidate_id')
       ->where('status', 1)
       ->where('name', 'like', '%'.$key.'%')
+      ->withPivot('created_at', 'updated_at');
+    }
+    //những người lưu công ty
+    public function nguoi_luu_congty(){
+      return $this->belongsToMany(Candidate::class, 'saved_companies', 'company_id', 'candidate_id')
       ->withPivot('created_at', 'updated_at');
     }
 }

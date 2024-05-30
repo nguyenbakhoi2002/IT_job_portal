@@ -8,6 +8,8 @@ use App\Http\Controllers\Company\ProfileApplyController;
 use App\Http\Controllers\Company\SavedCandidateController;
 
 use App\Http\Controllers\Company\LoginController;
+use Illuminate\Support\Carbon;
+
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 Route::get('/company-change-password', [CompanyController::class, 'changePassword'])->name('changePassword');
@@ -50,6 +52,9 @@ Route::post('/info-update', [CompanyController::class, 'infoUpdate'])->name('inf
 Route::get('/save-seeker/{id}', [SavedCandidateController::class, 'saveSeeker'])->name('saveSeeker');
 Route::get('/cancel-save-seeker/{id}', [SavedCandidateController::class, 'cancelSaveSeeker'])->name('cancelSaveSeeker');
 Route::get('/candidate-saved', [SavedCandidateController::class, 'listSeekerSaved'])->name('listSeekerSaved');
+
+Route::get('api', [DashboardController::class, 'chart']);
+
 
 
 

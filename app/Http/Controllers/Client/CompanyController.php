@@ -29,8 +29,13 @@ class CompanyController extends Controller
         if($key = request()->key){
             $company_jobs = $company->jobPost()->where('title','like','%' . $key . '%')->paginate(10);
         }
+        // lấy ra số người đăng ký
+        $nguoi_luu_congty = $company->nguoi_luu_congty()->count();
+        // dd($nguoi_luu_congty);
         $current_date = Carbon::now();
         return view('client/company/company-detail', 
-        ['company_detail' => $company, 'company_jobs' => $company_jobs, 'current_date' => $current_date, 'dataProvinces' => $dataProvinces]);
+        ['company_detail' => $company, 'company_jobs' => $company_jobs, 'current_date' => $current_date, 'dataProvinces' => $dataProvinces,
+        'nguoi_luu_congty'=>$nguoi_luu_congty
+        ]);
     }
 }

@@ -2,6 +2,16 @@
 @section('title')
     BaKhoi| {{$company_detail->company_name}}
 @endsection
+@section('style')
+@parent                                       
+<style>
+    #dia-chi iframe{
+        max-width: 350px;
+        max-height: 350px;
+    }
+</style>
+@endsection
+
 @section('content')
     <section class="job-detail-section">
         <!-- Upper Box -->
@@ -10,34 +20,51 @@
                 <!-- Job Block -->
                 <div class="job-block-seven">
                     <div class="inner-box">
-                        <div class="content">
-                            <span class="company-logo"><img src="{{asset('uploads/images/company/'. $company_detail->logo)}}" alt=""></span>
-                            <h4><a href="#">{{$company_detail->company_name}}</a></h4>
-                            <ul class="job-info">
-                                <li><span class="icon flaticon-map-locator"></span> {{$company_detail->link_web}}</li>
-                                <li><span class="icon flaticon-briefcase"></span>
-                                    @if ($company_detail->team >= 5000)
-                                        5000+
-                                    @elseif($company_detail->team >= 2000)
-                                        2000+
-                                    @elseif($company_detail->team >= 1000)
-                                        1000 - 2000
-                                    @elseif($company_detail->team >= 500)
-                                        500 - 1000
-                                    @elseif($company_detail->team >= 100)
-                                        100 - 500
-                                    @else ~100
-                                    @endif
-                                    Nhân viên
-                                </li>
-                                <li><span class="icon flaticon-mail"></span>Người theo dõi</li>
-                            </ul>
-                            <ul class="job-other-info">
-                                <li class="time">Công việc – {{ $company_detail->jobPost->count() }}</li>
-                            </ul>
+                        <div class="content" style="flex:20; padding-left:0; display:flex; align-items: center;">
+                            <div 
+                            style="flex:1; position: relative;
+                            width: 200px;
+                            height: 200px;
+                            max-width: 200px;
+                            max-height: 200px;
+                            
+                            " 
+                            
+                            class="company-logo">
+                                <img style="    width: 200px;
+                                height: 200px;
+                                object-fit: cover;
+                                border-radius: 50%;" 
+                                src="{{asset('uploads/images/company/'. $company_detail->logo)}}" alt=""></div>
+                            
+                            <div class="company-info">
+                                <h4 style="padding-left: 32px;"><a href="#">{{$company_detail->company_name}}</a></h4>
+                                <ul class="job-info">
+                                    <li><span class="icon flaticon-map-locator"></span> {{$company_detail->link_web}}</li>
+                                    <li><span class="icon flaticon-briefcase"></span>
+                                        @if ($company_detail->team >= 5000)
+                                            5000+
+                                        @elseif($company_detail->team >= 2000)
+                                            2000+
+                                        @elseif($company_detail->team >= 1000)
+                                            1000 - 2000
+                                        @elseif($company_detail->team >= 500)
+                                            500 - 1000
+                                        @elseif($company_detail->team >= 100)
+                                            100 - 500
+                                        @else ~100
+                                        @endif
+                                        Nhân viên
+                                    </li>
+                                    <li><span class="icon flaticon-mail"></span>{{$nguoi_luu_congty}} Người lưu công ty</li>
+                                </ul>
+                                <ul class="job-other-info">
+                                    <li class="time">Công việc – {{ $company_detail->jobPost->count() }}</li>
+                                </ul>
+                            </div>
                         </div>
 
-                        <div class="btn-box">
+                        <div class="btn-box" style="flex:1">
                             {{-- @if (auth('candidate')->check()) 
                                 <a href="{{route('feedback', ['id' => $company_detail->id])}}" class="theme-btn btn-style-one">Đánh giá</a>
                             @else
@@ -186,7 +213,7 @@
                                         </li>
                                         @endif --}}
                                         <li class="mb-0"> địa chỉ công ty: </li> <span>{{$company_detail->address}}</span>
-                                        <li>Xem bản đồ <span></span></li>
+                                        {{-- <li>Xem bản đồ <span></span></li> --}}
                                         <li>Truyền thông xã hội:
                                             <div class="social-links">
                                                 <a href="#"><i class="fab fa-facebook-f"></i></a>
@@ -207,8 +234,8 @@
                                 <!-- Map Widget -->
                                 <h4 class="widget-title">Địa điểm</h4>
                                 <div class="widget-content">
-                                    <div class="map-outer mb-0">
-                                        <iframe class="map-canvas" width="100%" src="{{$company_detail->map}}" frameborder="0"></iframe>
+                                    <div class="map-outer mb-0" id="dia-chi">
+                                        {!!$company_detail->map!!}
                                     </div>
                                 </div>
                             </div>
