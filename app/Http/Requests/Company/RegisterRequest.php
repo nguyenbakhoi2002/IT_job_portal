@@ -23,7 +23,10 @@ class RegisterRequest extends FormRequest
     {
         return [
             "name"=>'required',
-            "password"=>'required',
+            "password"=>[
+                'required',
+                'regex:/^(?=.*[a-zA-Z])(?=.*\d).{8,}$/'
+            ],
             're_password' => 'required|same:password',
             "email"=>'required|email|unique:companies,email',
             "company_name"=>'required|unique:companies',
@@ -41,6 +44,7 @@ class RegisterRequest extends FormRequest
         return [
             'name.required'=>'Vui lòng nhập tên ',
             'password.required'=>'Vui lòng nhập mật khẩu',
+            'password.regex' => 'mật khẩu phải có ít nhất 8 ký tự, ít nhất 1 chữ cái và ít nhất 1 số',
             're_password.required' => 'Vui lòng nhập lại mật khẩu mới',
             're_password.same' => 'Mật khẩu nhập lại không khớp',
             'email.required'=>'Vui lòng nhập email ',

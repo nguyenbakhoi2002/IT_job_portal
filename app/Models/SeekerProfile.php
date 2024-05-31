@@ -10,7 +10,8 @@ class SeekerProfile extends Model
     use HasFactory;
     protected $table = 'seeker_profile';
     protected $fillable = [
-        'id', 'candidate_id', 'name', 'gender', 'date_of_birth', 'email', 'phone','title','objective', 'address', 'link', 'image','total_experience', 'updated_at', 'created_at'
+        'id', 'candidate_id', 'name', 'gender', 'date_of_birth', 'email', 'phone','title','objective', 
+        'address', 'link', 'image','total_experience', 'updated_at', 'created_at', 'is_clone', 'is_change'
     ];
     public function educations(){
         return $this->hasMany(Education::class, 'seeker_profile_id');

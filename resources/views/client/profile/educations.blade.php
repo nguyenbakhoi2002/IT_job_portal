@@ -90,6 +90,7 @@
         @foreach($educations as $edu)
         <div class="edu_div{{$edu->id}}">
             <form id="form-border-edu{{$edu->id}}" class="delEdu d-flex mt-3 border-dotted-bot" action="{{route('updateCv.deleteEducation',$edu->id)}}" method="get">
+                @csrf
                 <div style="width: 90%;" class="mb-3" id="EditHideEdu{{$edu->id}}">
                     <div class="h5">
                         Tên trường: <span>{{$edu->school_name}}</span>

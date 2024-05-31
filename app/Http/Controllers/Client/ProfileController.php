@@ -123,6 +123,7 @@ class ProfileController extends Controller
             ];
             $messages =  $this->message_val;
             $validator = Validator::make($request->all(), $rules, $messages);
+            //trả về json để tránh load lại trang, để khi có lỗi nó không đóng model
             if ($validator->fails()) {
                 return response()->json(['error'=>$validator->errors()]);
             }
@@ -132,8 +133,8 @@ class ProfileController extends Controller
                 'success' => 'Tạo mới thành công!',
                 'redirect_url' => route('profile'),
             ]);
-            
-            
+            // Session::flash('success', 'Tạo thành công!');
+            // return redirect()->route('profile');
         } catch(\Exception  $e){
             return redirect()->back()->with('error', 'thêm mới thất bại'.$e->getMessage());
         }
@@ -171,6 +172,7 @@ class ProfileController extends Controller
                 $file_name_logo =$request->hinhanh_upload_logo_hd;
             }   
             $request->merge(['image'=>$file_name_logo ]);
+            $request->merge(['is_change'=>1 ]);
             // dd($request->all());
             // $request->merge(['password'=>Hash::make($request->password)]);
             $seekerProfile = SeekerProfile::findOrFail($request->id); 
@@ -253,6 +255,8 @@ class ProfileController extends Controller
                 $total_exp = $seeker->total_experience + $day;
                 $seeker->update([
                     'total_experience' => $total_exp,
+                    'is_change'=>1,
+
                 ]);
                 if ($experience == null || $experience == false) {
                     DB::rollBack();
@@ -284,7 +288,7 @@ class ProfileController extends Controller
 
 
         // dd($id);
-        //DB::beginTransaction();
+        DB::beginTransaction();
         try{
             $seeker_id = $request->seeker_profile_id;
 
@@ -301,7 +305,7 @@ class ProfileController extends Controller
             $messages =  $this->message_val;
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {
-                //DB::rollBack();
+                DB::rollBack();
                 return response()->json(['error'=>$validator->errors()]);
             }else 
             {
@@ -332,8 +336,9 @@ class ProfileController extends Controller
                 $total_exp = $seeker->total_experience - ($day_old?$day_old:0) + ($day?$day:0);
                 $seeker->update([
                     'total_experience' => $total_exp,
+                    'is_change'=>1,
                 ]);
-                //DB::commit();
+                DB::commit();
                  
                 if ($exp == null) {
                     return response()->json([
@@ -356,7 +361,7 @@ class ProfileController extends Controller
                 
             }
             }catch(\Exception $e){
-                //DB::rollBack();
+                DB::rollBack();
                 return response()->json([
                     'is_check' => false,
                     'error' => 'Lỗi' . $e->getMessage(),
@@ -388,6 +393,7 @@ class ProfileController extends Controller
             $total_exp = $seeker->total_experience - ($day?$day:0);
             $seeker->update([
                 'total_experience' => $total_exp,
+                'is_change'=>1,
             ]);
 
             $exp->delete();
@@ -406,8 +412,10 @@ class ProfileController extends Controller
     }
     //Các dự án cá nhân
     public function createProject(Request $request){
-        $seeker_id = $request->seeker_profile_id;
+       
+        DB::beginTransaction();
         try{
+            $seeker_id = $request->seeker_profile_id;
             $check_max = Project::where('seeker_profile_id', $seeker_id)->count();
         if($check_max >= 5) {
             return response()->json([
@@ -431,13 +439,19 @@ class ProfileController extends Controller
             }else 
             {
                 $project=Project::create($request->all());
+                $seeker = SeekerProfile::where('id', $seeker_id)->first();
+                $seeker->update([
+                    'is_change'=>1,
+                ]);
                 if ($project == null || $project == false) {
+                    DB::rollBack();
                     return response()->json([
                         'is_check' => false,
                         'error' => 'Lỗi'
                     ]);
                 }
                 elseif ($project == true) {
+                    DB::commit();
                     return response()->json([
                         'is_check' => true,
                         'success' => 'Tạo mới thành công!',
@@ -446,6 +460,7 @@ class ProfileController extends Controller
             }
         }
         }catch(\Exception $e){
+            DB::rollBack();
             return response()->json([
                 'is_check' => false,
                 'error' => 'Lỗi' . $e->getMessage(),
@@ -455,9 +470,9 @@ class ProfileController extends Controller
     }
     //cập nhật dự án cá nhân
     public function updateProject(Request $request,string $id){
-
+        DB::beginTransaction();
         try{
-            $seeker_id = $request->seeker_profile_id;
+            $seeker_id = $request->seeker_id;
 
             $rules = [
                 'name' => 'required',
@@ -478,44 +493,61 @@ class ProfileController extends Controller
                 $project = Project::findOrFail($id); 
                 //update dự án  
                 $pj = $project->update($request->all());
+                //update seeker_profile
+                $seeker = SeekerProfile::where('id', $seeker_id)->first();
+                $seeker->update([
+                    'is_change'=>1,
+                ]);
                 if ($pj == null) {
+                    DB::rollBack();
                     return response()->json([
                         'is_check' => false,
                         'error' => 'Cập nhật thất bại!'
                     ]);
                 }
                 if ($pj == 1) {
+                    DB::commit();
                     return response()->json([
                         'is_check' => true,
                         'success' => 'Cập nhật thành công!',
                     ]);
                 } else {
+                    DB::rollBack();
                     return response()->json([
                         'is_check' => false,
                         'error' => 'Lỗi tạo mới!'
                     ]);
                 }
             }
-            }catch(\Exception $e){
-                return response()->json([
-                    'is_check' => false,
-                    'error' => 'Lỗi' . $e->getMessage(),
-                ]);
-                
-            }
+        }catch(\Exception $e){
+            DB::rollBack();
+            return response()->json([
+                'is_check' => false,
+                'error' => 'Lỗi' . $e->getMessage(),
+            ]);
+            
+        }
     }
     //xóa dự án cá nhân
     public function deleteProject(Request $request, string $id)
     {
+        DB::beginTransaction();
+
         try{
             $exp = Project::find($id);
             $exp->delete();
+            $seeker = SeekerProfile::where('id', $exp->seeker_profile_id)->first();
+            $seeker->update([
+                'is_change'=>1,
+            ]);
+            DB::commit();
             return response()->json([
                 'is_check' => true,
                 'success' => 'Xóa thành công!',
             ]);
         }
         catch(\Exception $e){
+            DB::rollBack();
             return response()->json([
                 'is_check' => false,
                 'error' => 'Xóa thất bại!'
@@ -526,6 +558,7 @@ class ProfileController extends Controller
     //thêm học vấn (education)
     public function createEducation(Request $request){
         $seeker_id = $request->seeker_profile_id;
+        DB::beginTransaction();
         try{
             $check_max = Education::where('seeker_profile_id', $seeker_id)->count();
         if($check_max >= 3) {
@@ -549,13 +582,20 @@ class ProfileController extends Controller
             }else 
             {
                 $education=Education::create($request->all());
+                //cập nhật trạng thái thay đổi trong profile
+                $seeker = SeekerProfile::where('id', $seeker_id)->first();
+                $seeker->update([
+                    'is_change'=>1,
+                ]);
                 if ($education == null || $education == false) {
+                    DB::rollBack();
                     return response()->json([
                         'is_check' => false,
                         'error' => 'Lỗi'
                     ]);
                 }
                 elseif ($education == true) {
+                    DB::commit();
                     return response()->json([
                         'is_check' => true,
                         'success' => 'Tạo mới thành công!',
@@ -564,6 +604,7 @@ class ProfileController extends Controller
             }
         }
         }catch(\Exception $e){
+            DB::rollBack();
             return response()->json([
                 'is_check' => false,
                 'error' => 'Lỗi' . $e->getMessage(),
@@ -573,9 +614,9 @@ class ProfileController extends Controller
     }
     //cập nhật học vấn
     public function updateEducation(Request $request,string $id){
-
+        DB::beginTransaction();
         try{
-            $seeker_id = $request->seeker_profile_id;
+            $seeker_id = $request->seeker_id;
 
             $rules = [
                 'school_name' => 'required',
@@ -596,18 +637,26 @@ class ProfileController extends Controller
                 $ducation = Education::findOrFail($id); 
                 //update dự án  
                 $edu = $ducation->update($request->all());
+                //update cột thay đổi
+                $seeker = SeekerProfile::where('id', $seeker_id)->first();
+                $seeker->update([
+                    'is_change'=>1,
+                ]);
                 if ($edu == null) {
+                    DB::rollBack();
                     return response()->json([
                         'is_check' => false,
                         'error' => 'Cập nhật thất bại!'
                     ]);
                 }
                 if ($edu == 1) {
+                    DB::commit();
                     return response()->json([
                         'is_check' => true,
                         'success' => 'Cập nhật thành công!',
                     ]);
                 } else {
+                    DB::rollBack();
                     return response()->json([
                         'is_check' => false,
                         'error' => 'Lỗi cập nhật!'
@@ -615,6 +664,7 @@ class ProfileController extends Controller
                 }
             }
             }catch(\Exception $e){
+                DB::rollBack();
                 return response()->json([
                     'is_check' => false,
                     'error' => 'Lỗi' . $e->getMessage(),
@@ -625,15 +675,22 @@ class ProfileController extends Controller
     //xóa học vấn
     public function deleteEducation(Request $request, string $id)
     {
+        DB::beginTransaction();
         try{
             $edu = Education::find($id);
             $edu->delete();
+            $seeker = SeekerProfile::where('id', $edu->seeker_profile_id)->first();
+            $seeker->update([
+                'is_change'=>1,
+            ]);
+            DB::commit();
             return response()->json([
                 'is_check' => true,
                 'success' => 'Xóa thành công!',
             ]);
         }
         catch(\Exception $e){
+            DB::rollBack();
             return response()->json([
                 'is_check' => false,
                 'error' => 'Xóa thất bại!'
@@ -653,47 +710,67 @@ class ProfileController extends Controller
         if ($validator->fails()) {
             return response()->json(['error'=>$validator->errors()]);
         }else{
-            $seeker_profile = SeekerProfile::findOrFail($seeker_profile_id);
-            $skills=$request->skill;
+            try {
+                $seeker_profile = SeekerProfile::findOrFail($seeker_profile_id);
+                $skills=$request->skill;
 
-            if($request->count_skill>0){
-                //thực hiện cập nhật
-                $result=$seeker_profile->skills()->sync($skills);
-                //hình như $result không trả về giá trị true false, nó sẽ luôn trả về một mảng có 3 phần tử
-                // if ($result) {
+                if($request->count_skill>0){
+                    //thực hiện cập nhật
+                    $result=$seeker_profile->skills()->sync($skills);
+                    //hình như $result không trả về giá trị true false, nó sẽ luôn trả về một mảng có 3 phần tử
+                    // if ($result) {
+                    $seeker_profile->update([
+                        'is_change'=>1,
+                    ]);
+                        return response()->json([
+                            'is_check' => true,
+                            'success' => 'Cập nhật thành công!'
+                        ]);
+                    // } else {
+                    //     return response()->json([
+                    //         'is_check' => false,
+                    //         'error' => 'Cập nhật thất bại!'
+                    //     ]);
+                    // }
+                    
+                }else{
+                    //thực hiện tạo mới
+                    // $result=$seeker_profile->skills()->attach($skills);
+                    $result=$seeker_profile->skills()->syncWithoutDetaching($skills);
+                    $seeker_profile->update([
+                        'is_change'=>1,
+                    ]);
+                    //hình như $result không trả về giá trị, nên không thể if được
                     return response()->json([
                         'is_check' => true,
                         'success' => 'Cập nhật thành công!'
                     ]);
-                // } else {
-                //     return response()->json([
-                //         'is_check' => false,
-                //         'error' => 'Cập nhật thất bại!'
-                //     ]);
-                // }
-                
-            }else{
-                //thực hiện tạo mới
-                $result=$seeker_profile->skills()->attach($skills);
-                //hình như $result không trả về giá trị, nên không thể if được
-                return response()->json([
-                    'is_check' => true,
-                    'success' => 'Cập nhật thành công!'
-                ]);
-                
+                    
 
+                }   
+            } catch (\Exception $e) {
+                return response()->json([
+                    'is_check' => false,
+                    'error' => $e->getMessage(),
+                ]);
             }
         }
         
     }
     public function DeleteAllSkill(string $seeker_profile_id)
-    {   
+    {           
+        DB::beginTransaction();
         try{
             $seeker_profile = SeekerProfile::findOrFail($seeker_profile_id);
             $seeker_profile->skills()->sync([]);
+            $seeker_profile->update([
+                'is_change'=>1,
+            ]);                   
+            DB::commit();
             Session::flash('success', 'Xóa thành công!');
             return redirect()->back();
         }catch(\Exception  $e){
+            DB::rollBack();
             Session::flash('erorr', 'Xóa thất bại!');
             redirect()->back();
         }
@@ -702,6 +779,7 @@ class ProfileController extends Controller
     //ngôn ngữ (language)
     public function createLanguage(Request $request){
         $seeker_profile_id = $request->seeker_profile_id;
+        DB::beginTransaction();
         try{
             $rules = [
                 'language_id' => 'required',
@@ -717,13 +795,18 @@ class ProfileController extends Controller
             {
                 $seeker_profile = SeekerProfile::findOrFail($seeker_profile_id);
                 $seeker_language=SeekerLanguage::create($request->all());
+                $seeker_profile->update([
+                    'is_change'=>1,
+                ]);
                 if ($seeker_language == null || $seeker_language == false) {
+                    DB::rollBack();
                     return response()->json([
                         'is_check' => false,
                         'error' => 'Lỗi'
                     ]);
                 }
                 elseif ($seeker_language == true) {
+                    DB::commit();
                     return response()->json([
                         'is_check' => true,
                         'success' => 'Tạo mới thành công!',
@@ -732,6 +815,7 @@ class ProfileController extends Controller
                 
             }
         }catch(\Exception $e){
+            DB::rollBack();
             return response()->json([
                 'is_check' => false,
                 'error' => 'Lỗi' . $e->getMessage(),
@@ -742,6 +826,7 @@ class ProfileController extends Controller
     public function updateLanguage(Request $request,string $id){
         // dd($id);
         // dd($request->all());
+        DB::beginTransaction();
         try{
             $seeker_id = $request->seeker_profile_id;
 
@@ -760,18 +845,26 @@ class ProfileController extends Controller
                 $seeker_language = Seekerlanguage::findOrFail($id); 
                 //update language
                 $seeker_language = $seeker_language->update($request->all());
+                //update is_change
+                $seeker_profile = SeekerProfile::findOrFail($seeker_id);
+                $seeker_profile->update([
+                    'is_change'=>1,
+                ]);
                 if ($seeker_language == null) {
+                    DB::rollBack();
                     return response()->json([
                         'is_check' => false,
                         'error' => 'Cập nhật thất bại!'
                     ]);
                 }
                 if ($seeker_language == 1) {
+                    DB::commit();
                     return response()->json([
                         'is_check' => true,
                         'success' => 'Cập nhật thành công!',
                     ]);
                 } else {
+                    DB::rollBack();
                     return response()->json([
                         'is_check' => false,
                         'error' => 'Lỗi cập nhật!'
@@ -779,6 +872,7 @@ class ProfileController extends Controller
                 }
             }
             }catch(\Exception $e){
+                DB::rollBack();
                 return response()->json([
                     'is_check' => false,
                     'error' => 'Lỗi' . $e->getMessage(),
@@ -788,16 +882,24 @@ class ProfileController extends Controller
     }
     //xóa ngôn ngữ
     public function deleteLanguage(Request $request, string $id)
-    {
+    {       
+         DB::beginTransaction();
         try{
             $seeker_language = Seekerlanguage::find($id);
+            // dd($seeker_language->seeker_profile_id);
             $seeker_language->delete();
+            $seeker_profile = SeekerProfile::where('id', $seeker_language->seeker_profile_id)->first();
+            $seeker_profile->update([
+                'is_change'=>1,
+            ]);
+            DB::commit();
             return response()->json([
                 'is_check' => true,
                 'success' => 'Xóa thành công!',
             ]);
         }
         catch(\Exception $e){
+            DB::rollBack();
             return response()->json([
                 'is_check' => false,
                 'error' => 'Xóa thất bại!'

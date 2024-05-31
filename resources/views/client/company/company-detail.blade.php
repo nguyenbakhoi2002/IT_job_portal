@@ -31,9 +31,9 @@
                             " 
                             
                             class="company-logo">
-                                <img style="    width: 200px;
+                                <img style="   width: 200px;
                                 height: 200px;
-                                object-fit: cover;
+                                object-fit: cover; 
                                 border-radius: 50%;" 
                                 src="{{asset('uploads/images/company/'. $company_detail->logo)}}" alt=""></div>
                             

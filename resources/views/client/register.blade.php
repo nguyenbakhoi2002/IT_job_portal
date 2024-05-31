@@ -137,7 +137,7 @@
               <div class="divider"><span>hoặc</span></div>
               <div class="btn-box row">
                 <div class="col-lg-12 col-md-12">
-                  <a href="" class="theme-btn social-btn-two google-btn"><i class="fab fa-google"></i> Google</a>
+                  <a href="{{url('auth/google')}}" class="theme-btn social-btn-two google-btn"><i class="fab fa-google"></i> Google</a>
                 </div>
               </div>
             </div>

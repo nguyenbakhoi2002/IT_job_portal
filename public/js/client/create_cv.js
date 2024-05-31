@@ -513,10 +513,13 @@ $(document).ready(function () {
           // location.reload();
           toastr.success(response.success);
           $('.val_skill').hide();
-        } else {  
-          // console.log(response.error);
-          $('.val_skill').text(response.error.skill != undefined ? response.error.skill : '');
+        } else{
+          toastr.error(response.error);
         }
+        // else {  
+        //   // console.log(response.error);
+        //   $('.val_skill').text(response.error.skill != undefined ? response.error.skill : '');
+        // }
       },
       error: function error(response) {
         toastr.error("Cập nhật thất bại");
