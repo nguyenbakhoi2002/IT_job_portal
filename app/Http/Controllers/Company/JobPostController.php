@@ -73,9 +73,9 @@ class JobPostController extends Controller
 
         //
         $title = "Thêm bài tuyển";
-        $majors = Major::all();
+        $majors = Major::where('status', 1)->get();
         $skills = Skill::all();
-        $languages = Language::all();
+        $languages = Language::where('status', 1)->get();
 
         $time_exp = TimeExperience::where('status', 1)->orderBy('level')->get();
         $degrees = Degree::where('status', 1)->orderBy('level')->get();

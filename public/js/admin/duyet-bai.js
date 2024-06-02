@@ -126,7 +126,47 @@
                 });
             
           });
-        
+        //company
+        //bắt sự kiện thay đổi status
+        $('.bo-chan-cong-ty').click(function (e) {
+          console.log('đã duyệt');
+          e.preventDefault();
+          // lấy giá trị của thuộc tính data-id
+          var id = $(this).data('id');
+          var data = {
+            "_token": $('meta[name="csrf-token"]').attr('content'),
+            "id": id,
+          //   "status": status
+          };
+          console.log(data);
+          Swal.fire({
+              icon: 'warning',
+              title: 'xác nhận ',
+              text: 'Hãy chắc chắn rằng bạn muốn thực hiện thao tác này',
+              showCancelButton: true,
+              showConfirmButton: true,
+              confirmButtonText: 'OK',
+              confirmButtonColor: '#C46F01',
+              cancelButtonText: 'Hủy'
+            }).then(function (result) {
+              if (result.isConfirmed) {
+                  $.ajax({
+                      type: "POST",
+                      //cho giống đường dẫn controller status
+                      url: "/itjob_portal/public/admin/company-accept/".concat(id),
+                      data: data,
+                      success: function success(response) {
+                        location.reload();
+                        toastr.success(response.success);
+                      },
+                      error: function error(response) {
+                        toastr.error("Cập nhật trạng thái thất bại");
+                      }
+                  });
+                }
+              });
+          
+        });
       });
       
       /******/ })()

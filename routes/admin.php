@@ -23,7 +23,8 @@ Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::post('company-status/{id}', [CompanyController::class, 'status'])->name('company.status');
 //company bị chặn
     Route::get('/company-waiting',[CompanyController::class, 'companyWaiting'] )->name('company.companyWaiting');
-
+//chấp nhận bài đăng
+    Route::post('/company-accept/{id}',[CompanyController::class, 'companyAccept'] )->name('company.accept');
 //bài đăng - jobpost
 Route::resource('post', JobPostController::class);  
 

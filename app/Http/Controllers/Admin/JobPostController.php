@@ -31,13 +31,16 @@ class JobPostController extends Controller
         }
         return view('admin.post.job-post-waiting', ['companies' => $job, 'title'=>"Danh sách các công việc đợi duyệt"]);
     }
+    //duyệt bài đăng
     public function jobAccept(Request $request, string $id){
         JobPost::where('id', $id)->update([
             'status' => 1,
             'admin_id' => auth('admin')->user()->id,
+            'allow_date'=>Carbon::now(),
         ]);
         return response()->json(['success'=>'Duyệt bài đăng thành công']);
     }
+    //từ chối duyệt
     public function jobRefuse(Request $request, string $id){
         JobPost::where('id', $id)->update([
             'status' => 2,
@@ -49,9 +52,9 @@ class JobPostController extends Controller
     
     public function index()
     {
-        $job = JobPost::where('status', 1)->whereDate('end_date', '>', Carbon::now())->paginate(10);
+        $job = JobPost::where('status', 1)->whereDate('end_date', '>', Carbon::now())->orderBy('allow_date', 'desc')->paginate(10);
         if($key = request()->key){
-            $job = JobPost::where('status',1)->whereDate('end_date', '>', Carbon::now())->where('title','like','%' . $key . '%')->paginate(10);
+            $job = JobPost::where('status',1)->whereDate('end_date', '>', Carbon::now())->where('title','like','%' . $key . '%')->orderBy('allow_date', 'desc')->paginate(10);
         }
         return view('admin.post.index', ['companies' => $job, 'title'=>"Danh sách các công việc đang hoạt động"]);
     }

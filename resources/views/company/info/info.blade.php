@@ -119,9 +119,9 @@
                         <small class="text-danger">{{$message}}</small>
                       @enderror
                     </div>       
-                    <div class="form-group col-lg-6 col-md-12">
+                    <div class="form-group col-lg-12 col-md-12">
                         <label>Map</label>
-                        <input type="text" name="map" value="{!!$data->map !!}">
+                        <textarea type="" name="map" >{{ $data->map }}</textarea>
                         @error('map')
                         <small class="text-danger">{{$message}}</small>
                       @enderror

@@ -14,7 +14,20 @@
         .info-box-animation {
             animation: bounce 2s infinite; /* Áp dụng animation với tên 'bounce', thời gian 2s, và lặp vô hạn */
         }
+        .form-group{
+            margin-right: 4px;
+        }
+        .form-group label{
+            margin: 0;
+            color: #212529;
+            font-weight: 500 !important;
+            margin-right: 2px;
+        }
     </style>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.css">
+     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+     <script src="//cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
+     <script src="//cdnjs.cloudflare.com/ajax/libs/morris.js/0.5.1/morris.min.js"></script>
 @endsection
 @section('content')
     <div class="row">
@@ -176,16 +189,28 @@
 
     </div>
     <div class="row">
-        <div class="col-lg-12">
+        <div class="col-lg-6">
             <div class="card">
                 <div class="card-header border-0">
-                    <div class="d-flex justify-content-between">
-                        <h3 class="card-title" id="btn-client">Doanh thu</h3>
+                    <div class="d-flex justify-content-between ">
+                        <h3 class="card-title" id="btn-client" style="padding-top: 4px">Công ty</h3>
+                        <form class="d-flex ">
+                            <div class="form-group d-flex align-items-center">
+                                <label for="start_date">Từ</label>
+                                <input type="date" name="start_date" value="{{ $sdate }}" id="start_date" class="form-control" style="height: 30px;">
+                            </div>
+                            <div class="form-group d-flex align-items-center">
+                                <label for="end_date">Đến</label>
+                                <input type="date" name="end_date" value="{{ $edate }}" id="end_date" class="form-control" style="height: 30px;">
+                            </div>
+                            <button type="submit" class="btn btn-primary" style="height: 30px;padding-top: 2px;">Áp dụng</button>
+                        </form>
+                        
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="position-relative mb-4">
-                        <canvas id="sales-chart" height="200"></canvas>
+                        <div id="chartcompany" style="height: 250px;"></div>
                     </div>
                 </div>
             </div>
@@ -197,79 +222,44 @@
     @parent
     <!-- OPTIONAL SCRIPTS -->
     <script src="{{ asset('assets/admin-bower/plugins/chart.js/Chart.min.js') }}"></script>
-    {{-- <script>
+    <script>
         $(function() {
-            'use strict'
-            var months = {!!json_encode($months)!!};
-            var totalMoney = {!!json_encode($totalMoneyMonth)!!};
-          
-            var ticksStyle = {
-                fontColor: '#495057',
-                fontStyle: 'bold'
-            }
-
-            var mode = 'index'
-            var intersect = true
-
-            var $salesChart = $('#sales-chart')
-            var salesChart = new Chart($salesChart, {
-                type: 'bar',
-                data: {
-                    labels: months,
-                    datasets: [{
-                            backgroundColor: '#007bff',
-                            borderColor: '#007bff',
-                            data: totalMoney
-                        }
+            
+            var chart_profile = new Morris.Bar({
+                element: 'chartcompany',
+                data:
+                    [
+                        { period: '2024', total_cv: 10 },
+                    { period: '2025', total_cv: 20 },
+                    { period: '2026', total_cv: 30 },
+                    { period: '2027', total_cv: 40 },
+                    { period: '2028', total_cv: 50 },
                     ]
-                },
-                options: {
-                    maintainAspectRatio: false,
-                    tooltips: {
-                        mode: mode,
-                        intersect: intersect
+                    
+                ,
+                xkey: 'period',
+                ykeys: ['total_com'],
+                labels: ['Số Company được tạo']
+            });
+            $('#dashboarh-filter').on('change',function(){
+                var dashboard_value = $(this).val(); // Lấy giá trị của select
+                // alert(dashboard_value);
+                $.ajax({
+                    type: "post",
+                    dataType: 'json',
+                    url: "{{url('/company/api')}}", // This is the URL to the API
+                    data: { 
+                        "dashboard_value": dashboard_value, 
+                        "_token": $('meta[name="csrf-token"]').attr('content')
                     },
-                    hover: {
-                        mode: mode,
-                        intersect: intersect
+                    success: function(data){
+                        chart.setData(data);
                     },
-                    legend: {
-                        display: false
-                    },
-                    scales: {
-                        yAxes: [{
-                            gridLines: {
-                                display: true,
-                                lineWidth: '4px',
-                                color: 'rgba(0, 0, 0, .2)',
-                                zeroLineColor: 'transparent'
-                            },
-                            ticks: $.extend({
-                                beginAtZero: true,
-
-                                callback: function(value) {
-                                    if (value >= 1000000) {
-                                        value /= 1000000
-                                        value += 'm'
-                                    }else if(value >= 1000){
-                                        value /= 1000
-                                        value += 'k'
-                                    }
-
-                                    return   value
-                                }
-                            }, ticksStyle)
-                        }],
-                        xAxes: [{
-                            display: true,
-                            gridLines: {
-                                display: false
-                            },
-                            ticks: ticksStyle
-                        }]
+                    error: function(error) {
+                        console.log('Error fetching data', error);
                     }
-                }
-            })
-        })
-    </script> --}}
+                })
+            });
+    });
+    </script>
 @endsection

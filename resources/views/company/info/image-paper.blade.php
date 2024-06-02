@@ -87,7 +87,7 @@
                 {{-- @dd($data); --}}
                 <form class="default-form" action="{{route('company.imagePaperUpdate')}}" method="post" enctype="multipart/form-data">
                   @csrf
-                <div class="form-group col-lg-6 col-md-12">
+                {{-- <div class="form-group col-lg-6 col-md-12">
                   @if ($data->image_paper)
                     <label>Trạng thái :</label> 
                       @if ($data->status == 0)
@@ -98,7 +98,7 @@
                       <span class="text-danger" style="font-weight: 900">Xác thực thất bại</span>
                       @endif
                   @endif
-                </div>
+                </div> --}}
                 <div class="form-group col-lg-6 col-md-12">
                     <label>Giấy phép kinh doanh / Giấy ủy quyền</label>    
                 </div>

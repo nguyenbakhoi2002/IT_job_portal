@@ -102,9 +102,16 @@ class ProfileApplyController extends Controller
                 });
             }
             if(!empty($type_degree_search)) {
-                $query = $query->whereHas('educations', function($q) use ($type_degree_search) {
-                    $q->where('degree_id', $type_degree_search);
+                // $query = $query->whereHas('educations', function($q) use ($type_degree_search) {
+                //     // $q->where('degree_id', $type_degree_search);
+                //     $q->whereHas('degree',function($q) use ($type_degree_search){
+                //         $q->where('level', '>=', $type_degree_search);
+                //     });
+                // });
+                $query = $query->whereHas('educations.degree', function ($q) use ($type_degree_search) {
+                    $q->where('level', '>=', $type_degree_search);
                 });
+                // dd($query->toSQL());
             }
             if(!empty($language_search)&&!empty($language_level_search)) {
                 $query = $query->whereHas('seekerLanguage', function($q) use ($language_search, $language_level_search) {

@@ -53,7 +53,8 @@ Route::get('/save-seeker/{id}', [SavedCandidateController::class, 'saveSeeker'])
 Route::get('/cancel-save-seeker/{id}', [SavedCandidateController::class, 'cancelSaveSeeker'])->name('cancelSaveSeeker');
 Route::get('/candidate-saved', [SavedCandidateController::class, 'listSeekerSaved'])->name('listSeekerSaved');
 
-Route::get('api', [DashboardController::class, 'chart']);
+Route::post('api', [DashboardController::class, 'chart']);
+Route::post('api-cv', [DashboardController::class, 'chartCv']);
 
 
 

@@ -118,7 +118,8 @@ class CompanyController extends Controller
             $request->merge(['image_paper'=>$file_name_image_paper ]);
             // $request->merge(['password'=>Hash::make($request->password)]);
             $company->update($request->all());
-            Session::flash('success', 'Thêm thành công!');
+            
+            
             return redirect()->route('admin.company.index')->with('success', 'sửa thành công');
         } catch (\Exception  $e) {
             return redirect()->back()->with('error', 'sửa thất bại'.$e->getMessage());
@@ -164,6 +165,16 @@ class CompanyController extends Controller
         return response()->json(['success'=>'Cập nhật trạng thái thành công!']);
     }
     public function companyWaiting(){
-        return 'khôi';
+        $company = Company::where('status', 0)->paginate(10);
+        if($key = request()->key){
+            $company = Company::where('status', 0)->where('company_name','like','%' . $key . '%')->paginate(10);
+        }
+        return view('admin.company.companyWaiting',['companies' => $company, 'title'=>"Danh sách công ty bị chặn"]);
+    }
+    public function companyAccept(Request $request, string $id){
+        Company::where('id', $id)->update([
+            'status' => 1,
+        ]);
+        return response()->json(['success'=>'Bỏ chặn thành công']);
     }
 }
