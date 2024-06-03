@@ -27,13 +27,117 @@ class DashboardController extends Controller
         $post_wait=JobPost::where('status', 3)->get();
 
 
-        //
-        $edate = Carbon::now()->toDateString();
-        $sdate = Carbon::now()->subDays(7)->toDateString();
+        //chart
+        $chart_data = [];
+        $chart_data_candidate = [];
+        $chart_data_post = [];
+        $end_date = Carbon::now()->toDateString();
+        $start_date = Carbon::now()->subDays(7)->toDateString();
+        $get=Company::whereRaw('DATE(created_at) BETWEEN ? AND ?', [$start_date, $end_date])
+        // ->whereBetween('created_at', [$sdate, $edate])
+        ->orderBy('created_at', 'ASC')
+        ->groupByRaw('DATE(created_at)')
+        ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        ->get();
+        foreach($get as $value){
+            $chart_data[] = array(
+                'period' =>$value->date,
+                'total_company'=>$value->count,
+            );
+        }
 
+        $data_company = json_encode($chart_data);
+        $get=Candidate::whereRaw('DATE(created_at) BETWEEN ? AND ?', [$start_date, $end_date])
+        ->orderBy('created_at', 'ASC')
+        ->groupByRaw('DATE(created_at)')
+        ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        ->get();
+        foreach($get as $value){
+            $chart_data_candidate[] = array(
+                'period' =>$value->date,
+                'total_candidate'=>$value->count,
+            );
+        }
+        $data_candidate = json_encode($chart_data_candidate);
+        $get=JobPost::whereRaw('DATE(allow_date) BETWEEN ? AND ?', [$start_date, $end_date])
+        ->orderBy('allow_date', 'ASC')
+        ->groupByRaw('DATE(allow_date)')
+        ->selectRaw('DATE(allow_date) as date, COUNT(*) as count')
+        ->get();
+        foreach($get as $value){
+            $chart_data_post[] = array(
+                'period' =>$value->date,
+                'total_post'=>$value->count,
+            );
+        }
+        $data_post = json_encode($chart_data_post);
         
+
         return view('admin.dashboard', ['candidate' => $candidate, 'company' => $company,
          'seekerProfile' => $seekerProfile, 'admin' => $admin, 'skill' => $skill, 'major' =>$major,
-          'company_wait' => $company_wait, 'post_wait' => $post_wait , 'job_post'=>$job_post, 'sdate'=>$sdate, 'edate'=>$edate]);
+          'company_wait' => $company_wait, 'post_wait' => $post_wait , 'job_post'=>$job_post, 'sdate'=>$start_date, 'edate'=>$end_date,
+            'data_company'=>$data_company, 'data_candidate'=>$data_candidate, 'data_post'=>$data_post
+        ]);
+    }
+    public function chartCompany(Request $request){
+        // $company = auth('company')->user();
+        $data = $request->all();
+        $start_date=$data['startDate'];
+        $end_date=$data['endDate'];
+        $get=Company::whereRaw('DATE(created_at) BETWEEN ? AND ?', [$start_date, $end_date])
+        // ->whereBetween('created_at', [$start_date, $end_date])
+        ->orderBy('created_at', 'ASC')
+        ->groupByRaw('DATE(created_at)')
+        ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        ->get();
+        
+        foreach($get as $value){
+            // $total_post=JobPost::where('company_id', $company->id)->whereBetween('allow_date', $value->allowdate)->orderBy('allow_date', 'ASC')->get();
+            $chart_data[] = array(
+                'period' =>$value->date,
+                'total_company'=>$value->count,
+            );
+        }
+        echo $data = json_encode($chart_data);
+    }
+    public function chartCandidate(Request $request){
+        // $company = auth('company')->user();
+        $data = $request->all();
+        $start_date=$data['startDate'];
+        $end_date=$data['endDate'];
+        $get=Candidate::whereRaw('DATE(created_at) BETWEEN ? AND ?', [$start_date, $end_date])
+        ->orderBy('created_at', 'ASC')
+        ->groupByRaw('DATE(created_at)')
+        ->selectRaw('DATE(created_at) as date, COUNT(*) as count')
+        ->get();
+        
+        foreach($get as $value){
+            // $total_post=JobPost::where('company_id', $company->id)->whereBetween('allow_date', $value->allowdate)->orderBy('allow_date', 'ASC')->get();
+            $chart_data[] = array(
+                'period' =>$value->date,
+                'total_candidate'=>$value->count,
+            );
+        }
+        echo $data = json_encode($chart_data);
+    }
+    public function chartPost(Request $request){
+        // $company = auth('company')->user();
+        $data = $request->all();
+        $start_date=$data['startDate'];
+        $end_date=$data['endDate'];
+        $get=JobPost::whereRaw('DATE(allow_date) BETWEEN ? AND ?', [$start_date, $end_date])
+        ->orderBy('allow_date', 'ASC')
+        ->groupByRaw('DATE(allow_date)')
+        ->selectRaw('DATE(allow_date) as date, COUNT(*) as count')
+        ->get();
+        
+        foreach($get as $value){
+            // $total_post=JobPost::where('company_id', $company->id)->whereBetween('allow_date', $value->allowdate)->orderBy('allow_date', 'ASC')->get();
+            $chart_data[] = array(
+                'period' =>$value->date,
+                'total_post'=>$value->count,
+            );
+        }
+        echo $data = json_encode($chart_data);
     }
 }

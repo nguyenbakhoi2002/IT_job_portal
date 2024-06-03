@@ -193,24 +193,81 @@
             <div class="card">
                 <div class="card-header border-0">
                     <div class="d-flex justify-content-between ">
-                        <h3 class="card-title" id="btn-client" style="padding-top: 4px">Công ty</h3>
-                        <form class="d-flex ">
+                        <h3 class="card-title" id="btn-client" style="padding-top: 4px">Lượt đăng ký công ty</h3>
+                        <div class="d-flex ">
                             <div class="form-group d-flex align-items-center">
                                 <label for="start_date">Từ</label>
-                                <input type="date" name="start_date" value="{{ $sdate }}" id="start_date" class="form-control" style="height: 30px;">
+                                <input type="date" name="start_date" value="{{ $sdate }}" id="start_date" class="form-control" style="height: 30px;width: 126px">
                             </div>
                             <div class="form-group d-flex align-items-center">
                                 <label for="end_date">Đến</label>
-                                <input type="date" name="end_date" value="{{ $edate }}" id="end_date" class="form-control" style="height: 30px;">
+                                <input type="date" name="end_date" value="{{ $edate }}" id="end_date" class="form-control" style="height: 30px;width: 126px">
                             </div>
-                            <button type="submit" class="btn btn-primary" style="height: 30px;padding-top: 2px;">Áp dụng</button>
-                        </form>
+                            <button type="submit"   id="filterButton" class="btn btn-primary" style="height: 30px;padding-top: 2px;">Áp dụng</button>
+                            <div id="error-message" class="error-message"></div>
+                        </div>
                         
                     </div>
                 </div>
                 <div class="card-body">
                     <div class="position-relative mb-4">
                         <div id="chartcompany" style="height: 250px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header border-0">
+                    <div class="d-flex justify-content-between ">
+                        <h3 class="card-title" id="btn-client" style="padding-top: 4px">Lượt đăng ký ứng viên</h3>
+                        <div class="d-flex ">
+                            <div class="form-group d-flex align-items-center">
+                                <label for="start_date">Từ</label>
+                                <input type="date" name="start_date" value="{{ $sdate }}" id="start_date_candidate" class="form-control" style="height: 30px;width: 126px">
+                            </div>
+                            <div class="form-group d-flex align-items-center">
+                                <label for="end_date">Đến</label>
+                                <input type="date" name="end_date" value="{{ $edate }}" id="end_date_candidate" class="form-control" style="height: 30px;width: 126px">
+                            </div>
+                            <button type="submit"   id="filterButtonCandidate" class="btn btn-primary" style="height: 30px;padding-top: 2px;">Áp dụng</button>
+                            <div id="error-message" class="error-message"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="position-relative mb-4">
+                        <div id="chartcandidate" style="height: 250px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="card">
+                <div class="card-header border-0">
+                    <div class="d-flex justify-content-between ">
+                        <h3 class="card-title" id="btn-client" style="padding-top: 4px">Lượt đăng bài</h3>
+                        <div class="d-flex ">
+                            <div class="form-group d-flex align-items-center">
+                                <label for="start_date">Từ</label>
+                                <input type="date" name="start_date" value="{{ $sdate }}" id="start_date_post" class="form-control" style="height: 30px;width: 126px">
+                            </div>
+                            <div class="form-group d-flex align-items-center">
+                                <label for="end_date">Đến</label>
+                                <input type="date" name="end_date" value="{{ $edate }}" id="end_date_post" class="form-control" style="height: 30px;width: 126px">
+                            </div>
+                            <button type="submit"   id="filterButtonPost" class="btn btn-primary" style="height: 30px;padding-top: 2px;">Áp dụng</button>
+                            <div id="error-message" class="error-message"></div>
+                        </div>
+                        
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="position-relative mb-4">
+                        <div id="chartpost" style="height: 250px;"></div>
                     </div>
                 </div>
             </div>
@@ -225,35 +282,110 @@
     <script>
         $(function() {
             
-            var chart_profile = new Morris.Bar({
+            var chart_company = new Morris.Bar({
                 element: 'chartcompany',
                 data:
-                    [
-                        { period: '2024', total_cv: 10 },
-                    { period: '2025', total_cv: 20 },
-                    { period: '2026', total_cv: 30 },
-                    { period: '2027', total_cv: 40 },
-                    { period: '2028', total_cv: 50 },
-                    ]
-                    
+                {!! $data_company !!}
                 ,
                 xkey: 'period',
-                ykeys: ['total_com'],
+                ykeys: ['total_company'],
                 labels: ['Số Company được tạo']
             });
-            $('#dashboarh-filter').on('change',function(){
-                var dashboard_value = $(this).val(); // Lấy giá trị của select
-                // alert(dashboard_value);
+            document.getElementById('filterButton').addEventListener('click', function() {
+                var startDate = document.getElementById('start_date').value;
+                var endDate = document.getElementById('end_date').value;
+                console.log("Start Date: " + startDate);
+                console.log("End Date: " + endDate);
+                if ((new Date(startDate) > new Date(endDate))||startDate ==''||endDate == '') {
+                    // document.getElementById('error-message').innerText = "Ngày tháng sai";
+                    alert('sai định dạng');
+                    return; // Ngăn chặn các hành động tiếp theo
+                }
                 $.ajax({
                     type: "post",
                     dataType: 'json',
-                    url: "{{url('/company/api')}}", // This is the URL to the API
+                    url: "{{url('/admin/api-company')}}", // This is the URL to the API
                     data: { 
-                        "dashboard_value": dashboard_value, 
+                        "startDate": startDate, 
+                        "endDate": endDate, 
                         "_token": $('meta[name="csrf-token"]').attr('content')
                     },
                     success: function(data){
-                        chart.setData(data);
+                        chart_company.setData(data);
+                    },
+                    error: function(error) {
+                        console.log('Error fetching data', error);
+                    }
+                })
+            });
+            //chert candidate
+            var chart_candidate = new Morris.Bar({
+                element: 'chartcandidate',
+                data:
+                {!! $data_candidate !!}
+                ,
+                xkey: 'period',
+                ykeys: ['total_candidate'],
+                labels: ['Số ứng viên tạo tài khoản']
+            });
+            document.getElementById('filterButtonCandidate').addEventListener('click', function() {
+                var startDate = document.getElementById('start_date_candidate').value;
+                var endDate = document.getElementById('end_date_candidate').value;
+                console.log("Start Date: " + startDate);
+                console.log("End Date: " + endDate);
+                if ((new Date(startDate) > new Date(endDate))||startDate ==''||endDate == '') {
+                    // document.getElementById('error-message').innerText = "Ngày tháng sai";
+                    alert('sai định dạng');
+                    return; // Ngăn chặn các hành động tiếp theo
+                }
+                $.ajax({
+                    type: "post",
+                    dataType: 'json',
+                    url: "{{url('/admin/api-candidate')}}", // This is the URL to the API
+                    data: { 
+                        "startDate": startDate, 
+                        "endDate": endDate, 
+                        "_token": $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(data){
+                        chart_candidate.setData(data);
+                    },
+                    error: function(error) {
+                        console.log('Error fetching data', error);
+                    }
+                })
+            });
+            //chart post
+            var chart_post = new Morris.Bar({
+                element: 'chartpost',
+                data:
+                {!! $data_post !!}
+                ,
+                xkey: 'period',
+                ykeys: ['total_post'],
+                labels: ['Số bài đăng được thông qua']
+            });
+            document.getElementById('filterButtonPost').addEventListener('click', function() {
+                var startDate = document.getElementById('start_date_post').value;
+                var endDate = document.getElementById('end_date_post').value;
+                console.log("Start Date: " + startDate);
+                console.log("End Date: " + endDate);
+                if ((new Date(startDate) > new Date(endDate))||startDate ==''||endDate == '') {
+                    // document.getElementById('error-message').innerText = "Ngày tháng sai";
+                    alert('sai định dạng');
+                    return; // Ngăn chặn các hành động tiếp theo
+                }
+                $.ajax({
+                    type: "post",
+                    dataType: 'json',
+                    url: "{{url('/admin/api-post')}}", // This is the URL to the API
+                    data: { 
+                        "startDate": startDate, 
+                        "endDate": endDate, 
+                        "_token": $('meta[name="csrf-token"]').attr('content')
+                    },
+                    success: function(data){
+                        chart_post.setData(data);
                     },
                     error: function(error) {
                         console.log('Error fetching data', error);

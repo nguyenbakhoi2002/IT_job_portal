@@ -12,6 +12,10 @@ use App\Http\Controllers\Admin\JobPostController;
 use App\Http\Controllers\Admin\CandidateController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+//biểu đồ
+Route::post('api-company', [DashboardController::class, 'chartCompany']);
+Route::post('api-candidate', [DashboardController::class, 'chartCandidate']);
+Route::post('api-post', [DashboardController::class, 'chartPost']);
 
 //company-công ty
     Route::resource('company', CompanyController::class); 
@@ -83,4 +87,6 @@ Route::post('/admin-update-detail', [AdminController::class, 'updateDetail'])->n
 //đổi mật khẩu
 Route::get('/change-password', [AdminController::class, 'changePassword'])->name('changePassword');
 Route::post('/candidate-update-password', [AdminController::class, 'updatePassword'])->name('updatePassword');
+
+
 ?>
