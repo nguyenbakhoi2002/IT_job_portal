@@ -23,6 +23,8 @@ class DashboardController extends Controller
             $count_applied += count($item->seekerProfile);
         }
         // biểu đồ
+        $chart_data = [];
+        $chart_data_post = [];
         $sub7days = Carbon::now('Asia/Ho_Chi_Minh')->subDay(7)->toDateString();
         $sub365days = Carbon::now('Asia/Ho_Chi_Minh')->subDay(365)->toDateString();
         $now = Carbon::now('Asia/Ho_Chi_Minh')->toDateString();

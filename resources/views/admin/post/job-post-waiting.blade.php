@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 @section('title')
-    {{ __('Công ty') }}
+    Các bài đăng chờ duyệt
 @endsection
 <style>
   body {font-family: Arial, Helvetica, sans-serif;}
@@ -30,7 +30,8 @@
     height: 100%; /* Full height */
     overflow: auto; /* Enable scroll if needed */
     background-color: rgb(0,0,0); /* Fallback color */
-    background-color: rgba(0,0,0,0.9); /* Black w/ opacity */
+    background-color: rgba(0,0,0,0.5); /* Black w/ opacity */
+    /* opacity: 0.5; */
   }
   
   /* Modal Content (image) */
@@ -159,7 +160,8 @@
                                 {{-- <input type="hidden" name="id" value="{{$item->id}}"> --}}
                                 <button value="submit" data-id="{{$item->id}}" class="btn btn-primary chap-nhan-bai-dang"><span class="text-white">Chấp nhận bài đăng</span></button>
                               </form>
-                            <a href="{{route('admin.post.refuse', $item->id)}}"  data-id="{{$item->id}}" class="btn btn-danger tu-choi-bai-dang"><span class="text-white">Từ chối bài đăng</span></a>
+                              {{-- <a href="{{route('admin.post.refuse', $item->id)}}"  data-id="{{$item->id}}" class="btn btn-danger tu-choi-bai-dang"><span class="text-white">Từ chối bài đăng</span></a> --}}
+                              <a href="" data-id="{{$item->id}}" class="btn btn-danger modaltuchoibaidang"><span class="text-white">Từ chối bài đăng</span></a>
                         </td>
                         
                     </tr>

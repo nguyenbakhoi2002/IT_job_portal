@@ -14,3 +14,5 @@
 <link rel="stylesheet" href="{{ asset('assets/admin-bower/plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
 <link rel="stylesheet" href="{{ asset('assets/admin-bower/plugins/summernote/summernote-bs4.css') }}">
 <link rel="stylesheet" href="{{asset('assets/admin-bower/plugins/toastr/toastr.css')}}">
+{{-- boostrap5 --}}
+{{-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> --}}

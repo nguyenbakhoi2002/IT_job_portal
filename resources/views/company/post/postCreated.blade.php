@@ -48,6 +48,7 @@
                                                     <p class="text-success">Hoạt động</p>
                                                 @elseif($item->status == 2)
                                                     <p class="text-danger">Bị từ Chối duyệt</p>
+                                                    <p>Lý do: {{$item->reason}}</p>
                                                 @elseif($item->status == 3)
                                                     <p class="text-warning">Đợi duyệt</p>
                                                 @else

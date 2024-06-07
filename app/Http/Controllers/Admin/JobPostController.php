@@ -16,6 +16,7 @@ use Carbon\Carbon;
 use App\Http\Requests\Company\JobPostRequest;
 use DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 
 
@@ -41,12 +42,30 @@ class JobPostController extends Controller
         return response()->json(['success'=>'Duyệt bài đăng thành công']);
     }
     //từ chối duyệt
-    public function jobRefuse(Request $request, string $id){
-        JobPost::where('id', $id)->update([
-            'status' => 2,
-            // 'admin_id' => auth('admin')->user()->id,
-        ]);
-        return response()->json(['success'=>'Xác nhận thành công']);
+    public function jobRefuse(Request $request){
+        try{
+            $rules = [
+                'reason' => 'required',
+            ];
+            $messages =  [
+                'reason.required' => 'Vui lòng nhập lý do',
+            ];
+            $validator = Validator::make($request->all(), $rules, $messages);
+            //trả về json để tránh load lại trang, để khi có lỗi nó không đóng model
+            if ($validator->fails()) {
+                return response()->json(['error'=>$validator->errors()]);
+            }
+            JobPost::where('id', $request->post_id)->update([
+                'status' => 2,
+                'reason'=>$request->reason,
+            ]);
+            return response()->json(['success'=>'Duyệt bài đăng thành công']);
+            // Session::flash('success', 'Tạo thành công!');
+            // return redirect()->route('profile');
+        } catch(\Exception  $e){
+            return response()->json(['error'=>'Từ chối thất bại'.$e->getMessage()]);
+            // return redirect()->back()->with('error', 'Từ chối thất bại'.$e->getMessage());
+        }
     }
 
     

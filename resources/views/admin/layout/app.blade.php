@@ -12,11 +12,61 @@
     @section('style')
         @include('admin.layout.style')
     @show
+    <style>
+        a{
+            text-decoration: none !important;
+        }
+        #emptySeekerModal.modal{
+            min-width: 100%;
+        }
+        #emptySeekerModal.modal .modal-dialog {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        #emptySeekerModal.modal .modal-content {
+            margin-top: auto;
+            margin-bottom: auto;
+        }
+    </style>
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
     <div class="wrapper">
-
+        {{-- modal báo ko có profile --}}
+        <div id="modaltuchoibaidang" class="modal fade" role="dialog" aria-hidden="true">
+            <div class="modal-dialog">
+                <!-- Modal content-->
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Lý do từ chối duyệt bài đăng</h4>
+                    </div>
+                    <form id="tuChoiBaiDangForm" method="POST" action="{{route('admin.post.refuse')}}">
+                        @csrf
+                        <div class="modal-body">
+                            <p>Hãy nêu lý do để nhà tuyển dụng có thể thấy và chỉnh sửa.</p>
+                            {{-- @if(!empty(auth('candidate')->user())) 
+                                <input type="hidden" name="candidate_id" value="{{auth('candidate')->user()->id}}"> 
+                                <input type="hidden" name="name" value="{{auth('candidate')->user()->name}}"> 
+                                @if(!empty(auth('candidate')->user()->email))<input type="hidden" name="email" value="{{auth('candidate')->user()->email}}"> @endif
+                                @if(!empty(auth('candidate')->user()->phone)) <input type="hidden" name="phone" value="{{auth('candidate')->user()->phone}}"> @endif
+                            @endif --}}
+                            {{-- <input type="text" name="title" id="cvTitle" class="form-control" placeholder="Nhập tiêu đề CV"> --}}
+                            <input type="hidden" name="post_id" id="postId" value="">
+                            <textarea  class="form-control" name="reason" placeholder="Nhập lý do từ chối duyệt" id="" cols="30" rows="10"></textarea>
+                            <small class="val_info_title text-danger pl-4"></small>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">Lưu</button>
+                            <button type="button" class="btn btn-default" data-bs-dismiss="modal">Hủy</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        {{-- end modal --}}
         <!-- Navbar -->
         @include('admin.layout.navbar')
         <!-- /.navbar -->

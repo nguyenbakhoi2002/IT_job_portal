@@ -7,6 +7,14 @@
            
             $('#emptySeekerModal').modal('show');
         });
+        $('.modaltuchoibaidang').click(function(e) {
+            e.preventDefault();
+            console.log($('#modaltuchoibaidang'));
+            var postId = $(this).data('id');
+            $('#postId').val(postId);
+            console.log($('#postId').val());
+            $('#modaltuchoibaidang').modal('show');
+        });
         // $('#quanlycv').submit(function(e) {
         //     //ngăn chặn hành vi load lại trang
         //     e.preventDefault();
@@ -29,3 +37,4 @@
         //     });
         // });
     });
+    

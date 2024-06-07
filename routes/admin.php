@@ -37,7 +37,7 @@ Route::get('/job-post-waiting',[JobPostController::class, 'jobPostWaiting'] )->n
 //chấp nhận bài đăng
 Route::post('/job-accept/{id}',[JobPostController::class, 'jobAccept'] )->name('post.accept');
 //từ chối bài đăng
-Route::get('/job-refuse/{id}',[JobPostController::class, 'jobRefuse'] )->name('post.refuse');
+Route::post('/job-refuse',[JobPostController::class, 'jobRefuse'] )->name('post.refuse');
 
 //candidate-ứng viên
     Route::resource('candidate', CandidateController::class); 

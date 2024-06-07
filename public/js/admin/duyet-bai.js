@@ -46,7 +46,7 @@
             }
           });
         });
-        //bắt sự kiện thay đổi status
+        //bắt sự kiện duyêt bài đăng
         $('.chap-nhan-bai-dang').click(function (e) {
           console.log('đã duyệt');
           e.preventDefault();
@@ -87,45 +87,79 @@
           
         });
         //từ chối bài đnăg
-        $('.tu-choi-bai-dang').click(function (e) {
-            console.log('đã từ chối');
-            e.preventDefault();
-            // lấy giá trị của thuộc tính data-id
-            var id = $(this).data('id');
-            var data = {
-              "_token": $('meta[name="csrf-token"]').attr('content'),
-              "id": id,
-            //   "status": status
-            };
-            console.log(data);
-            Swal.fire({
-                icon: 'warning',
-                title: 'Từ chối duyệt bài',
-                text: 'Hãy chắc chắn rằng bạn đã kiểm tra bài viết một cách cẩn thận',
-                showCancelButton: true,
-                showConfirmButton: true,
-                confirmButtonText: 'OK',
-                confirmButtonColor: '#C46F01',
-                cancelButtonText: 'Hủy'
-              }).then(function (result) {
-                if (result.isConfirmed) {
-                    $.ajax({
-                        type: "get",
-                        //cho giống đường dẫn controller status
-                        url: "/itjob_portal/public/admin/job-refuse/".concat(id),
-                        data: data,
-                        success: function success(response) {
-                          location.reload();
-                          toastr.success(response.success);
-                        },
-                        error: function error(response) {
-                          toastr.error("Cập nhật trạng thái thất bại");
-                        }
-                    });
-                  }
-                });
-            
+        $('#tuChoiBaiDangForm').submit(function (e) {
+          //ngăn chặn hành vi load lại trang
+          e.preventDefault();
+          var url = $('#tuChoiBaiDangForm').attr('action');
+          console.log('url: '+ url);
+          var form = this;
+          console.log('form: '+form);
+          var dataForm = new FormData(form);
+          console.log('dataForm: '+dataForm);
+      
+          $.ajax({
+            type: "POST",
+            url: url,
+            data: dataForm,
+            //để gửi dữ liệu dạng dataForm
+            processData: false,
+            contentType: false,
+            success: function success(response) {
+              console.log('response: '+ response.is_check);
+              if (response.error) {
+                console.log(response.error);
+                toastr.error("Nhập lý do từ chối");
+                $('.val_info_title').text(response.error.reason != undefined ? response.error.reason : '');
+                
+              } else {
+                toastr.success(response.success);
+                location.reload();
+              }
+            },
+            error: function error(response) {
+              toastr.error("Thêm thất bại");
+            }
           });
+        });
+        // $('.tu-choi-bai-dang').click(function (e) {
+        //     console.log('đã từ chối');
+        //     e.preventDefault();
+        //     // lấy giá trị của thuộc tính data-id
+        //     var id = $(this).data('id');
+        //     var data = {
+        //       "_token": $('meta[name="csrf-token"]').attr('content'),
+        //       "id": id,
+        //     //   "status": status
+        //     };
+        //     console.log(data);
+        //     Swal.fire({
+        //         icon: 'warning',
+        //         title: 'Từ chối duyệt bài',
+        //         text: 'Hãy chắc chắn rằng bạn đã kiểm tra bài viết một cách cẩn thận',
+        //         showCancelButton: true,
+        //         showConfirmButton: true,
+        //         confirmButtonText: 'OK',
+        //         confirmButtonColor: '#C46F01',
+        //         cancelButtonText: 'Hủy'
+        //       }).then(function (result) {
+        //         if (result.isConfirmed) {
+        //             $.ajax({
+        //                 type: "get",
+        //                 //cho giống đường dẫn controller status
+        //                 url: "/itjob_portal/public/admin/job-refuse/".concat(id),
+        //                 data: data,
+        //                 success: function success(response) {
+        //                   location.reload();
+        //                   toastr.success(response.success);
+        //                 },
+        //                 error: function error(response) {
+        //                   toastr.error("Cập nhật trạng thái thất bại");
+        //                 }
+        //             });
+        //           }
+        //         });
+            
+        //   });
         //company
         //bắt sự kiện thay đổi status
         $('.bo-chan-cong-ty').click(function (e) {
