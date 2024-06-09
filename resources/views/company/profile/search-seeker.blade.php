@@ -71,7 +71,7 @@
                     <select name="type_degree" style="padding: 13px; border: 2px solid #e6e8ed;border-radius: 10px;" class="select_type_degree select2">
                         <option value="">Trình độ học vấn</option>
                         @foreach ($degree as $value)
-                            <option value="{{ $value['id']}}">{{ $value['name']}}</option>
+                            <option value="{{ $value['level']}}">{{ $value['name']}}</option>
                         @endforeach
                     </select>
                   </div>
@@ -169,7 +169,7 @@
                             {{-- học vấn --}}
                             <li style="min-height: 22px; padding-left:0px">
                               @foreach ($item->educations as $edu)
-                                <i class="fa-solid fa-book-open me-2"></i>{{$edu->school_name}} - {{$edu->degree->name}}
+                                <i class="fa-solid fa-book-open me-2"></i>{{@$edu->school_name}} - {{@$edu->degree->name}}
                               @endforeach  
                             </li>
                             <?php

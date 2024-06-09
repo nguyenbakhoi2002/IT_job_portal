@@ -11,7 +11,7 @@
           <div class="job-block-seven row">
             <div class="inner-box">
               <div class="content  col-md-8 col-sm-12 ">
-                <span class="company-logo"><img src="{{asset('uploads/images/company/'.$data_job->company->logo)}}"></span>
+                <span class="company-logo"><img src="{{asset('uploads/images/company/'.@$data_job->company->logo)}}"></span>
                 <h4><a href="{{route('job-detail', $data_job)}}">{{$data_job->title}}</a></h4>
                 <ul class="job-info">
                   {{-- <li><span class="icon flaticon-briefcase"></span> {{$data_job->major->name}}</li> --}}
@@ -22,7 +22,7 @@
                   @endif
                   @endforeach
                   
-                  <li><span class="icon flaticon-clock-3"></span>{{$data_job->experience->name}} kinh nghiệm</li>
+                  <li><span class="icon flaticon-clock-3"></span>{{@$data_job->experience->name}} kinh nghiệm</li>
                 </ul>
                 <ul class="job-other-info">
                   @foreach (config('custom.type_work') as $value)
@@ -135,14 +135,14 @@
                 @endif
                 <h4>Kĩ năng và kinh nghiệm</h4>
                 <ul class="list-style-three">
-                  <li>Bằng cấp: {{ $data_job->degree->name}}</li>
+                  <li>Bằng cấp: {{ @$data_job->degree->name}}</li>
                   <li>
-                    Thành thạo các ngôn ngữ sau:
+                    Thành thạo các ngôn ngữ lập trình sau:
                     @foreach($data_job->skills as $skill)
                         {{$skill->name}},
                     @endforeach
                   </li>
-                  <li>Y/C: {{ $data_job->experience->level != 0 ?"Ít nhất ". $data_job->experience->name." kinh nghiệm": "Không yêu cầu kinh nghiệm" }}
+                  <li>Y/C: {{ @$data_job->experience->level != 0 ?"Ít nhất ". @$data_job->experience->name." kinh nghiệm": "Không yêu cầu kinh nghiệm" }}
                 </ul>
                 <h4>Ngoại ngữ : </h4>
                 <ul class="list-style-three">

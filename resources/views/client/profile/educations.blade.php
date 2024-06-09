@@ -96,10 +96,10 @@
                         Tên trường: <span>{{$edu->school_name}}</span>
                     </div>
                     <div class="h6">
-                        Chuyên ngành: <span>{{$edu->major->name}}</span>
+                        Chuyên ngành: <span>{{@$edu->major->name}}</span>
                     </div>
                     <div class="h6">
-                        Bằng: <span>{{$edu->degree->name}}</span>
+                        Bằng: <span>{{@$edu->degree->name}}</span>
                     </div>
                     <div class="d-flex">
                         Từ {{date("m-Y", strtotime($edu->start_date))}} đến @if($edu->end_date == null) Hiện tại @else {{date("m-Y", strtotime($edu->end_date))}} @endif

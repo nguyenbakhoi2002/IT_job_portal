@@ -62,3 +62,7 @@
         @endif
        </nav> --}}
 </div>
+<div class="text-center mt-3" style="display: flex;
+    justify-content: center;">
+    {{$data->appends(request()->all())->links()}} 
+</div>

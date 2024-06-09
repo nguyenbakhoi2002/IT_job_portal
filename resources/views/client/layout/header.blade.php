@@ -49,7 +49,7 @@
                         <a href="{{route('company-list')}}">Công ty</a>
                     </li>
                     <li class="dropdown">
-                        <a href="{{route('contact')}}">About</a>
+                        <a href="{{route('contact')}}">Liên hệ</a>
                     </li>
                     {{-- <li class="dropdown">
                         <a href="{{route('logout')}}">Đăng xuất</a>

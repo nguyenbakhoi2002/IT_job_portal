@@ -9,6 +9,17 @@
         max-width: 350px;
         max-height: 350px;
     }
+    .page-item.active .page-link {
+            z-index: 3;
+            color: #fff;
+            background-color: #C46F01;
+            border-color: #C46F01;
+        }
+        .page-link {
+            position: relative;
+            display: block;
+            color: #C46F01;
+        }
 </style>
 @endsection
 
@@ -133,7 +144,7 @@
                                         <span class="company-logo" ><img style="width:50px; height:50px" src="{{asset('uploads/images/company/'. $company_detail->logo)}}" alt=""></span>
                                         <h4><a href="{{route('job-detail', $item)}}">{{$item->title}}</a></h4>
                                         <ul class="job-info">
-                                            <li><span class="icon flaticon-briefcase"></span>{{$item->major->name}}</li>
+                                            <li><span class="icon flaticon-briefcase"></span>{{@$item->major->name}}</li>
                                             @foreach ($dataProvinces as $value)
                                                 @if($value['Id'] == $item->area)
                                                     <li><span class="icon flaticon-map-locator"></span>{{$value['Ten']}}</li>
@@ -184,7 +195,10 @@
                                     </div>
                                 </div>
                             @endforeach
-
+                            <div class="text-center mt-3" style="display: flex;
+                            justify-content: center;">
+                            {{$company_jobs->appends(request()->all())->links()}} 
+                        </div>
                         </div>
                     </div>
 

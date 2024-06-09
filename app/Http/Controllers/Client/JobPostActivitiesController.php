@@ -34,6 +34,7 @@ class JobPostActivitiesController extends Controller
             $company_id = $post->company_id;
             //lấy ra các yêu cầu 
             //level của bằng cấp;
+
             $required_degree = $post->degree->level;
             if($required_degree==0)  $satisfy[]='edu';
             //level của experience
@@ -236,7 +237,8 @@ class JobPostActivitiesController extends Controller
         } catch (\Exception $e) {
             // Nếu có lỗi, rollback giao dịch và trả về thông báo lỗi
             DB::rollBack();
-            return redirect()->back()->with('error', 'thêm mới thất bại'.$e->getMessage());
+            return redirect()->back()->with('error', 'lỗi ứng tuyển, có thể do bài đăng thiếu một số thông tin như yêu cầu như, chuyên ngành, ngôn ngữ, bằng cấp, ....');
+            // return redirect()->back()->with('error', 'thêm mới thất bại'.$e->getMessage());
             // return response()->json([
             //     'error' => 'Ứng tuyển thất bại: ' . $e->getMessage(),
             // ]);

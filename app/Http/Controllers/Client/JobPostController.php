@@ -32,7 +32,8 @@ class JobPostController extends Controller
         $data = JobPost::where('end_date', '>=', $current_date_string)
                         ->where('status', 1)
                         ->whereHas('company', function($query) {
-                            $query->where('status', 1);
+                            $query->where('status', 1)
+                            ->where('deleted_at', NULL);
                         })
                         ->paginate(12);
         if(request()->major || request()->skill || request()->exp || request()->area || request()->name ||request()->wage){
@@ -104,8 +105,8 @@ class JobPostController extends Controller
                             })
                             ->paginate(12);
         }
-        $exp = TimeExperience::all();
-        $major = Major::all();
+        $exp = TimeExperience::where('status', 1)->get();
+        $major = Major::where('status', 1)->get();
         $skill = Skill::all();
         return view('client/post/job-list', 
         ['data'=>$data, 'major'=>$major, 'skill'=>$skill, 'dataProvinces'=>$dataProvinces, 'current_date'=>$current_date,

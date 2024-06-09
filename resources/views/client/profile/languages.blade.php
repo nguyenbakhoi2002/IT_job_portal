@@ -76,7 +76,7 @@
             <form id="form-border-lg{{$language->id}}" class="delLg d-flex mt-3 border-dotted-bot" action="{{route('updateCv.deleteLanguage',$language->id)}}" method="get">
                 <div style="width: 90%;" class="mb-3" id="EditHideLg{{$language->id}}">
                     <div class="h5">
-                        Ngôn ngữ: <span>{{$language->language->name}}</span>
+                        Ngôn ngữ: <span>{{@$language->language->name}}</span>
                     </div>
                     <div class="d-flex">
                         Trình độ : 

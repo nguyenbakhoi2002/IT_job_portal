@@ -18,7 +18,17 @@
         .form-group{
             width: 185px;
         }
-        
+        .page-item.active .page-link {
+            z-index: 3;
+            color: #fff;
+            background-color: #C46F01;
+            border-color: #C46F01;
+        }
+        .page-link {
+            position: relative;
+            display: block;
+            color: #C46F01;
+        }
     </style>
 @endsection
 @section('content')

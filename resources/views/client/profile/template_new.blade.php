@@ -137,7 +137,7 @@
                                     <p class="text-content" style="font-size: 20px">{{$education->school_name}}</p>
                                     <p class="text-date">{{\Carbon\Carbon::parse($education->start_date)->format('d/m/Y')}} - {{$education->end_date?\Carbon\Carbon::parse($education->end_date)->format('d/m/Y'):'Hiện tại'}}</p>
                                 </div>
-                                <h3 style="font-size: 18px">{{$education->major->name}}</h3>
+                                <h3 style="font-size: 18px">{{@$education->major->name}}</h3>
                                 <p class="text-content" style="font-size: 18px">
                                     {{$education->description}}
                                 </p>

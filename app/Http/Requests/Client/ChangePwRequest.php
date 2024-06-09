@@ -22,7 +22,11 @@ class ChangePwRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'password' => 'required',
+            // 'password' => 'required',
+            'password' => [
+                'required',
+                'regex:/^(?=.*[a-zA-Z])(?=.*\d).{8,}$/'
+            ],
             'password_old' => 'required',
             're_password' => 'required|same:password',
         ];
@@ -30,6 +34,7 @@ class ChangePwRequest extends FormRequest
     public function messages():array{
         return [
             'password.required' => 'Vui lòng nhập mật khẩu mới',
+            'password.regex' => 'mật khẩu phải có ít nhất 8 ký tự, ít nhất 1 chữ cái và ít nhất 1 số',
             'password_old.required' => 'Vui lòng nhập mật khẩu cũ',
             're_password.required' => 'Vui lòng nhập lại mật khẩu mới',
             're_password.same' => 'Mật khẩu nhập lại không khớp',

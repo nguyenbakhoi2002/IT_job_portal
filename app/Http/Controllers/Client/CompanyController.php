@@ -25,7 +25,7 @@ class CompanyController extends Controller
         //chuyển đổi json thành mảng
         $dataProvinces = json_decode($jsonContent, true);
 
-        $company_jobs = $company->jobPost()->paginate(10);
+        $company_jobs = $company->jobPost()->paginate(6);
         if($key = request()->key){
             $company_jobs = $company->jobPost()->where('title','like','%' . $key . '%')->paginate(10);
         }

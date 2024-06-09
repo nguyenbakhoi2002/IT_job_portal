@@ -25,7 +25,13 @@ class HomeController extends Controller
         //chuyển đổi json thành mảng
         $dataProvinces = json_decode($jsonContent, true);
         $current_date =Carbon::now();
-        $job = JobPost::where('status', 1)->whereDate('end_date', '>', Carbon::now())->get();
+        $job = JobPost::where('status', 1)
+                    ->whereHas('company', function($query) {
+                        $query->where('status', 1)
+                              ->where('deleted_at', NULL);
+                    })
+                    ->whereDate('end_date', '>', Carbon::now())
+                    ->get();
         $job_post_activities =JobPostActivity::all();
         $candidate = Candidate::all();
         $company = Company::where('status', 1)->get();
@@ -53,7 +59,13 @@ class HomeController extends Controller
         ->toArray();
         //cái này chỉ nên lấy ra id thôi, xong ở dưới cùng model find những cái có id như vâyj
         // dd($job_popular);
-        $job_popular = JobPost::whereIn('id', $job_popular_ids)->get();
+        $job_popular = JobPost::where('status', 1)
+                                ->whereHas('company', function($query) {
+                                    $query->where('status', 1)
+                                        ->where('deleted_at', NULL);
+                                })
+                                ->whereIn('id', $job_popular_ids)
+                                ->get();
         if(request()->area || request()->name){
             $data_ids = JobPost::join('companies', 'job_posts.company_id', '=', 'companies.id')
             ->where(function ($q){
