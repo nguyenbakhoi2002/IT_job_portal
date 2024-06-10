@@ -83,7 +83,7 @@
                                     <li><i class="fa-solid fa-link"></i><span style="color:red">Thông tin bị ẩn</span></li>   
                                 @else
                                     <li><i class="fa-solid fa-phone"></i>{{$seeker_profile->phone?$seeker_profile->phone:''}}</li>
-                                    <li><i class="fa-regular fa-envelope"></i>{{$seeker_profile->mail?$seeker_profile->email:''}}</li>
+                                    <li><i class="fa-regular fa-envelope"></i>{{$seeker_profile->email?$seeker_profile->email:''}}</li>
                                     <li><i class="fa-solid fa-location-dot"></i>{{$seeker_profile->address?$seeker_profile->address:''}}</li>
                                     <li><i class="fa-solid fa-link"></i>{{$seeker_profile->link?$seeker_profile->link:''}}</li>
                                 @endif

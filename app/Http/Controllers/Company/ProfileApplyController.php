@@ -146,11 +146,18 @@ class ProfileApplyController extends Controller
         return response()->json(['success'=>'Cập nhật trạng thái thành công!']);
     }
     //xem trước profile của ứng viên tìm kiếm
-    public function profilePreview(SeekerProfile $seeker_profile){
+    public function profilePreview(SeekerProfile $seeker_profile, string $job_post_id = null){
         //lấy ra danh sách những Profile có trong công ty
         //phải lấy ra vì sẽ dùng chung view này cho nhà tuyển dụng xem những CV mà họ nhận được, 
         //nếu CV nằm trong danh sách đã nộp vào công ty thì sẽ xem được hết thông tin CV
         $company = auth('company')->user();
+        //nếu trạng thái cv hiện tại đang là 0 (chưa xem) thì mới đổi trạng thái
+        if($job_post_id){
+            $status_now = JobPostActivity::where('seeker_profile_id', $seeker_profile->id)->where('job_post_id', $job_post_id)->first();
+            if($status_now->seen==0){
+                $status_now->update(['seen' => 1]);
+            }
+        }
         $idSeekerProfile = $company->seekerProfile()->pluck('seeker_profile_id')->toArray();
         return view('company.profile.template_new', ['seeker_profile' => $seeker_profile, 'idSeekerProfile'=>$idSeekerProfile]);
     }

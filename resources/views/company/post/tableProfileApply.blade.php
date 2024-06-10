@@ -14,7 +14,7 @@
             <tr>
                 <td>
                     <h6>{{ $item->name }}</h6>
-                    <a target="_blank" href="{{route('company.profilePreview', $item)}}" class="btn btn-primary text-white" >Xem Profile</a>
+                    <a target="_blank" href="{{route('company.profilePreview', ['seeker_profile' =>$item, 'job_post_id'=>$id])}}" class="btn btn-primary text-white" >Xem Profile</a>
                 </td>
                 <td>
                     {{ $item->phone }} <br>{{ $item->email }}

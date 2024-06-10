@@ -72,7 +72,8 @@
             <tr>
                 <td>
                     <h6>{{ $item->name }}</h6>
-                    <a target="_blank" href="{{route('company.profilePreview', $item)}}" class="btn btn-primary text-white" >Chi tiết</a>
+                    {{-- có thể dùng target black để chuyển hướng mà ko load trag hiện tại target="_blank" --}}
+                    <a target="_blank" href="{{route('company.profilePreview', ['seeker_profile' => $item, 'job_post_id' => $item->pivot->job_post_id])}}" class="btn btn-primary text-white" >Chi tiết</a>
                     {{-- <span>{{ $item->pivot->seen == 1 ? "Đã xem" : "Chưa xem" }}</span> --}}
                 </td>
                 @php

@@ -238,7 +238,7 @@
                       <li>
                         <i class="icon icon-calendar"></i>
                         <h5>Ngày đăng:</h5>
-                        <span>{{date("d-m-Y", strtotime($data_job->created_at))}}</span>
+                        <span>{{date("d-m-Y", strtotime($data_job->allow_date))}}</span>
                       </li>
                       <li>
                         <i class="icon icon-expiry"></i>

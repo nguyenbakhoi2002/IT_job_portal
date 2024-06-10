@@ -30,7 +30,7 @@ Route::get('/profile-all',  [ProfileApplyController::class, 'profileAll'])->name
 //trang tìm kiếm ứng viên
 Route::get('profile-filter',[ProfileApplyController::class, 'profileFilter'])->name('profileFilter');;
 //xem trước profile
-Route::get('/profile-preview/{seeker_profile}', [ProfileApplyController::class, 'profilePreview'])->name('profilePreview');
+Route::get('/profile-preview/{seeker_profile}/{job_post_id?}', [ProfileApplyController::class, 'profilePreview'])->name('profilePreview');
 
 //status của profile (trang tất cả profille)
 Route::post('/profile-status/{id}', [ProfileApplyController::class, 'statusAll'])->name('updateStatusAll');

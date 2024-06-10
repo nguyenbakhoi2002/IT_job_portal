@@ -158,7 +158,7 @@
                             <span class="btn  btn-success rounded-pill my-3" style="min-height: 22px">Tìm việc gấp</span>
                           @endif
                          
-                          <ul class="job-info justify-content-start">
+                          <ul class="job-info justify-content-start" style="flex-direction: column;align-items: start;">
                             <li style="min-height: 22px;-webkit-line-clamp: 1; -webkit-box-orient: vertical; display: -webkit-box; overflow: hidden;">
                               @if (!empty($item->address))
                               <span class="icon flaticon-map-locator"></span>{{$item->address}}
@@ -167,10 +167,20 @@
                               @endif         
                             </li>
                             {{-- học vấn --}}
+                            @php
+                                $highestDegree = App\Models\Education::where('seeker_profile_id', $item->id)
+                                                            ->join('degree', 'educations.degree_id', '=', 'degree.id')
+                                                            ->orderBy('degree.level', 'desc')
+                                                            ->select('degree.*')
+                                                            ->first();
+
+                            @endphp 
                             <li style="min-height: 22px; padding-left:0px">
-                              @foreach ($item->educations as $edu)
+                              {{-- @foreach ($item->educations as $edu)
                                 <i class="fa-solid fa-book-open me-2"></i>{{@$edu->school_name}} - {{@$edu->degree->name}}
-                              @endforeach  
+                              @endforeach   --}}
+                                <i class="fa-solid fa-book-open me-2"></i>{{@$highestDegree->name}}
+
                             </li>
                             <?php
                                 $totalExperience = $item->total_experience;

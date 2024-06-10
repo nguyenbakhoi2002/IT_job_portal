@@ -28,7 +28,7 @@
             </form>
 
             </div>
-            <a href="{{route('admin.skill.trash')}}" class="btn btn-primary mt-4 mx-4" style="width: 150px">thùng rác <i class="fa fa-trash"></i></a>
+            {{-- <a href="{{route('admin.admin.trash')}}" class="btn btn-primary mt-4 mx-4" style="width: 150px">thùng rác <i class="fa fa-trash"></i></a> --}}
 
             <!-- /.card-header -->
             <div class="card-body">

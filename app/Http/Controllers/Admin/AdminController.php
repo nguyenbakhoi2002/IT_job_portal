@@ -137,10 +137,33 @@ class AdminController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Admin $admin)
     {
-        //
+        try {
+            $admin->delete();
+            return redirect()->route('admin.admin.index')->with('success', 'Xóa thành công');
+        } catch (\Exception  $e) {
+            return redirect()->back()->with('error', 'Xóa thất bại'.$e->getMessage());
+        }
     }
+    public function trash(){
+        $admin = Admin::onlyTrashed()->paginate(10);
+        if($key = request()->key){
+            $admin = Admin::onlyTrashed()->where('name','like','%' . $key . '%')->paginate(10);
+        }
+        return view('admin.admin.trash',['admins' => $admin, 'title'=>'thùng rác']);
+    }
+    public function restore(string $id){
+        Admin::withTrashed()->where('id', $id)->restore();
+        return redirect()->route('admin.admin.index')->with('success', 'Khôi phục thành công');
+    }
+    public function force(string $id){
+        Admin::withTrashed()->where('id', $id)->forceDelete();
+        return redirect()->route('admin.admin.trash')->with('success', 'Xóa thành công');
+
+    }
+
+
     public function detail(){
         // $id = auth('candidate')->user()->id;
         $detail =  auth('admin')->user();

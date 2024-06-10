@@ -77,7 +77,7 @@
                                 <li><i class="fa-solid fa-calendar-days"></i>{{$seeker_profile->date_of_birth?$seeker_profile->date_of_birth:''}}</li>
                                 <li><i class="fa-regular fa-user"></i>{{$seeker_profile->gender?$seeker_profile->gender:''}}</li>
                                 <li><i class="fa-solid fa-phone"></i>{{$seeker_profile->phone?$seeker_profile->phone:''}}</li>
-                                <li><i class="fa-regular fa-envelope"></i>{{$seeker_profile->mail?$seeker_profile->email:''}}</li>
+                                <li><i class="fa-regular fa-envelope"></i>{{$seeker_profile->email?$seeker_profile->email:''}}</li>
                                 <li><i class="fa-solid fa-location-dot"></i>{{$seeker_profile->address?$seeker_profile->address:''}}</li>
                                 <li><i class="fa-solid fa-link"></i>{{$seeker_profile->link?$seeker_profile->link:''}}</li>
                             </ul>

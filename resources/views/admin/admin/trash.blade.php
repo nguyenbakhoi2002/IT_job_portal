@@ -1,6 +1,6 @@
 @extends('admin.layout.app')
 @section('title')
-    {{ __('Skill-Trash') }}
+    Admin-Trash
 @endsection
 
 @section('content')
@@ -19,7 +19,7 @@
             {{-- <a href="" class="dark"><i class="fa-solid fa-arrow-left"> Quay lại</i></a> --}}
 
             <div class="card-header">
-              <h3 class="card-title"><a href="{{route('admin.skill.index')}}" class="" style="margin-right:10px"><i class="fa-solid fa-arrow-left"></i></i></a>   {{$title}}</h3>
+              <h3 class="card-title"><a href="{{route('admin.admin.index')}}" class="" style="margin-right:10px"><i class="fa-solid fa-arrow-left"></i></i></a>   {{$title}}</h3>
               <form action="" class="form-inline float-right mr-3">
                 <div class="form-group">
                     <input class="form-control" name="key" id="key" placeholder="Nhập tên kỹ năng ....">
@@ -35,21 +35,33 @@
                 <thead>
                 <tr>
                   <th>STT</th>
-                  <th>{{__('Tên kỹ năng')}}</th>
-                  <th>{{__('Mô tả')}}</th>
-                  <th>{{__('Lựa chọn')}}</th>
-                  {{-- <th><a href="{{route('admin.skill.create')}}"><i class="fa fa-plus"></i></a></th> --}}
+                  <th>Email</th>
+                  <th>Thông tin tài khoản</th>
+                  <th>Loại tài khoản</th>
+                  <th>Lựa chọn</th>
+                  {{-- <th><a href="{{route('admin.admin.create')}}"><i class="fa fa-plus"></i></a></th> --}}
                 </tr>
                 </thead>
                 <tbody>
-                    @forelse($skills as $item)
+                    @forelse($admins as $item)
                     <tr>
-                        <td>{{$loop->iteration}}</td>
-                        <td>{{$item->name}}</td>
-                        <td>{{$item->description}}</td>
+                      <td>{{$loop->iteration}}</td>
+                      <td>{{$item->email}}</td>
+                      <td>
+                        <div>Tên: {{$item->name}}</div>
+                        <div>Số điện thoại: {{$item->phone}}</div>
+                        <div>Địa chỉ: {{$item->address}}</div>
+                      </td>
+                      <td>
+                        @if ($item->type == 1)
+                            Admin
+                        @else
+                            Nhân viên
+                        @endif
+                      </td>
                         <td class="project-actions xoa text-right d-flex align-items-center">
-                            <a href="{{route('admin.skill.restore', $item->id)}}" class="btn btn-success">Khôi phục</a>
-                            <a href="{{route('admin.skill.forceDelete', $item->id)}}" onclick="return confirm('Bạn có chắn chắn muốn xóa')" class="btn btn-danger mx-3">Xóa</a>
+                            <a href="{{route('admin.admin.restore', $item->id)}}" class="btn btn-success">Khôi phục</a>
+                            <a href="{{route('admin.admin.forceDelete', $item->id)}}" onclick="return confirm('Bạn có chắn chắn muốn xóa')" class="btn btn-danger mx-3">Xóa</a>
                             
                         </td>
                     </tr>
@@ -61,7 +73,7 @@
                 </tbody>
               </table>
               <div>
-                {{ $skills->links() }}
+                {{ $admins->links() }}
               </div>
             </div>
             <!-- /.card-body -->

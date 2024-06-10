@@ -66,7 +66,7 @@ Route::post('/job-refuse',[JobPostController::class, 'jobRefuse'] )->name('post.
     Route::get('degree-trash',[DegreeController::class, 'trash'] )->name('degree.trash');
     Route::get('degree-trash/{id}', [DegreeController::class, 'restore'])->name('degree.restore');
     Route::get('/degree-forceDelete/{id}',[DegreeController::class, 'force'] )->name('degree.forceDelete');
-//degree- số năm kinh nghiệm
+//time_exp- số năm kinh nghiệm
 Route::resource('time', TimeController::class); 
     Route::post('time-status/{id}', [TimeController::class, 'status'])->name('time.status');
     Route::get('time-trash',[TimeController::class, 'trash'] )->name('time.trash');
@@ -81,6 +81,9 @@ Route::resource('language', LanguageController::class);
     Route::get('/language-forceDelete/{id}',[LanguageController::class, 'force'] )->name('language.forceDelete');
 //admin-Quản trị viên
 Route::resource('admin', AdminController::class)->middleware(['checkAdminType']); 
+    Route::get('/admin-trash',[AdminController::class, 'trash'] )->name('admin.trash');
+    Route::get('/admin-trash/{id}',[AdminController::class, 'restore'] )->name('admin.restore');
+    Route::get('/admin-forceDelete/{id}',[AdminController::class, 'force'] )->name('admin.forceDelete');
 //thông tin tài khoản
 Route::get('/admin-detail', [AdminController::class, 'detail'])->name('detail');
 Route::post('/admin-update-detail', [AdminController::class, 'updateDetail'])->name('updateDetail');
