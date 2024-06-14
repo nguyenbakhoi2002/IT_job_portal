@@ -71,9 +71,15 @@ class JobPostController extends Controller
     
     public function index()
     {
-        $job = JobPost::where('status', 1)->whereDate('end_date', '>', Carbon::now())->orderBy('allow_date', 'desc')->paginate(10);
+        $job = JobPost::where('status', 1)->whereDate('end_date', '>', Carbon::now())->whereHas('company', function($query) {
+            $query->where('status', 1)
+            ->where('deleted_at', NULL);
+        })->orderBy('allow_date', 'desc')->paginate(10);
         if($key = request()->key){
-            $job = JobPost::where('status',1)->whereDate('end_date', '>', Carbon::now())->where('title','like','%' . $key . '%')->orderBy('allow_date', 'desc')->paginate(10);
+            $job = JobPost::where('status',1)->whereDate('end_date', '>', Carbon::now())->where('title','like','%' . $key . '%')->whereHas('company', function($query) {
+                $query->where('status', 1)
+                ->where('deleted_at', NULL);
+            })->orderBy('allow_date', 'desc')->paginate(10);
         }
         return view('admin.post.index', ['companies' => $job, 'title'=>"Danh sách các công việc đang hoạt động"]);
     }
@@ -116,9 +122,9 @@ class JobPostController extends Controller
         // dd($dataProvinces[0]['Ten']);
         //
         $title = "Sửa bài đăng";
-        $majors = Major::all();
-        $skills = Skill::all();
-        $languages = Language::all();
+        $majors = Major::where('status', 1)->get();
+        $skills = Skill::where('status', 1)->get();
+        $languages = Language::where('status', 1)->get();
 
         $time_exp = TimeExperience::where('status', 1)->orderBy('level')->get();
         $degrees = Degree::where('status', 1)->orderBy('level')->get();

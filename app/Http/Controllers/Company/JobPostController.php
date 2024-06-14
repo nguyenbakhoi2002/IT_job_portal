@@ -158,9 +158,9 @@ class JobPostController extends Controller
         // dd($dataProvinces[0]['Ten']);
         //
         $title = "Sửa bài tuyển dụng";
-        $majors = Major::all();
-        $skills = Skill::all();
-        $languages = Language::all();
+        $majors = Major::where('status', 1)->get();
+        $skills = Skill::where('status', 1)->get();
+        $languages = Language::where('status', 1)->get();
 
         $time_exp = TimeExperience::where('status', 1)->orderBy('level')->get();
         $degrees = Degree::where('status', 1)->orderBy('level')->get();

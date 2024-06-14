@@ -16,6 +16,10 @@ class CompanyController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        // $this->middleware(['checkAdminType'])->only(['force']);
+    }
     public function index()
     {
         $company = Company::paginate(10);
@@ -152,6 +156,8 @@ class CompanyController extends Controller
         return redirect()->route('admin.company.index')->with('success', 'Khôi phục thành công');
     }
     public function force(string $id){
+        if(auth('admin')->user()->type==0)
+        return response()->json(['error'=>'Bạn không có quyền xóa dữ liệu']);
         Company::withTrashed()->where('id', $id)->forceDelete();
         return response()->json(['success'=>'Xóa thành công!']);
         // return redirect()->route('admin.company.trash')->with('success', 'Xóa thành công');

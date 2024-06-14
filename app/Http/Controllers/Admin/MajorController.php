@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Admin\StoreSkillRequest;
 use App\Http\Requests\Admin\EditSkillRequest;
 use App\Models\Major;
+use App\Models\Education;
+use App\Models\JobPost;
 
 
 class MajorController extends Controller
@@ -14,9 +16,14 @@ class MajorController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        // Áp dụng middleware 'custom' cho các phương thức 'update' và 'destroy'
+        $this->middleware(['checkAdminType'])->only(['update', 'destroy']);
+    }
     public function index()
     {
-        $major = Major::paginate(5);
+        $major = Major::paginate(10);
         if($key = request()->key){
             $major = Major::where('name','like','%' . $key . '%')->paginate(10);
         }
@@ -88,14 +95,28 @@ class MajorController extends Controller
         return redirect()->route('admin.major.index')->with('success', 'Khôi phục thành công');
     }
     public function force(string $id){
-        Major::withTrashed()->where('id', $id)->forceDelete();
-        return redirect()->route('admin.major.trash')->with('success', 'Xóa thành công');
+        try{
+            if(auth('admin')->user()->type==0)
+                return redirect()->route('admin.major.trash')->with('error', 'Bạn không có quyền xóa dữ liệu');
+            //đếm xem có bảng nào tham chiếu đến chuyên ngành này không
+            $count_edu = Education::where('major_id',$id)->get()->count();
+            $count_job_post = JobPost::where('major_id',$id)->get()->count();
+            if($count_edu || $count_job_post)
+                return redirect()->route('admin.major.trash')->with('error', 'Không thể xóa, sẽ lỗi trang web');
+            Major::withTrashed()->where('id', $id)->forceDelete();
+            return redirect()->route('admin.major.trash')->with('success', 'Xóa thành công');
+        } catch (Exception $e) {
+            // Bắt các lỗi khác
+            return redirect()->route('admin.major.trash')->with('error', 'Không thể xóa, sẽ lỗi trang web');
+        }
 
     }
     //trạng thái
     public function status(Request $request, string $id){
-        $val = $request->status;
-        Major::where('id', $id)->update(['status' => $val]);
-        return response()->json(['success'=>'cập nhật trạng thái thành công']);
+            $val = $request->status;
+            Major::where('id', $id)->update(['status' => $val]);
+            return response()->json(['success'=>'cập nhật trạng thái thành công']);
+       
+        
     }
 }

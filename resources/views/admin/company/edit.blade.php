@@ -149,16 +149,16 @@
                           <div class="col-sm-6">
                             <label class="form-label w-100">Trạng thái</label>
                             <div class="d-flex">
-                              <div class="form-check mr-3">
+                              {{-- <div class="form-check mr-3">
                                 <input type="radio" class="form-check-input" id="status" name="status" value="0" @if($company->status == 0) checked @endif>Chưa kích hoạt
                                 <label class="form-check-label" for="status"></label>
-                              </div>
+                              </div> --}}
                               <div class="form-check mr-3">
-                                <input type="radio" class="form-check-input" id="status" name="status" value="1" @if($company->status == 1) checked @endif>Đã kích hoạt
+                                <input type="radio" class="form-check-input" id="status" name="status" value="0" @if($company->status == 0) checked @endif>Chặn
                                 <label class="form-check-label" for="status"></label>
                               </div>
                               <div class="form-check">
-                                <input type="radio" class="form-check-input" id="status2" name="status" value="2" @if($company->status == 2) checked @endif>Chặn
+                                <input type="radio" class="form-check-input" id="status2" name="status" value="1" @if($company->status == 1) checked @endif>Hoạt động
                                 <label class="form-check-label" for="status2"></label>
                               </div>
                             </div>

@@ -38,6 +38,7 @@
                   <th>STT</th>
                   <th>{{__('Tên kỹ năng')}}</th>
                   <th>{{__('Mô tả')}}</th>
+                  <th>Trạng thái</th>
                   <th><a href="{{route('admin.skill.create')}}"><i class="fa fa-plus"></i></a></th>
                 </tr>
                 </thead>
@@ -47,6 +48,16 @@
                         <td>{{$loop->iteration}}</td>
                         <td>{{$item->name}}</td>
                         <td>{{$item->description}}</td>
+                        <td>
+                          <form action="{{route('admin.skill.status',  $item->id)}}" method="post">
+                            @csrf
+                            @method('post')
+                            <select class="stu" name="status" data-id="{{$item->id}}">
+                              <option @if($item->status == 0) selected @endif value="0" class="bg-danger">Ẩn</option>
+                              <option @if($item->status == 1) selected @endif value="1" class="bg-primary">Hoạt động</option>
+                            </select>
+                          </form>
+                      </td>
                         <td class="project-actions xoa text-right d-flex align-items-center">
                             <a class="btn btn-info mr-3" href="{{route('admin.skill.edit', $item)}}">
                               <i class="fa fa-edit"></i>
@@ -84,5 +95,5 @@
 @endsection
 @section('script')
 @parent
-{{-- <script src="{{asset('js/admin/candidate.js')}}"></script> --}}
+<script src="{{asset('js/admin/candidate.js')}}"></script>
 @endsection

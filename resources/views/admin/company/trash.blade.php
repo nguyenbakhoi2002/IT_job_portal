@@ -174,9 +174,9 @@
                             @csrf
                             @method('post')
                             <select class="stu" name="status" data-id="{{$item->id}}">
-                              <option @if($item->status == 0) selected @endif value="0">Chưa kích hoạt</option>
-                              <option @if($item->status == 1) selected @endif value="1">Đã kích hoạt</option>
-                              <option @if($item->status == 2) selected @endif value="2">Chặn</option>
+                              <option @if($item->status == 0) selected @endif value="0">Chặn</option>
+                              <option @if($item->status == 1) selected @endif value="1">Hoạt động</option>
+                              {{-- <option @if($item->status == 2) selected @endif value="2">Chặn</option> --}}
                             </select>
                           </form>
                       </td>

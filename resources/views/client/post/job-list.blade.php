@@ -37,7 +37,7 @@
             <div class="title-outer">
                 <h1>Danh sách công việc </h1>
                 <ul class="page-breadcrumb">
-                    <li><a href="index.html">Trang chủ</a></li>
+                    <li><a href="{{route('index')}}">Trang chủ</a></li>
                     <li>Công việc</li>
                 </ul>
             </div>

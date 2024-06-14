@@ -53,6 +53,8 @@ Route::post('/job-refuse',[JobPostController::class, 'jobRefuse'] )->name('post.
     Route::get('/skill-trash',[SkillController::class, 'trash'] )->name('skill.trash');
     Route::get('/skill-trash/{id}',[SkillController::class, 'restore'] )->name('skill.restore');
     Route::get('/skill-forceDelete/{id}',[SkillController::class, 'force'] )->name('skill.forceDelete');
+    Route::post('skill-status/{id}', [SkillController::class, 'status'])->name('skill.status');
+
 //major-Chuyên ngành
     Route::resource('major', MajorController::class); 
     Route::get('/major-trash',[MajorController::class, 'trash'] )->name('major.trash');

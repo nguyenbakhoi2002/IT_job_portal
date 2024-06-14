@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Admin\StoreSkillRequest;
 use App\Http\Requests\Admin\EditSkillRequest;
 use App\Models\Skill;
+use App\Models\JobPostSkill;
+use App\Models\SeekerSkill;
 
 class SkillController extends Controller
 {
@@ -16,6 +18,11 @@ class SkillController extends Controller
     // public function __construct(){
     //     $this->v = [];
     // }
+    public function __construct()
+    {
+        // Áp dụng middleware 'custom' cho các phương thức 'update' và 'destroy'
+        $this->middleware(['checkAdminType'])->only(['update', 'destroy']);
+    }
     public function index()
     {
         $skill = Skill::paginate(10);
@@ -93,8 +100,22 @@ class SkillController extends Controller
         return redirect()->route('admin.skill.index')->with('success', 'Khôi phục thành công');
     }
     public function force(string $id){
+        if(auth('admin')->user()->type==0)
+            return redirect()->route('admin.skill.trash')->with('error', 'Bạn không có quyền xóa dữ liệu');
+        //đếm xem có bảng nào tham chiếu đến chuyên ngành này không
+        $count_seeker_skill = SeekerSkill::where('skill_id',$id)->get()->count();
+        $count_job_post_skill = JobPostSkill::where('skill_id',$id)->get()->count();
+        if($count_seeker_skill || $count_job_post_skill)
+            return redirect()->route('admin.skill.trash')->with('error', 'Không thể xóa, sẽ lỗi trang web');
         Skill::withTrashed()->where('id', $id)->forceDelete();
         return redirect()->route('admin.skill.trash')->with('success', 'Xóa thành công');
 
     }
+    public function status(Request $request, string $id){
+        $val = $request->status;
+        Skill::where('id', $id)->update(['status' => $val]);
+        return response()->json(['success'=>'cập nhật trạng thái thành công']);
+   
+    
+}
 }

@@ -53,7 +53,7 @@
                     </div>
                     <div class="mt-3">
                         <button type="submit" class="btn btn-primary float-left mr-3">Lưu</button>
-                        <a href="{{route('admin.degree.index')}}" class="btn btn-secondary">Hủy</a>
+                        <a href="{{route('admin.time.index')}}" class="btn btn-secondary">Hủy</a>
                     </div>
                   </form>
                 </div>

@@ -3,20 +3,20 @@ var __webpack_exports__ = {};
 /*!*****************************************!*\
   !*** ./resources/js/admin/candidate.js ***!
   \*****************************************/
-$(function () {
-  function readURL(input, selector) {
-    if (input.files && input.files[0]) {
-      var reader = new FileReader();
-      reader.onload = function (e) {
-        $(selector).attr('src', e.target.result);
-      };
-      reader.readAsDataURL(input.files[0]);
-    }
-  }
-  $("#img").change(function () {
-    readURL(this, '#image');
-  });
-});
+// $(function () {
+//   function readURL(input, selector) {
+//     if (input.files && input.files[0]) {
+//       var reader = new FileReader();
+//       reader.onload = function (e) {
+//         $(selector).attr('src', e.target.result);
+//       };
+//       reader.readAsDataURL(input.files[0]);
+//     }
+//   }
+//   $("#img").change(function () {
+//     readURL(this, '#image');
+//   });
+// });
 $(document).ready(function () {
   //sự kiến click vào nút xóa trong thùng rác
   $('.btn-delete').click(function (e) {
@@ -34,8 +34,8 @@ $(document).ready(function () {
     // var url ="".concat(new_model, "-forceDelete/").concat(id);
     // console.log(url);
     Swal.fire({
-      icon: 'warning',
-      text: 'Bạn có muốn xóa?',
+      icon: 'error',
+      text: 'Nguy hiểm, tất cả dữ liệu liên quan sẽ bị xóa?',
       showCancelButton: true,
       confirmButtonText: 'Yes',
       confirmButtonColor: '#e3342f',
@@ -51,11 +51,28 @@ $(document).ready(function () {
           url: "".concat(new_model, "-forceDelete/").concat(id),
           data: data,
           success: function success(response) {
-            Swal.fire(response.success, {
-              icon: "success"
-            }).then(function (result) {
-              location.reload();
-            });
+            if(response.success) {
+              Swal.fire({
+                icon: "success",
+                text: response.success,
+              }).then(function (result) {
+                location.reload();
+              });
+            }
+            else if(response.error) {
+              Swal.fire( {
+                icon: "error",
+                text: response.error,
+              })
+            }
+            else{
+              Swal.fire( {
+                icon: "warning",
+                text: "Không thể xóa, sẽ ảnh hướng tới trang web",
+              })
+            }
+
+           
           },
          
         });

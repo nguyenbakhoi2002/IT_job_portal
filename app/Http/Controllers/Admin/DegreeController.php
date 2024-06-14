@@ -6,19 +6,25 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\Admin\DegreeRequest;
 use App\Models\Degree;
+use App\Models\Education;
+use App\Models\JobPost;
 
 class DegreeController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    public function __construct()
+    {
+        // Áp dụng middleware 'custom' cho các phương thức 'update' và 'destroy'
+        $this->middleware(['checkAdminType'])->only(['update', 'destroy']);
+    }
     public function index()
     {
         $title = 'Bằng cấp';
         $degrees = Degree::orderBy('status', 'desc')->orderBy('level')->paginate(10);
         if($key = request()->key){
-        $degrees = Degree::where('name', 'like', '%'.$key.'%')->orderBy('level')->paginate(10);
-
+            $degrees = Degree::where('name', 'like', '%'.$key.'%')->orderBy('level')->paginate(10);
         }
         return view('admin.request.degree.index', ['title' => $title, 'degrees' => $degrees]);
     }
@@ -102,6 +108,13 @@ class DegreeController extends Controller
         return redirect()->route('admin.degree.index')->with('success', 'Khôi phục thành công');
     }
     public function force(string $id){
+        if(auth('admin')->user()->type==0)
+            return redirect()->route('admin.degree.trash')->with('error', 'Bạn không có quyền xóa dữ liệu');
+        //đếm xem có bảng nào tham chiếu đến chuyên ngành này không
+        $count_edu = Education::where('degree_id',$id)->get()->count();
+        $count_job_post = JobPost::where('degree_id',$id)->get()->count();
+        if($count_edu || $count_job_post)
+            return redirect()->route('admin.degree.trash')->with('error', 'Không thể xóa, sẽ lỗi trang web');
         Degree::withTrashed()->where('id', $id)->forceDelete();
         // return response()->json(['success'=>'Xóa thành công!']);
         return redirect()->route('admin.degree.trash')->with('success', 'Xóa thành công');
