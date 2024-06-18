@@ -7,8 +7,18 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Admin\CandidateRequest;
 use Illuminate\Support\Str;
 use Hash;
-
+use DB;
 use App\Models\Candidate;
+use App\Models\SavedCandidates;
+use App\Models\SavedCompanies;
+use App\Models\SavedJobs;
+use App\Models\JobPostActivity;
+use App\Models\Education;
+use App\Models\Experience;
+use App\Models\Project;
+use App\Models\SeekerLanguage;
+use App\Models\SeekerSkill;
+
 
 class CandidateController extends Controller
 {
@@ -137,12 +147,41 @@ class CandidateController extends Controller
         return view('admin.candidate.trash',['candidates' => $candidate, 'title'=>'thùng rác']);
     }
     public function restore(string $id){
+        
+
         Candidate::withTrashed()->where('id', $id)->restore();
         return redirect()->route('admin.candidate.index')->with('success', 'Khôi phục thành công');
     }
     public function force(string $id){
-        Candidate::withTrashed()->where('id', $id)->forceDelete();
-        return response()->json(['success'=>'Xóa thành công!']);
+        try{
+            DB::beginTransaction();
+            $candidate = Candidate::withTrashed()->find($id);
+            $seeker_profile = $candidate->seekerProfile()->get();
+            $seeker_profile_ids = $candidate->seekerProfile()->pluck('id')->toArray();
+
+
+            //xóa những bản ghi có khóa ngoại
+            $saved_company = SavedCompanies::where('candidate_id', $id)->delete();
+            $saved_candidates = SavedCandidates::where('candidate_id', $id)->delete();
+            $saved_job = SavedJobs::where('candidate_id', $id)->delete();
+            $seeker_skill = SeekerSkill::whereIn('seeker_profile_id', $seeker_profile_ids)->delete();
+            $seeker_language = SeekerLanguage::whereIn('seeker_profile_id', $seeker_profile_ids)->delete();
+            $project = Project::whereIn('seeker_profile_id', $seeker_profile_ids)->delete();
+            $experience = Experience::whereIn('seeker_profile_id', $seeker_profile_ids)->delete();
+            $education = Education::whereIn('seeker_profile_id', $seeker_profile_ids)->delete();
+            $jobpost_activityv = JobPostActivity::whereIn('seeker_profile_id', $seeker_profile_ids)->delete();
+            $candidate->seekerProfile()->forceDelete();
+            //
+            $candidate->forceDelete();
+            DB::commit();
+            return response()->json(['success'=>'Xóa thành công!']);
+        }catch(Exception $e){
+            DB::rollback();
+            return response()->json(['error'=>'Xóa thất bại!'.$e]);
+
+        }
+        
+        
         // return redirect()->route('admin.company.trash')->with('success', 'Xóa thành công');
 
     }

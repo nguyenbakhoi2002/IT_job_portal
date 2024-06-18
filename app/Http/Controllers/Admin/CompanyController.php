@@ -7,8 +7,15 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Admin\CompanyRequest;
 use App\Http\Requests\Admin\UpdateCompanyRequest;
 use App\Models\Company;
+use App\Models\SavedCompanies;
+use App\Models\JobPostActivity;
+use App\Models\SavedJobs;
+use App\Models\JobPostLanguage;
+use App\Models\JobPostSkill;
+use App\Models\SavedCandidates;
 use Illuminate\Support\Str;
 use Hash;
+use DB;
 
 
 class CompanyController extends Controller
@@ -158,9 +165,37 @@ class CompanyController extends Controller
     public function force(string $id){
         if(auth('admin')->user()->type==0)
         return response()->json(['error'=>'Bạn không có quyền xóa dữ liệu']);
-        Company::withTrashed()->where('id', $id)->forceDelete();
-        return response()->json(['success'=>'Xóa thành công!']);
-        // return redirect()->route('admin.company.trash')->with('success', 'Xóa thành công');
+        DB::beginTransaction();
+        try{
+            $company = Company::withTrashed()->find($id);
+            $posts = $company->jobPost()->get();
+            $post_ids = $company->jobPost()->pluck('id')->toArray();
+            // dd($post_ids);
+            // dd($posts);
+            //xóa saved company,
+            $saved_company = SavedCompanies::where('company_id', $id)->delete();
+            // saved candidate
+            $saved_candidates = SavedCandidates::where('company_id', $id)->delete();
+            //jobpost skill
+            $jobpost_skill = JobPostSkill::whereIn('job_post_id', $post_ids)->delete();
+            //jobpost_language
+            $jobpost_language  = JobPostLanguage::where('job_post_id', $post_ids)->delete();
+            //saved job
+            $saved_job = SavedJobs::where('job_post_id', $post_ids)->delete();
+            //jobpost activity,
+            $jobpost_activityv = JobPostActivity::where('job_post_id', $post_ids)->delete();
+            //job post
+            $company->jobPost()->forceDelete();
+            $company->forceDelete();
+            DB::commit();
+            return response()->json(['success'=>'Xóa thành công!']);
+        }catch(Exception $e){
+            DB::rollback();
+            return response()->json(['error'=>'Xóa thất bại! lỗi'.$e]);
+        }
+        
+        
+        
 
     }
 

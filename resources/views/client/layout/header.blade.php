@@ -86,8 +86,18 @@
                             <img style="object-fit: cover;" src="{{ asset('uploads/images/candidate/'. auth('candidate')->user()->user_image) }}" alt="avatar"
                                 class="thumb">
                         @else
-                            <img style="object-fit: cover;" src="{{  asset('uploads/images/candidate/logo_default_candidate.jpg') }}" alt="avatar"
-                                 class="thumb">
+                            @if(auth('candidate')->user()->seekerProfileMain)
+                                @if(auth('candidate')->user()->seekerProfileMain->image)
+                                    <img style="object-fit: cover;" src="{{ asset('uploads/images/candidate/'. auth('candidate')->user()->seekerProfileMain->image) }}" alt="avatar"
+                                    class="thumb">
+                                @else
+                                    <img style="object-fit: cover;" src="{{  asset('uploads/images/candidate/logo_default_candidate.jpg') }}" alt="avatar"
+                                    class="thumb">
+                                @endif
+                            @else
+                                <img style="object-fit: cover;" src="{{  asset('uploads/images/candidate/logo_default_candidate.jpg') }}" alt="avatar"
+                                class="thumb">
+                            @endif
                         @endif
                         <span class="name">{{auth('candidate')->user()->name }}</span>
                     </a>

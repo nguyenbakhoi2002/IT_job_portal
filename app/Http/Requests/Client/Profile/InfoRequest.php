@@ -73,7 +73,7 @@ class InfoRequest extends FormRequest
             'phone.numeric' => 'phải nhập số',
             // 'phone.digits' => 'có 10 kí tự',
             'email.required' => 'không được bỏ trống',
-            'objectice.required' => 'không được bỏ trống',
+            'objective.required' => 'không được bỏ trống',
             'hinhanh_upload_logo.mimes' => 'Ảnh phải thuộc định dạng jpg, png, jpeg!',
             'hinhanh_upload_logo.max' => 'Ảnh nhập không quá 5mb!',
             

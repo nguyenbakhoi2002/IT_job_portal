@@ -40,7 +40,7 @@ class ProfileController extends Controller
             'phone.numeric' => 'Số điện thoại phải là số',
             //'phone.digits' => 'có 10 kí tự',
             'email.required' => 'Vui lòng nhập email!',
-            'objectice.required' => 'không được bỏ trống',
+            'objective.required' => 'không được bỏ trống',
             'hinhanh_upload_logo.mimes' => 'Ảnh phải thuộc định dạng jpg, png, jpeg!',
             'hinhanh_upload_logo.max' => 'Ảnh nhập không quá 5mb!',
 

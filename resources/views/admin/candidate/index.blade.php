@@ -148,7 +148,16 @@
                         @if ($item->user_image)
                         <td class="text-center"><img width="100px" src="{{asset('uploads/images/candidate/'. $item->user_image)}}" alt=""></td>
                         @else
-                        <td class="text-center"><img width="100px" height="100px" src="{{asset('uploads/images/candidate/logo_default_candidate.jpg')}}" alt=""></td>
+                          @if($item->seekerProfileMain)
+                            @if($item->seekerProfileMain->image)
+                                <td class="text-center"><img width="100px" height="100px" src="{{asset('uploads/images/candidate/'.$item->seekerProfileMain->image)}}" alt=""></td>
+                            @else
+                              <td class="text-center"><img width="100px" height="100px" src="{{asset('uploads/images/candidate/logo_default_candidate.jpg')}}" alt=""></td>
+                            @endif
+                          @else
+                          <td class="text-center"><img width="100px" height="100px" src="{{asset('uploads/images/candidate/logo_default_candidate.jpg')}}" alt=""></td>
+
+                          @endif
                         @endif
                         {{-- <td>{{$item->email}}</td>
                         <td>{{$item->phone}}</td> --}}

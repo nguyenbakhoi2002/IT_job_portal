@@ -2,6 +2,12 @@
 @section('title')
     {{ __('Thêm công ty') }}
 @endsection
+@section('style')
+    @parent
+    <link rel="stylesheet" href="{{ asset('assets/admin-bower/plugins/summernote/summernote-bs5.min.css') }}">
+    
+    
+@endsection
 @section('content')
 <section class="content">
     <div class="container-fluid">
@@ -66,7 +72,15 @@
                                 @enderror
                             </div>
                         </div>
-                        
+                        <div class="col-sm-6">
+                            <div class="form-group">
+                                <label for="">Mô hình công ty</label>
+                                <input type="text" name="company_model" class="form-control" placeholder=""  value="{{old('company_model')}}">
+                                @error('conpany_model')
+                                    <small class="text-danger">{{$message}}</small>
+                                @enderror
+                            </div>
+                        </div>
                         {{-- <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="">Mã số thuế <span style="color: red">*</span></label>
@@ -78,15 +92,7 @@
                         </div> --}}
                     </div>
                     <div class="row">
-                        <div class="col-sm-6">
-                            <div class="form-group">
-                                <label for="">Mô hình công ty</label>
-                                <input type="text" name="company_model" class="form-control" placeholder=""  value="{{old('company_model')}}">
-                                @error('conpany_model')
-                                    <small class="text-danger">{{$message}}</small>
-                                @enderror
-                            </div>
-                        </div>
+                        
                         {{-- <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="">Thời gian làm việc</label>
@@ -169,7 +175,7 @@
                         <div class="col-sm-6">
                             <div class="form-group">
                                 <label for="">Về chúng tôi</label>
-                                <textarea  type="text" name="about" class="form-control" placeholder="" >{{old('about')}}</textarea>
+                                <textarea  type="text" name="about" class="form-control description" placeholder="" >{{old('about')}}</textarea>
                             </div>
                         </div>
                     </div>
@@ -185,4 +191,25 @@
         </div>
     </div>
 </section>
+@endsection
+@section('script')
+@parent
+
+  
+
+@include('admin.layout.toastr')
+<script src="{{ asset('assets/admin-bower/plugins/summernote/summernote-bs4.min.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+        $('.description').summernote({
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', [13]],
+                ['para', ['ul', 'ol']],
+            ],
+            height: 150,
+        });
+    })  
+</script>
 @endsection

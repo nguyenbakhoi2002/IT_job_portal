@@ -35,6 +35,7 @@ class JobPostController extends Controller
                             $query->where('status', 1)
                             ->where('deleted_at', NULL);
                         })
+                        ->orderBy('date_request', 'asc')
                         ->paginate(12);
         if(request()->major || request()->skill || request()->exp || request()->area || request()->name ||request()->wage){
             $data_ids = Skill::join('job_post_skill', 'skills.id', '=', 'job_post_skill.skill_id')
